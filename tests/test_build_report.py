@@ -1,26 +1,37 @@
-"""F1 — the research console must not be able to flatter the register.
+"""F1-F4 — the research console must not be able to flatter the register.
 
 A generated report is a rendering, so every defect it can have is a defect
-of agreement: it says something the record does not. Three of those are
-worth a test.
+of agreement: it says something the record does not.
 
-**It must not invent resolution.** The register currently records questions
-and never writes answers back, so a report that displayed a tidy outcome
-column would be reporting on a register that does not exist.
+**It must not invent resolution.** The register records questions and never
+writes answers back, so a report showing a tidy outcome column would be
+reporting on a register that does not exist.
 
 **It must not silently drop rows.** The first run rendered a `None / None`
 row because `experiments/campaign/` holds live paper state at the same key
 depth as a run record. The fix was to exclude it by name -- and the failure
 mode of the fix is over-filtering, which loses real runs without saying so.
 
-**It must be self-contained and byte-stable.** An artifact that needs the
-network to render, or reshuffles between runs, cannot be archived beside a
-claim and cannot be diffed against the next one.
+**It must not flatten a `Result` into a string.** A verdict rendered as one
+more name/value row throws away the only object built to say what a number
+is allowed to mean. Nor may it promote a free-text audit verdict into a
+scored effect: an audit has no floor, so there is nothing to measure it
+against and any precision shown would be invented.
+
+**It must be reproducible.** A fresh pull yields S3's key order while the
+cache is written sorted -- twice, that produced two different artifacts from
+one register. Anything archived beside a claim has to render the same from
+either source, and has to be diffable against the next one.
+
+**It must fetch nothing at view time.** Including when four matplotlib
+figures are inlined, whose colliding glyph ids would otherwise make figures
+2-4 silently render with figure 1's letterforms.
 """
 
 from __future__ import annotations
 
 import importlib.util
+import itertools
 import re
 import sys
 from pathlib import Path
@@ -87,9 +98,12 @@ def test_it_reports_the_register_gap_instead_of_inventing_outcomes(
     assert "a defect in the register, not a finding about the market" in flat
     assert "multiplicity ledger cannot be computed" in flat
     assert "H-BETA" in page
-    # H-ALPHA has no run, so it is merely open -- not evidence of the gap.
-    gap = page.split('class="gap"')[1].split("</section>")[0]
-    assert "H-BETA" in gap and "H-ALPHA" not in gap
+    # The gap names only hypotheses that HAVE a run and no outcome. H-ALPHA
+    # has no run, so it is merely open -- not evidence of the gap. Read from
+    # the id list the block ends with rather than by slicing on tags, which
+    # broke silently when the block moved inside the register section.
+    listed = re.search(r'<p class="mono">(.*?)</p>', page, re.S).group(1)
+    assert "H-BETA" in listed and "H-ALPHA" not in listed
 
 
 def test_a_run_with_no_hypothesis_record_is_shown_not_dropped(mod, register):
@@ -126,13 +140,20 @@ def test_hypotheses_are_ordered_so_the_artifact_is_diffable(mod, register):
     assert order == ["H-ALPHA", "H-BETA", "H-GHOST"]
 
 
-def test_the_page_is_self_contained(mod, register):
-    """No CDN, no external stylesheet, no image src. It has to render from
-    a file:// URL years from now with no network."""
+def test_the_page_fetches_nothing_at_view_time(mod, register):
+    """It has to render from a file:// URL years from now with no network.
+
+    The check is on things the browser would FETCH, not on the substring
+    'http'. Inlined matplotlib figures carry XML namespace declarations like
+    `xmlns="http://www.w3.org/2000/svg"`, which are identifiers and are never
+    requested -- an earlier version of this test banned the substring and so
+    forbade embedding a figure at all.
+    """
     page = mod.render(register)
-    assert "http://" not in page
-    assert "https://" not in page
-    assert not re.search(r"<(script|img|link)\b", page)
+    assert not re.search(r"<(script|iframe|object|embed)\b", page)
+    assert "@import" not in page
+    for attr, val in re.findall(r'\b(?:xlink:)?(href|src)="([^"]*)"', page):
+        assert val.startswith("#"), f"{attr}={val!r} would be fetched"
 
 
 def test_the_page_is_well_formed(mod, register):
@@ -175,6 +196,136 @@ def test_values_from_the_register_are_escaped(mod):
     page = mod.render(reg)
     assert "<script>" not in page
     assert "&lt;script&gt;" in page
+
+
+SCORED = {
+    "hypothesis_id": "H-BETA", "run_id": "r2", "controls_passed": True,
+    "spend_usd": 0.0, "note": "", "recorded_at": "2026-08-03T00:00:00+00:00",
+    "engine_sha": "abc123", "config": {},
+    "metrics": {
+        "primary": {"name": "the claim", "estimate": -0.089,
+                    "ci": [-0.134, -0.043], "d": -0.089, "floor": 0.07,
+                    "floor_multiples": -1.27, "n": 3442, "n_eff": 1811,
+                    "unit": "Spearman r", "verdict": "detectable",
+                    "note": "positive = the mechanism holds"},
+        "audit_only": {"verdict": "CLEAN - no defect", "n": 6774},
+        "bars": 120,
+    },
+}
+
+
+def test_result_blocks_are_found_and_audits_are_not(mod):
+    """`Result.to_metrics()` blocks are findings. A free-text audit verdict
+    is not -- it has no estimate and no floor, so there is nothing to measure
+    it against, and rendering it as a scored effect would invent precision."""
+    results = mod.find_results([SCORED])
+    audits = mod.find_audits([SCORED])
+    assert [r["_path"] for r in results] == ["primary"]
+    assert [a["_path"] for a in audits] == ["audit_only"]
+    assert results[0]["_hid"] == "H-BETA" and results[0]["_run"] == "r2"
+
+
+def test_a_finding_renders_its_verdict_and_floor_not_just_a_number(mod):
+    """The first version of this page flattened a Result into name/value rows
+    where `verdict` looked like any other metric."""
+    page = mod.render({"hypotheses": [], "experiments": [SCORED],
+                       "manifest_objects": 0, "engine_sha": "x",
+                       "pulled_at": "t"})
+    assert "detectable" in page
+    assert "-1.27&times; floor" in page or "-1.27" in page
+    assert "1,811" in page          # independent-equivalent n is shown
+    assert "CLEAN - no defect" in page   # the audit survives, separately
+
+
+def test_the_ci_strip_places_zero_and_the_floor_band(mod):
+    """The strip is the lab's argument in one graphic, so its geometry is
+    worth asserting: an interval entirely below zero must draw entirely to
+    the left of the zero line, and the floor band must straddle it."""
+    r = {"estimate": -0.089, "ci": [-0.134, -0.043], "floor": 0.07,
+         "verdict": "detectable"}
+    svg = mod.ci_strip(r, width=340)
+    zero = float(re.search(r'class="zero" x1="([\d.]+)"', svg).group(1))
+    hi = float(re.search(r'class="bar"[^/]*x2="([\d.]+)"', svg).group(1))
+    band_x = float(re.search(r'class="floorband" x="([\d.]+)"', svg).group(1))
+    band_w = float(re.search(r'class="floorband"[^/]*width="([\d.]+)"',
+                             svg).group(1))
+    assert hi < zero, "an interval below zero must not cross the zero line"
+    assert band_x < zero < band_x + band_w, "the floor band must straddle zero"
+
+
+def test_a_strip_without_an_interval_is_omitted_not_faked(mod):
+    assert mod.ci_strip({"estimate": 0.1, "verdict": "null"}) == ""
+
+
+def test_metric_rows_are_sorted_so_the_cache_renders_the_same_page(mod):
+    """A fresh pull yields S3's key order; the cache is written sorted. Until
+    these were sorted, the same register produced two different artifacts
+    depending on where the bytes came from."""
+    a = mod.metric_rows({"b": 1, "a": {"z": 2, "y": 3}})
+    b = mod.metric_rows({"a": {"y": 3, "z": 2}, "b": 1})
+    assert a == b == [("a.y", "3"), ("a.z", "2"), ("b", "1")]
+
+
+def test_figure_ids_are_namespaced_per_figure(mod):
+    """matplotlib names glyph defs `DejaVuSans-NN` and refers to them by id.
+    Four figures in one document means four colliding sets, and the browser
+    resolves every reference to the FIRST match -- so figures 2-4 would
+    silently render with figure 1's glyphs."""
+    names = [n for n, _, _ in mod.FIGURES]
+    svgs = {n: mod.inline_svg(n) for n in names}
+    svgs = {n: s for n, s in svgs.items() if s}
+    if len(svgs) < 2:
+        pytest.skip("figures not rendered; run `make plots`")
+
+    ids = {n: set(re.findall(r'\bid="([^"]+)"', s)) for n, s in svgs.items()}
+    for a, b in itertools.combinations(ids, 2):
+        assert not (ids[a] & ids[b]), f"{a} and {b} share ids"
+    # And every internal reference still resolves inside its own figure.
+    for n, s in svgs.items():
+        refs = set(re.findall(r'href="#([^"]+)"', s))
+        assert refs <= ids[n], f"{n} references ids it does not define"
+
+
+def test_the_controls_band_reports_a_failure_loudly(mod):
+    """A page whose controls failed must not look like one whose controls
+    passed -- that is the entire reason the band renders first."""
+    bad = {"positive": {"p_pass": 0.10, "ok": False},
+           "negative": {"p_pass": 0.90, "null_baseline": 0.5, "ok": False},
+           "calibration": {"honest": {"mean": 0.9, "sigmas": 6.0,
+                                      "verdict": "fails the dead world"},
+                           "artifact": {"mean": 0.9, "sigmas": 6.0,
+                                        "verdict": "fails the dead world"},
+                           "ok": False},
+           "profile": {"name": "p", "effective": "2026-01-01", "account": 1,
+                       "target": 1, "trailing_dd": 1, "daily_guard": 1,
+                       "min_days": 1, "source": "", "ok": True},
+           "all_pass": False}
+    page = mod.render({"hypotheses": [], "experiments": [],
+                       "manifest_objects": 0, "engine_sha": "x",
+                       "pulled_at": "t"}, bad)
+    assert "do not trust a result on this page" in page
+    assert "FAIL" in page
+
+
+def test_controls_render_before_findings(mod):
+    """F2: philosophy first reads as excuse-making; the control first makes
+    the philosophy obviously necessary."""
+    good = {"positive": {"p_pass": 1.0, "ok": True},
+            "negative": {"p_pass": 0.0, "null_baseline": 0.0, "ok": True},
+            "calibration": {"honest": {"mean": 0.07, "sigmas": 0.5,
+                                       "verdict": "calibrated"},
+                            "artifact": {"mean": 0.70, "sigmas": 5.0,
+                                         "verdict": "fails the dead world"},
+                            "ok": True},
+            "profile": {"name": "p", "effective": "2026-01-01", "account": 1,
+                        "target": 1, "trailing_dd": 1, "daily_guard": 1,
+                        "min_days": 1, "source": "", "ok": True},
+            "all_pass": True}
+    page = mod.render({"hypotheses": [], "experiments": [SCORED],
+                       "manifest_objects": 0, "engine_sha": "x",
+                       "pulled_at": "t"}, good)
+    assert page.index('id="controls"') < page.index('id="findings"')
+    assert page.index('id="findings"') < page.index('id="register"')
 
 
 def test_offline_without_a_cache_fails_loudly(mod, tmp_path, monkeypatch):

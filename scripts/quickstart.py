@@ -47,38 +47,83 @@ def head(n, title):
     print(f"\n{RULE}\n{n}. {title}\n{RULE}")
 
 
-def main() -> int:
+def controls() -> dict:
+    """The four controls, as data. ~1.7s, no data, no key, no network.
+
+    Extracted so the research console (F1) renders the SAME numbers this
+    prints rather than recomputing them beside it. Two independent renderings
+    of one control can disagree, and the disagreement would be invisible --
+    the identical reason `Result` derives its text and its metrics from one
+    set of fields.
+    """
     profile = profiles.load(profiles.PROFILE_DIR / "example-50k.json")
     cfg = profile.config
 
-    head(1, "POSITIVE CONTROL — can the harness find an edge that IS there?")
     edge = make_days(120, seed=7, edge_follow=0.75, drift_pts=15.0)
     e = monte_carlo(edge, make_orb_strategy(PARAMS, COSTS), cfg, COSTS,
                     horizon_days=HORIZON)
-    print(f"  planted-edge world   P(pass) = {e.p_pass:.2f}")
-    print("  A harness that cannot find a planted edge cannot be trusted to")
-    print("  report its absence either. This is the gate that runs FIRST.")
 
-    head(2, "NEGATIVE CONTROL — does it report nothing where there is nothing?")
     dead = make_days(120, seed=7, edge_follow=0.50, drift_pts=0.0,
                      kick_scale=0.0)
     d = monte_carlo(dead, make_orb_strategy(PARAMS, COSTS), cfg, COSTS,
                     horizon_days=HORIZON)
     nb = null_baseline(dead, PARAMS, cfg, COSTS, horizon_days=HORIZON)
-    print(f"  dead world           P(pass) = {d.p_pass:.2f}"
-          f"   random-entry null = {nb:.2f}")
+
+    honest = cal.calibrate(cal.at_price, expected=2.0, seed=11)
+    artifact = cal.calibrate(cal.at_level, expected=2.0, seed=11)
+
+    ok = (e.p_pass >= 0.90 and d.p_pass <= 0.10
+          and honest.verdict == "calibrated"
+          and artifact.verdict == "fails the dead world")
+
+    return {
+        "positive": {"p_pass": e.p_pass, "ok": e.p_pass >= 0.90},
+        "negative": {"p_pass": d.p_pass, "null_baseline": nb,
+                     "ok": d.p_pass <= 0.10},
+        "calibration": {
+            "honest": {"mean": honest.dead_mean, "sigmas": honest.dead_sigmas,
+                       "verdict": honest.verdict},
+            "artifact": {"mean": artifact.dead_mean,
+                         "sigmas": artifact.dead_sigmas,
+                         "verdict": artifact.verdict},
+            "ok": (honest.verdict == "calibrated"
+                   and artifact.verdict == "fails the dead world")},
+        "profile": {"name": profile.name,
+                    "effective": profile.effective_date.isoformat(),
+                    "account": profile.config.account,
+                    "target": profile.config.target,
+                    "trailing_dd": profile.config.trailing_dd,
+                    "daily_guard": profile.config.daily_guard,
+                    "min_days": profile.config.min_days,
+                    "source": getattr(profile, "source", ""),
+                    "ok": True},
+        "all_pass": ok,
+    }
+
+
+def main() -> int:
+    profile = profiles.load(profiles.PROFILE_DIR / "example-50k.json")
+    c = controls()
+
+    head(1, "POSITIVE CONTROL — can the harness find an edge that IS there?")
+    print(f"  planted-edge world   P(pass) = {c['positive']['p_pass']:.2f}")
+    print("  A harness that cannot find a planted edge cannot be trusted to")
+    print("  report its absence either. This is the gate that runs FIRST.")
+
+    head(2, "NEGATIVE CONTROL — does it report nothing where there is nothing?")
+    print(f"  dead world           P(pass) = {c['negative']['p_pass']:.2f}"
+          f"   random-entry null = {c['negative']['null_baseline']:.2f}")
     print("  kick_scale=0 matters: an earlier 'no-edge' world still carried")
     print("  a harvestable impulse, so it was never a negative control at")
     print("  all. Found in 2026-07 and it invalidated a gate.")
 
     head(3, "CALIBRATION GATE — is the estimator measuring the market, or itself?")
-    honest = cal.calibrate(cal.at_price, expected=2.0, seed=11)
-    artifact = cal.calibrate(cal.at_level, expected=2.0, seed=11)
+    hon, art = c["calibration"]["honest"], c["calibration"]["artifact"]
     print("  Same data. Same arithmetic. One different reference price.\n")
-    print(f"  measured from PRICE        dead world {honest.dead_mean:+.4f} "
-          f"= {honest.dead_sigmas:.1f} sigma  -> {honest.verdict}")
-    print(f"  measured from a LEVEL      dead world {artifact.dead_mean:+.4f} "
-          f"= {artifact.dead_sigmas:.1f} sigma  -> {artifact.verdict}")
+    print(f"  measured from PRICE        dead world {hon['mean']:+.4f} "
+          f"= {hon['sigmas']:.1f} sigma  -> {hon['verdict']}")
+    print(f"  measured from a LEVEL      dead world {art['mean']:+.4f} "
+          f"= {art['sigmas']:.1f} sigma  -> {art['verdict']}")
     print("\n  The dead world has NO forward drift whatsoever, so the second")
     print("  reading is the measurement rather than the market: a market that")
     print("  froze solid at the trigger would still print it. That defect")
@@ -94,9 +139,7 @@ def main() -> int:
     print("  and an undated rule set is a silent expiry.")
 
     print(f"\n{RULE}")
-    ok = e.p_pass >= 0.90 and d.p_pass <= 0.10 and \
-        honest.verdict == "calibrated" and \
-        artifact.verdict == "fails the dead world"
+    ok = c["all_pass"]
     print("ALL FOUR PASS — the instrument is calibrated." if ok else
           "SOMETHING IS WRONG — do not trust a result from this build.")
     print("Nothing above touched market data, an API key, or the network.")
