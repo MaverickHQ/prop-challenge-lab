@@ -420,10 +420,42 @@ mostly transcription is a reading list.
 listed as one. The programme conclusion establishes that the binding
 constraint is **the input, not the instrument**.
 
-- [ ] **B-DECISION.1** `[needs-user]` Four options: close X3 (cap raise;
-  honest prior is a small positive that would not clear the frontier) ·
-  MGC/MCL · **less efficient venues — a testable research question, not
-  advice about what to trade** · stop.
+- [ ] **B-DECISION.1** `[needs-user]` **OPEN — costed 2026-08-30, not
+  decided.** Four options: close X3 (cap raise) · MGC/MCL · **less
+  efficient venues — a testable research question, not advice about what to
+  trade** · stop.
+
+  **What closing X3 costs, computed rather than estimated.**
+  `power.n_for_correlation(0.07)` puts the requirement at **3.14×** the
+  current sample — confirming the writeup's "roughly 3×".
+
+  | | |
+  |---|---|
+  | owned | 525 sessions/instrument (1,050 instrument-days, $86.97 actual) |
+  | needed | 1,648 sessions/instrument |
+  | **additional** | **1,124 sessions/instrument = 2,247 instrument-days** |
+  | cost | **$186 (blended R2.1 rate) – $291 (part-1 rate)** |
+  | headroom | **$21.91** of a $150 cap |
+  | cap required | ~$315–$420 |
+
+  Three things make that worse than it looks: the ledger's own warning that
+  estimates came in **4×, 1.5× and 1.5× wrong** and per-day cost varies ~8×
+  with volume (a 4× miss is ~$750); **the $125 free credit is exhausted**,
+  so everything from here is real money; and R2.1 overspent its approval
+  via a per-run cap bug (fixed — spend is now priced from disk first).
+
+  **The prior, recorded before any purchase:** X3 sits at +0.026, CI
+  [−0.061, **+0.113**], against a frontier needing +0.25R. The top of that
+  interval is a correlation, not an expectancy — it would be the largest
+  signal seven years of price data produced and still short of the rules.
+  Realistic outcomes are a null that **closes the programme cleanly**, or a
+  small positive that is publishable and not tradeable. **Do not spend this
+  expecting a funded account.**
+
+  **Prerequisite if it ever proceeds:** the successor hypothesis must be
+  REGISTERED BEFORE THE DATA IS BOUGHT, with a hard spend cap written into
+  the protocol rather than an estimate. Not drafted — deliberately, since
+  drafting it would look like a decision that has not been made.
 - [ ] **B-DECISION.2** The one asset that exists today and is not a
   strategy: **the method**. A business question, recorded so it is not lost,
   explicitly not scheduled as work.
