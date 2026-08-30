@@ -74,6 +74,35 @@ Then: `make check` (tests, lint, privacy and charset scans) and
 
 ---
 
+## The research console
+
+`make report` renders the whole register as **one self-contained HTML page**:
+the four controls, every scored result against its own detectable floor, the
+figures, and each hypothesis with the mechanism written before its number
+existed.
+
+**[artifacts/report/index.html](artifacts/report/index.html)** — committed,
+so it is readable without credentials. GitHub shows HTML as source, so to
+*view* it either clone and open the file, or regenerate your own:
+
+```bash
+make report          # needs archive credentials on first run
+make report-offline  # renders from the cached register, no network
+```
+
+Two properties it is built for. It is **generated, not live** — a page
+showing whatever the store says at load time cannot be cited or diffed, so
+this writes a dated artifact stamped with `engine_sha` that you can put
+beside a claim. And it is **reproducible**: the same register renders the
+same bytes whether it came from the archive or the cache.
+
+The controls render *above* the findings, deliberately. Nothing on the page
+is worth reading until the instrument has shown it can find a planted edge
+and report nothing on a dead world. Colour encodes trust, not profit; there
+is no equity curve anywhere on it.
+
+---
+
 ## The five refusals
 
 Each gate refuses a specific class of false result. They are independent —

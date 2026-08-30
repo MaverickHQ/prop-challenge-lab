@@ -19,6 +19,7 @@ of them to use the lab.
 |---|---|
 | [ARCHITECTURE.md](ARCHITECTURE.md) | The pipeline, the eight layers, and why the seams sit where they do. Start here. |
 | [USAGE.md](USAGE.md) | Testing your own strategy, in the order the gates will stop you. |
+| [the research console](../artifacts/report/index.html) | The whole register as one self-contained page — controls, findings against their floor, figures, provenance. Built by `make report`; clone and open it, since GitHub shows HTML as source. |
 | [SOP-EXPERIMENT.md](SOP-EXPERIMENT.md) | The standard procedure: hypothesis → test → record. `occams/experiment.py` enforces it. |
 | [CONTEXT.md](CONTEXT.md) | Level-400: the reasoning behind every design choice. The longest document here and the most useful one. |
 
