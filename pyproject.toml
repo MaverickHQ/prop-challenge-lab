@@ -17,7 +17,12 @@ occams-verdict = "occams.verdict_cli:main"
 # against scipy is also stronger than calling scipy, because it pins OUR
 # behaviour — a future scipy release cannot silently move a number that is
 # already in the register.
-dev = ["pytest>=8.0", "ruff>=0.4", "scipy>=1.11", "matplotlib>=3.8"]
+# pyarrow backs `scripts/to_parquet.py` (the derived bar layer, B1). It was
+# used and never declared, so anyone installing only the stated dependencies
+# hit an ImportError -- found by CI, on the first run, which is the argument
+# for having CI.
+dev = ["pytest>=8.0", "ruff>=0.4", "scipy>=1.11", "matplotlib>=3.8",
+       "pyarrow>=15.0"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

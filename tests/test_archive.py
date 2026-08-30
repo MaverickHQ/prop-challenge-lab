@@ -142,6 +142,11 @@ def test_the_query_layer_needs_no_engine():
     is ~70 MB as Parquet and fits in memory. A dependency bought for a
     convenience we do not need is what the razor is for."""
     import importlib.util
-    assert importlib.util.find_spec("pyarrow") is not None
-    spec = importlib.util.find_spec("scripts.to_parquet")
-    assert spec is None or True      # script form; import path is incidental
+    assert importlib.util.find_spec("pyarrow") is not None, (
+        "pyarrow backs the derived bar layer and must be a DECLARED "
+        "dependency; it was used and undeclared until CI ran on a machine "
+        "that had not installed it incidentally")
+    # There was a second assertion here -- `assert spec is None or True` --
+    # which is true for every possible value and tested nothing. Removed
+    # rather than repaired: a tautology in a test file is worse than no test,
+    # because it counts toward the total.
