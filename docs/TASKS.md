@@ -196,19 +196,35 @@ artifact, so Jekyll is passing it through untouched).
   deleted, only superseded — permanently. Writing is opt-in per hypothesis,
   never a batch.
 
-- [ ] **F5-WRITE `[needs-user]` — resolve the 7.** The mechanism is built
-  and nothing has been written. `python3 scripts/resolve.py` lists them:
-  X1-COMPRESSION (primary + confound), X2-OVERNIGHT-GAP (primary,
-  secondary, confound), X3-PRINT-SIZE (primary + confound). **The blocker
-  is the `decision` on each, which is yours** — the outcomes are in the
-  writeups but what the programme *does* about them is not a number I
-  should make permanent on your behalf.
+- [x] **F5-WRITE DONE 2026-08-30 — X1 and X2 resolved, X3 deliberately
+  not.** `resolutions/X1-COMPRESSION/r1.json` and
+  `resolutions/X2-OVERNIGHT-GAP/r1.json`, both from the `primary` path,
+  outcomes read from the archived runs and decisions taken from the
+  writeups.
 
-  The other **17 registered hypotheses have no scored result in the
-  archive**, so there is nothing to read an outcome from. Some were
-  answered in prose and never written back; some were never run. **The
-  register cannot tell those two apart** — which is the more expensive half
-  of the gap, and F5 only closes it going forward.
+  **X1 resolved as `detectable`, which is the right word and the wrong
+  impression** — the effect is −0.089 against a 0.07 floor, real and in the
+  OPPOSITE direction to the mechanism. The verdict alone reads as a success;
+  the decision field carries "this is a reversal, family closed". Good
+  evidence that a bare verdict is not a finding.
+
+  **X3 left open on purpose.** Its own writeup calls the null weak — the
+  interval runs to +0.113, and an effect that size would be larger than
+  anything price data produced in seven years. Recording it as `null` would
+  put a settled answer in the register where the record says the question is
+  open pending roughly three times the tape.
+
+  The double-resolution guard was checked by firing it: a second resolution
+  of X1 without `--supersedes` was refused.
+
+- [ ] **F5-BACKFILL — 16 answered questions the register still does not
+  record as answered.** No scored result is archived against them, so there
+  is nothing to read an outcome from. Some were answered in prose and never
+  written back; some were never run. **The register cannot tell those two
+  apart**, which is the more expensive half of the gap. Closing it means
+  either re-running them through the audited engine (which `make reproduce`
+  already does for some) or accepting that pre-M5 work is documented in
+  prose only. F5 closes this going forward, not backwards.
 
 **Not building:** live queries · a trading-terminal skin · animated results
 · anything needing a server, an account or a manual.

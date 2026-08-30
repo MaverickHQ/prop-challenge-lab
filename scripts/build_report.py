@@ -1024,10 +1024,15 @@ def main() -> int:
     args.out.write_text(page, encoding="utf-8")
 
     results = find_results(reg["experiments"])
-    n_open = sum(1 for h in reg["hypotheses"]
-                 if str(h.get("status", "")) == UNRESOLVED)
+    # Open means "no resolution record", NOT "status is registered". The
+    # status field on a hypothesis is written once and never changes -- that
+    # is the whole reason resolutions append -- so counting it would have the
+    # CLI report 20 open beside a page showing two of them resolved.
+    res = {r.get("hypothesis_id") for r in reg.get("resolutions", [])}
+    n_open = sum(1 for h in reg["hypotheses"] if h.get("id") not in res)
     print(f"{shown(args.out)}  {len(page):,} bytes")
-    print(f"  {len(reg['hypotheses'])} hypotheses ({n_open} open) - "
+    print(f"  {len(reg['hypotheses'])} hypotheses "
+          f"({len(res)} resolved, {n_open} open) - "
           f"{len(reg['experiments'])} runs - {len(results)} scored results - "
           f"alpha {alpha_spent(reg['hypotheses']):.2f}")
     if controls:
