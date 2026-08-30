@@ -1,0 +1,26 @@
+version = 0.1
+
+# Region is inherited from the machine's configured default (eu-north-1)
+# rather than the eu-west-2 the backlog assumed. Three scheduled jobs
+# calling Telegram are latency-indifferent, so this is reversible right up
+# to first deploy — change `region` here if you'd rather it sat in London.
+
+[default.global.parameters]
+stack_name = "occams-campaign"
+
+[default.build.parameters]
+cached = true
+parallel = true
+
+[default.deploy.parameters]
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = true
+resolve_s3 = true
+region = "eu-north-1"
+# Every resource carries this so the $5 budget alarm (B4.4) can filter on
+# it. Without the filter the alarm fires on the ~$10.51/month belonging to
+# two retired projects and is useless from day one.
+tags = "project=occams"
+
+[default.local_invoke.parameters]
+skip_pull_image = true

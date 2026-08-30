@@ -1,0 +1,12 @@
+occams-trader
+Copyright 2026 MaverickHQ
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
+
+This product includes no third-party source. Market data used during the
+research described in docs/ was licensed from a commercial vendor and is
+NOT redistributed with this repository: `data/` is git-ignored and no
+vendor bars, ticks or derived raw files are included in any distribution.
+
+Nothing in this repository constitutes financial advice, and it contains no
+live-execution path. It emits no orders and places none.

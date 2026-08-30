@@ -1,0 +1,9 @@
+# Lambda runtime dependencies ONLY (Workstream B). pyproject.toml stays
+# authoritative for local development; this file exists because SAM's
+# Python builder reads requirements.txt from CodeUri (the repo root).
+#
+# numpy is genuinely required: occams/fade.py uses argmax and
+# default_rng at runtime. pandas is deliberately ABSENT — it is imported
+# by sim/harness/strategy but every use there is a type annotation under
+# `from __future__ import annotations`, so it never evaluates (B0.3).
+numpy>=1.26

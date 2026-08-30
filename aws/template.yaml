@@ -1,0 +1,226 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  occams paper-campaign automation (Workstream B). One function, one
+  package, dispatched by job name. Emits cards to Telegram; a human places
+  every order (B-C2). No order routing exists anywhere in this stack.
+
+Parameters:
+  ProjectTag:
+    Type: String
+    Default: occams
+    Description: >
+      Cost-allocation tag. Load-bearing, not cosmetic: this account also
+      carries two retired projects at ~$10.51/month, so the budget alarm
+      (B4.4) must filter on this tag or it fires on their spend forever.
+  AlarmEmail:
+    Type: String
+    Description: >
+      Where the budget notification goes. REQUIRED, deliberately no default
+      — the same rule as AdminPrincipal in research-template.yaml. A
+      default here publishes a personal address, and silently sends someone
+      else's cost alarms to it.
+  VenueDelayMinutes:
+    Type: Number
+    Default: 10
+    Description: >
+      B-C1 delay parity. The engine may never see a bar fresher than this.
+      The paper source (Yahoo) is itself ~10 min delayed and measured at
+      exactly 10.0 (B0.5), so parity holds by construction; this parameter
+      is the executable backstop, not the mechanism.
+
+Globals:
+  Function:
+    Runtime: python3.12
+    MemorySize: 256
+    Timeout: 60
+    Architectures: [arm64]
+    Environment:
+      Variables:
+        STATE_BUCKET: !Ref StateBucket
+        VENUE_DELAY_MINUTES: !Ref VenueDelayMinutes
+        SSM_PREFIX: /occams
+    Tags:
+      project: !Ref ProjectTag
+
+Resources:
+
+  # Single-writer by construction: the schedules never overlap, and the
+  # state object is written with an ETag precondition on top of that.
+  StateBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: {SSEAlgorithm: AES256}
+      VersioningConfiguration: {Status: Enabled}
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-noncurrent
+            Status: Enabled
+            NoncurrentVersionExpirationInDays: 90
+      Tags:
+        - {Key: project, Value: !Ref ProjectTag}
+
+  CampaignFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      # The repo root, so the Lambda imports the UNFORKED `occams`
+      # package (B1.4). The default Python builder would sweep in the
+      # WHOLE repo — a first build produced 533 MB carrying licensed
+      # bars, the API key and the venue name, and `.samignore` does not
+      # bind that builder. So the build is an explicit allow-list:
+      # `build-CampaignFunction` in the root Makefile copies only what
+      # ships, then `check_artifact.py` fails the build if anything else
+      # got in.
+      CodeUri: ../
+      Handler: aws.handler.lambda_handler
+      Description: morning | poll | evening | command dispatch
+      Policies:
+        - S3CrudPolicy: {BucketName: !Ref StateBucket}
+        # Scoped to our own parameter path plus the key that decrypts it —
+        # nothing wider (B-C4).
+        - SSMParameterReadPolicy: {ParameterName: occams/*}
+        - Statement:
+            Effect: Allow
+            Action: [kms:Decrypt]
+            Resource: '*'
+            Condition:
+              StringEquals:
+                kms:ViaService: !Sub ssm.${AWS::Region}.amazonaws.com
+    Metadata:
+      BuildMethod: makefile
+
+  # EventBridge Scheduler, not an EventBridge rule: it takes a native
+  # America/New_York cron, so DST is handled for us and the twice-yearly
+  # mismatch weeks that plague a UTC-offset cron stop being a hazard.
+  PollSchedule:
+    Type: AWS::Scheduler::Schedule
+    Properties:
+      Name: occams-poll
+      Description: session poller, every 5 min 09:45-16:05 ET on weekdays
+      ScheduleExpression: cron(0/5 9-16 ? * MON-FRI *)
+      ScheduleExpressionTimezone: America/New_York
+      FlexibleTimeWindow: {Mode: 'OFF'}
+      State: DISABLED
+      Target:
+        Arn: !GetAtt CampaignFunction.Arn
+        RoleArn: !GetAtt SchedulerRole.Arn
+        Input: '{"job": "poll"}'
+        RetryPolicy:
+          MaximumRetryAttempts: 2
+
+  # Its own schedule, and a wider window than the poller: Telegram
+  # commands are PULLED, so a /ack typed at 15:00 would otherwise sit
+  # unanswered until the evening job.
+  CommandSchedule:
+    Type: AWS::Scheduler::Schedule
+    Properties:
+      Name: occams-command
+      Description: Telegram command handler, every 10 min on weekdays
+      ScheduleExpression: cron(0/10 8-20 ? * MON-FRI *)
+      ScheduleExpressionTimezone: America/New_York
+      FlexibleTimeWindow: {Mode: 'OFF'}
+      State: DISABLED
+      Target:
+        Arn: !GetAtt CampaignFunction.Arn
+        RoleArn: !GetAtt SchedulerRole.Arn
+        Input: '{"job": "command"}'
+        RetryPolicy:
+          MaximumRetryAttempts: 2
+
+  MorningSchedule:
+    Type: AWS::Scheduler::Schedule
+    Properties:
+      Name: occams-morning
+      Description: pre-market card, 09:00 ET weekdays
+      ScheduleExpression: cron(0 9 ? * MON-FRI *)
+      ScheduleExpressionTimezone: America/New_York
+      FlexibleTimeWindow: {Mode: 'OFF'}
+      State: DISABLED
+      Target:
+        Arn: !GetAtt CampaignFunction.Arn
+        RoleArn: !GetAtt SchedulerRole.Arn
+        Input: '{"job": "morning"}'
+        RetryPolicy: {MaximumRetryAttempts: 2}
+
+  EveningSchedule:
+    Type: AWS::Scheduler::Schedule
+    Properties:
+      Name: occams-evening
+      Description: debrief, parity and kill check, 17:00 ET weekdays
+      ScheduleExpression: cron(0 17 ? * MON-FRI *)
+      ScheduleExpressionTimezone: America/New_York
+      FlexibleTimeWindow: {Mode: 'OFF'}
+      State: DISABLED
+      Target:
+        Arn: !GetAtt CampaignFunction.Arn
+        RoleArn: !GetAtt SchedulerRole.Arn
+        Input: '{"job": "evening"}'
+        RetryPolicy: {MaximumRetryAttempts: 2}
+
+  # B4.2 — a failure must reach the phone, not sit in a console nobody
+  # opens. The evening debrief also self-reports poll health (B4.1), so
+  # the two cover different halves: this catches errors, that catches
+  # silence.
+  ErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: occams-lambda-errors
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - {Name: FunctionName, Value: !Ref CampaignFunction}
+      Statistic: Sum
+      Period: 3600
+      EvaluationPeriods: 1
+      Threshold: 3
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+
+  # B4.4 — the budget is NOT here on purpose. AWS::Budgets::Budget is a
+  # global resource that does not exist in eu-north-1, and pinning a
+  # second us-east-1 stack to carry one alarm is more machinery than the
+  # alarm is worth. It is created by `scripts/make_budget.py` instead.
+
+  SchedulerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: {Service: scheduler.amazonaws.com}
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+      Policies:
+        - PolicyName: invoke-campaign
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt CampaignFunction.Arn
+      Tags:
+        - {Key: project, Value: !Ref ProjectTag}
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${CampaignFunction}
+      RetentionInDays: 30
+      Tags:
+        - {Key: project, Value: !Ref ProjectTag}
+
+Outputs:
+  FunctionName:
+    Value: !Ref CampaignFunction
+  StateBucketName:
+    Value: !Ref StateBucket

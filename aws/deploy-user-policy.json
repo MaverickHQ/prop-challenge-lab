@@ -1,0 +1,121 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "StackLifecycleForThisStackOnly",
+      "Effect": "Allow",
+      "Action": "cloudformation:*",
+      "Resource": [
+        "arn:aws:cloudformation:*:*:stack/occams-campaign/*",
+        "arn:aws:cloudformation:*:*:stack/aws-sam-cli-managed-default/*",
+        "arn:aws:cloudformation:*:*:transform/Serverless-2016-10-31",
+        "arn:aws:cloudformation:*:*:stack/occams-research/*"
+      ]
+    },
+    {
+      "Sid": "ReadOnlyStackDiscovery",
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:ListStacks",
+        "cloudformation:DescribeStacks",
+        "cloudformation:ValidateTemplate"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "FunctionAndSchedules",
+      "Effect": "Allow",
+      "Action": [
+        "lambda:*",
+        "scheduler:*",
+        "events:*",
+        "logs:*",
+        "cloudwatch:PutMetricAlarm",
+        "cloudwatch:DescribeAlarms",
+        "cloudwatch:DeleteAlarms",
+        "tag:GetResources",
+        "tag:TagResources"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "BucketsThisProjectOwns",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::occams-campaign-*",
+        "arn:aws:s3:::occams-campaign-*/*",
+        "arn:aws:s3:::aws-sam-cli-managed-default-*",
+        "arn:aws:s3:::aws-sam-cli-managed-default-*/*",
+        "arn:aws:s3:::occams-research-*",
+        "arn:aws:s3:::occams-research-*/*"
+      ]
+    },
+    {
+      "Sid": "ListBucketsSoSamCanFindItsOwn",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ExecutionRoleForThisStackOnly",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:GetRole",
+        "iam:PassRole",
+        "iam:TagRole",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:GetRolePolicy",
+        "iam:ListRolePolicies",
+        "iam:ListAttachedRolePolicies"
+      ],
+      "Resource": "arn:aws:iam::*:role/occams-campaign-*"
+    },
+    {
+      "Sid": "SecretsUnderOurPathOnly",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:PutParameter",
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:DeleteParameter",
+        "ssm:AddTagsToResource"
+      ],
+      "Resource": "arn:aws:ssm:*:*:parameter/occams/*"
+    },
+    {
+      "Sid": "BudgetAlarmForTheProjectTag",
+      "Effect": "Allow",
+      "Action": [
+        "budgets:*",
+        "ce:GetCostAndUsage"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ListParameterNamesOnly",
+      "Effect": "Allow",
+      "Action": "ssm:DescribeParameters",
+      "Resource": "*"
+    },
+    {
+      "Sid": "NeverTouchTheRetiredProjects",
+      "Effect": "Deny",
+      "Action": [
+        "ecs:*",
+        "rds:*",
+        "ec2:RunInstances",
+        "ecr:Delete*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

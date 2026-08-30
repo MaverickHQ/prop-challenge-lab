@@ -1,0 +1,241 @@
+//@version=6
+// Fade campaign chart aid (protocol #4) - display + alert tooling ONLY.
+// Draws the 09:30-09:45 ET range, tracks the breakout extreme, detects
+// the failure CLOSE, and shows exactly what to type into Telegram with
+// the sealed k=0.2 levels and $175 true-risk sizing. The human still
+// places every order and logs every fill; this removes chart-reading
+// and arithmetic errors, nothing else.
+//
+// Install: TradingView > Pine Editor > paste > Save > Add to chart (1m).
+// Per symbol: MES -> multiplier 5.0 | MNQ -> multiplier 2.0, tag "MNQ".
+// Alert: ONE alert on this indicator, condition "Any alert() function
+// call", push notification on.
+//
+// STYLE NOTE (v1.4): no multi-line ternaries. Pine treats a continuation
+// line indented by a multiple of 4 as a new block, which broke v1.3.
+// Everything below uses if/else blocks and single-line expressions.
+//
+// WORDING IS PINNED (B2.4): every phrase this file prints for the human -
+// "BUY LIMIT", "SELL LIMIT", "x @ ", " | stop ", " | target ",
+// "STAND ASIDE", "<YOUR FILL>" - is asserted against occams/cards.py by
+// tests/test_cards.py. Change a phrase here without changing there (or the
+// reverse) and the suite fails. The chart and the phone must never give
+// the human two different instructions.
+//
+// v1.9 (protocol #4a, 2026-07-31): the entry is a LIMIT, not a stop. A
+// failure close is BY DEFINITION back inside the range, so the boundary
+// always sits on the far side of it: a buy stop below market, or a sell
+// stop above it, which no venue accepts. v1.0-v1.8 said "STOP" and cost
+// two of the campaign's first three setups. See docs/AMENDMENT-4a.md.
+
+indicator("Fade Campaign - protocol #4", overlay = true,
+          max_labels_count = 20)
+
+// Auto-configured from the chart's own symbol (v1.6): switch the chart
+// from MES1! to MNQ1! and the tag, point value and tick follow. No input
+// to forget, so a wrong multiplier (wrong position size) is impossible.
+sym        = str.replace_all(str.replace_all(syminfo.ticker, "1!", ""), "!", "")
+multiplier = syminfo.pointvalue
+tickSize   = syminfo.mintick
+commission = input.float(1.25, "Commission per side $")
+slipTicks  = input.int(1,      "Slippage ticks (sealed: 1)")
+kStop      = input.float(0.2,  "k_stop (sealed: 0.2)")
+riskUsd    = input.float(175.0, "Risk $ per trade (sealed: 175)")
+
+inRange   = not na(time(timeframe.period, "0930-0945", "America/New_York"))
+inSession = not na(time(timeframe.period, "0930-1600", "America/New_York"))
+newDay    = ta.change(time("D")) != 0
+
+var float  rHi        = na
+var float  rLo        = na
+var bool   rangeDone  = false
+var bool   brokeUp    = false
+var bool   brokeDn    = false
+var float  extremeHi  = na
+var float  extremeLo  = na
+var bool   setupFired = false
+var float  pEntry     = na
+var float  pStop      = na
+var float  pTarget    = na
+var int    pQty       = 0
+var int    tradeState = 0     // 0 none | 1 working | 2 filled | 3 closed
+var string cmdFills   = "(no order working)"
+var string cmdRange   = "(fills in at 09:45 ET)"
+var string cmdSetup   = "(fills in on a failure close)"
+var string cmdNote    = "waiting for the 09:45 ET close"
+
+if newDay
+    rHi := na
+    rLo := na
+    rangeDone := false
+    brokeUp := false
+    brokeDn := false
+    extremeHi := na
+    extremeLo := na
+    setupFired := false
+    pEntry := na
+    pStop := na
+    pTarget := na
+    pQty := 0
+    tradeState := 0
+    cmdFills := "(no order working)"
+    cmdRange := "(fills in at 09:45 ET)"
+    cmdSetup := "(fills in on a failure close)"
+    cmdNote := "no action yet today"
+
+if inRange
+    rHi := na(rHi) ? high : math.max(rHi, high)
+    rLo := na(rLo) ? low : math.min(rLo, low)
+
+justFormed = not inRange and not rangeDone and not na(rHi)
+if justFormed
+    rangeDone := true
+    cmdRange := "/range " + sym + " " + str.tostring(rHi) + " " + str.tostring(rLo)
+    cmdNote := "send /range now, then watch for a failure close"
+    label.new(bar_index, rHi, cmdRange, style = label.style_label_lower_left, color = color.new(color.orange, 20), textcolor = color.white)
+    alert(cmdRange, alert.freq_once_per_bar)
+
+height = rHi - rLo
+slip   = slipTicks * tickSize
+
+sizing(stopDist) =>
+    lossPts = stopDist + 2 * slip
+    perContract = lossPts * multiplier + 2 * commission
+    int(math.min(math.floor(riskUsd / perContract), 30))
+
+if rangeDone and inSession and not setupFired
+    if high > rHi
+        brokeUp := true
+        extremeHi := na(extremeHi) ? high : math.max(extremeHi, high)
+    if low < rLo
+        brokeDn := true
+        extremeLo := na(extremeLo) ? low : math.min(extremeLo, low)
+
+    // fade the FIRST breakout only (one setup/day, matching the engine)
+    if brokeUp and not brokeDn and close < rHi
+        setupFired := true
+        stopLvl = extremeHi + kStop * height
+        contracts = sizing(stopLvl - rHi)
+        string m = ""
+        if contracts < 1
+            cmdSetup := "/skip " + sym + " stand-aside risk"
+            cmdNote := "STAND ASIDE - stop is " + str.tostring(math.round((stopLvl - rHi) * 100) / 100) + " pts away; risk/contract > $" + str.tostring(riskUsd)
+            m := "STAND ASIDE " + sym + " - no order. Send: /skip " + sym + " stand-aside risk"
+        else
+            pEntry := rHi
+            pQty := contracts
+            tradeState := 1
+            cmdFills := "waiting for entry at " + str.tostring(rHi)
+            pStop := stopLvl
+            pTarget := rLo
+            cmdSetup := "/setup " + sym + " short " + str.tostring(extremeHi)
+            cmdNote := "SELL LIMIT " + str.tostring(contracts) + "x @ " + str.tostring(rHi) + " | stop " + str.tostring(stopLvl) + " | target " + str.tostring(rLo)
+            m := cmdSetup + "  ||  " + cmdNote
+        label.new(bar_index, high, m, style = label.style_label_down, color = color.new(color.red, 10), textcolor = color.white)
+        alert(m, alert.freq_once_per_bar)
+
+    if brokeDn and not brokeUp and close > rLo
+        setupFired := true
+        stopLvl = extremeLo - kStop * height
+        contracts = sizing(rLo - stopLvl)
+        string m = ""
+        if contracts < 1
+            cmdSetup := "/skip " + sym + " stand-aside risk"
+            cmdNote := "STAND ASIDE - stop is " + str.tostring(math.round((rLo - stopLvl) * 100) / 100) + " pts away; risk/contract > $" + str.tostring(riskUsd)
+            m := "STAND ASIDE " + sym + " - no order. Send: /skip " + sym + " stand-aside risk"
+        else
+            pEntry := rLo
+            pQty := contracts
+            tradeState := 1
+            cmdFills := "waiting for entry at " + str.tostring(rLo)
+            pStop := stopLvl
+            pTarget := rHi
+            cmdSetup := "/setup " + sym + " long " + str.tostring(extremeLo)
+            cmdNote := "BUY LIMIT " + str.tostring(contracts) + "x @ " + str.tostring(rLo) + " | stop " + str.tostring(stopLvl) + " | target " + str.tostring(rHi)
+            m := cmdSetup + "  ||  " + cmdNote
+        label.new(bar_index, low, m, style = label.style_label_up, color = color.new(color.green, 10), textcolor = color.white)
+        alert(m, alert.freq_once_per_bar)
+
+// FILL WATCHER (v1.8): Pine cannot see your account, so it watches the
+// LEVELS and tells you which command to type. The price you type must
+// come from the Trading Panel - typing the model price back would make
+// drift zero by construction and the measurement worthless.
+if tradeState == 1 and not na(pEntry)
+    // v1.9: LIMIT fill conditions, which are the INVERSE of the stop
+    // conditions this line carried through v1.8. A limit sits on the far
+    // side of the failure close, so a long fills when price comes DOWN to
+    // it and a short when price comes UP to it. The old test (high >=
+    // entry for a long) is already true the instant the setup fires and
+    // would have reported an immediate fill every time.
+    bool hit = pTarget < pEntry ? high >= pEntry : low <= pEntry
+    if hit
+        tradeState := 2
+        cmdFills := "/fills " + sym + " entry <YOUR FILL> " + str.tostring(pQty)
+if tradeState == 2
+    bool stopHit = pTarget < pEntry ? high >= pStop : low <= pStop
+    bool tgtHit = pTarget < pEntry ? low <= pTarget : high >= pTarget
+    if stopHit
+        tradeState := 3
+        cmdFills := "/fills " + sym + " stop <YOUR FILL> " + str.tostring(pQty)
+    else if tgtHit
+        tradeState := 3
+        cmdFills := "/fills " + sym + " target <YOUR FILL> " + str.tostring(pQty)
+    else if not inSession
+        tradeState := 3
+        cmdFills := "/fills " + sym + " eod <YOUR FILL> " + str.tostring(pQty)
+
+bgcolor(inRange ? color.new(color.orange, 88) : na)
+
+// Levels render as PER-DAY plots only (v1.2): extend-right line objects
+// stacked every historical day's range across the chart.
+plot(rangeDone ? rHi : na, "range high", color = color.orange, linewidth = 2, style = plot.style_linebr)
+plot(rangeDone ? rLo : na, "range low", color = color.orange, linewidth = 2, style = plot.style_linebr)
+
+// Order levels, drawn only when a SIZED trade exists (stand-aside days
+// stay clean). Same per-day linebr pattern, so nothing bleeds forward.
+plot(pEntry, "entry", color = color.blue, linewidth = 2, style = plot.style_linebr)
+plot(pStop, "stop", color = color.red, linewidth = 2, style = plot.style_linebr)
+plot(pTarget, "target", color = color.green, linewidth = 2, style = plot.style_linebr)
+
+// TELEGRAM COMMAND BOX - MIDDLE left (v1.7). top_left is covered by
+// TradingView's chart legend; bottom_left is covered by its watermark.
+// The middle-left edge is the only corner free of TradingView chrome.
+var table cmd = table.new(position.middle_left, 1, 4, bgcolor = color.new(color.black, 10), border_width = 1, border_color = color.new(color.orange, 40))
+if barstate.islast
+    table.cell(cmd, 0, 0, "TELEGRAM - type this  |  " + cmdNote, text_color = color.orange, text_size = size.small)
+    table.cell(cmd, 0, 1, cmdRange, text_color = color.white, text_size = size.large)
+    table.cell(cmd, 0, 2, cmdSetup, text_color = color.white, text_size = size.large)
+    table.cell(cmd, 0, 3, cmdFills, text_color = tradeState == 2 ? color.yellow : color.white, text_size = size.large)
+
+// self-diagnosing status panel - top right, always visible
+var table st = table.new(position.top_right, 2, 5, bgcolor = color.new(color.black, 20), border_width = 1, border_color = color.new(color.gray, 60))
+if barstate.islast
+    string state = "RANGE SET - waiting for breakout"
+    if inRange
+        state := "RANGE FORMING"
+    else if not rangeDone
+        state := "WAITING (pre-range or no bars matched)"
+    else if setupFired
+        state := "SETUP FIRED - done for today"
+    else if brokeUp
+        state := "ARMED UP - watching for failure close"
+    else if brokeDn
+        state := "ARMED DOWN - watching for failure close"
+    string rangeTxt = na(rHi) ? "-" : str.tostring(rHi) + " / " + str.tostring(rLo)
+    string extTxt = "-"
+    if brokeUp
+        extTxt := str.tostring(extremeHi)
+    else if brokeDn
+        extTxt := str.tostring(extremeLo)
+    bool tfOk = timeframe.period == "1"
+    string tfTxt = tfOk ? "1m ok" : "TF=" + timeframe.period + " - SET CHART TO 1m"
+    table.cell(st, 0, 0, sym, text_color = color.orange, text_size = size.small)
+    table.cell(st, 1, 0, state, text_color = color.white, text_size = size.small)
+    table.cell(st, 0, 1, "range", text_color = color.gray, text_size = size.tiny)
+    table.cell(st, 1, 1, rangeTxt, text_color = color.white, text_size = size.tiny)
+    table.cell(st, 0, 2, "extreme", text_color = color.gray, text_size = size.tiny)
+    table.cell(st, 1, 2, extTxt, text_color = color.white, text_size = size.tiny)
+    table.cell(st, 0, 3, "tf check", text_color = color.gray, text_size = size.tiny)
+    table.cell(st, 1, 3, tfTxt, text_color = tfOk ? color.green : color.red, text_size = size.tiny)
+    table.cell(st, 0, 4, "last bar (ET)", text_color = color.gray, text_size = size.tiny)
+    table.cell(st, 1, 4, str.format_time(time, "yyyy-MM-dd HH:mm", "America/New_York"), text_color = color.white, text_size = size.tiny)

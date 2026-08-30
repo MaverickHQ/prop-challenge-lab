@@ -1,0 +1,14 @@
+{
+  "name": "example-50k",
+  "description": "A 50k evaluation geometry: 6% profit target, 4% end-of-day trailing drawdown that ratchets and locks at the starting balance, 2% intraday loss guard (a lockout, not a breach), 1 minimum trading day, no evaluation consistency rule. Replace every value with your own provider's published rules -- this ships as a WORKED EXAMPLE, not as anyone's current terms.",
+  "effective_date": "2026-07-02",
+  "source": "operator's own reading of their provider's published rules, verified at that date",
+  "rules": {
+    "account": 50000.0,
+    "target": 3000.0,
+    "trailing_dd": 2000.0,
+    "daily_guard": 1000.0,
+    "min_days": 1,
+    "consistency_frac": null
+  }
+}

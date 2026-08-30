@@ -1,0 +1,42 @@
+# Secrets / environment — NEVER commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Market data (purchased, licensed — never redistribute) and runtime stores
+# Root data/ only — occams/data/ holds tracked seed files (calendar), not market data.
+/data/
+*.csv
+*.parquet
+*.db
+*.sqlite*
+
+# Venue-identifying local notes (privacy rule: the venue is never in git)
+*.local.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+build/
+dist/
+
+# OS / editor
+.DS_Store
+.claude/
+
+# Seed/calendar data inside the package is tracked (not market data)
+!occams/data/*.csv
+
+# Privacy scanner terms — never tracked
+.privacy-terms
+
+# SAM build output (48.6 MB artifact, regenerable)
+.aws-sam/

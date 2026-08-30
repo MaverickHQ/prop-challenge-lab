@@ -1,0 +1,110 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  occams durable research archive (Track D). Deliberately a SEPARATE stack
+  from occams-campaign: that bucket carries a 90-day noncurrent expiry and
+  dies with `sam delete`. An archive must outlive the thing that produced
+  it, so this bucket is retained even if the stack is destroyed.
+
+Parameters:
+  ProjectTag:
+    Type: String
+    Default: occams
+  AdminPrincipal:
+    Type: String
+    Description: >
+      REQUIRED, deliberately no default. Shipping a default here is both a
+      disclosure -- it publishes a real IAM user name -- and a footgun: a
+      default principal that does not exist in the deployer's account
+      silently exempts nobody, so the delete-deny below would lock the
+      bucket's owner out of their own archive with no way back.
+      Pass your own IAM user or role name at deploy time.
+      The one identity exempt from the delete-deny below. Something has to
+      be able to remove an object that should never have been uploaded --
+      a privacy slip must stay fixable. This is why the archive does NOT
+      use Object Lock in compliance mode.
+
+Resources:
+
+  ResearchBucket:
+    Type: AWS::S3::Bucket
+    # Both retains are the point of the stack: destroying the stack, or the
+    # wider account cleanup, must never take the evidence with it.
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub occams-research-${AWS::AccountId}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: {SSEAlgorithm: AES256}
+      VersioningConfiguration: {Status: Enabled}
+      # NOTE: there is deliberately NO expiration rule. The campaign bucket
+      # expires noncurrent versions after 90 days; an archive that deletes
+      # its own history is not an archive.
+      LifecycleConfiguration:
+        Rules:
+          - Id: raw-to-intelligent-tiering
+            Status: Enabled
+            Prefix: raw/
+            Transitions:
+              - StorageClass: INTELLIGENT_TIERING
+                TransitionInDays: 30
+      Tags:
+        - {Key: project, Value: !Ref ProjectTag}
+        - {Key: purpose, Value: durable-research-archive}
+
+  ResearchBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ResearchBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - !GetAtt ResearchBucket.Arn
+              - !Sub '${ResearchBucket.Arn}/*'
+            Condition:
+              Bool: {'aws:SecureTransport': 'false'}
+
+          - Sid: DenyAnyPrincipalOutsideThisAccount
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - !GetAtt ResearchBucket.Arn
+              - !Sub '${ResearchBucket.Arn}/*'
+            Condition:
+              StringNotEquals:
+                'aws:PrincipalAccount': !Ref AWS::AccountId
+
+          # D0.2/D0.3: raw data and the register are write-once. Enforced
+          # by policy rather than by convention, but REVOCABLE -- see the
+          # AdminPrincipal note above.
+          - Sid: DenyDeletesOnImmutablePrefixes
+            Effect: Deny
+            Principal: '*'
+            Action:
+              - 's3:DeleteObject'
+              - 's3:DeleteObjectVersion'
+            Resource:
+              - !Sub '${ResearchBucket.Arn}/raw/*'
+              - !Sub '${ResearchBucket.Arn}/hypotheses/*'
+              - !Sub '${ResearchBucket.Arn}/experiments/*'
+              - !Sub '${ResearchBucket.Arn}/provenance/*'
+            Condition:
+              StringNotLike:
+                'aws:PrincipalArn': !Sub 'arn:aws:iam::${AWS::AccountId}:user/${AdminPrincipal}'
+
+Outputs:
+  ResearchBucketName:
+    Value: !Ref ResearchBucket
+    Export: {Name: occams-research-bucket}

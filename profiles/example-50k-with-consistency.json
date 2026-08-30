@@ -1,0 +1,14 @@
+{
+  "name": "example-50k-with-consistency",
+  "description": "The same 50k geometry with a 40% largest-day consistency rule and a larger target -- the shape used by tiers that trade a consistency requirement for a lower drawdown. Included so the consistency path in the rules engine has a profile that exercises it. Replace with your own provider's published rules.",
+  "effective_date": "2026-07-02",
+  "source": "operator's own reading of their provider's published rules, verified at that date",
+  "rules": {
+    "account": 50000.0,
+    "target": 4000.0,
+    "trailing_dd": 1750.0,
+    "daily_guard": 0.0,
+    "min_days": 2,
+    "consistency_frac": 0.40
+  }
+}

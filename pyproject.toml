@@ -1,0 +1,49 @@
+[project]
+name = "occams-trader"
+version = "0.1.0"
+description = "Deterministic dollar-denominated evaluation harness (private, local-only)"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+dependencies = ["pandas>=2.0", "numpy>=1.26"]
+
+[project.scripts]
+occams-verdict = "occams.verdict_cli:main"
+
+[project.optional-dependencies]
+# scipy is a TEST-ONLY oracle for occams/stats.py. It is deliberately NOT a
+# runtime dependency: occams/ is imported by the Lambda and its dependency
+# weight already broke a build once (B0.3). Testing our own implementation
+# against scipy is also stronger than calling scipy, because it pins OUR
+# behaviour — a future scipy release cannot silently move a number that is
+# already in the register.
+dev = ["pytest>=8.0", "ruff>=0.4", "scipy>=1.11", "matplotlib>=3.8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# The `reproduction` tier re-scores REAL archived results end to end and
+# needs 2 GB of vendor bars plus S3. It is excluded from the default run so
+# `make check` stays fast, and wired to `make reproduce`, which is the gate
+# before any archived number is cited or published. Tier 1 of
+# tests/test_reproduction.py is NOT marked and always runs -- it pins the
+# engine itself, which is the only way an archived number can move.
+addopts = "-q -m 'not reproduction'"
+markers = [
+  "reproduction: re-scores archived results end to end (needs data + S3)",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+# Experiment scripts are FROZEN EVIDENCE. `scripts/exp_*.py` are archived
+# byte-for-byte as the artifact that produced a registered result, so
+# reformatting one would break the guarantee that the archived copy is the
+# script that ran. They are excluded from lint deliberately, not lazily.
+extend-exclude = ["scripts/exp_*.py"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["occams*"]
