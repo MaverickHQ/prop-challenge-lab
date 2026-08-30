@@ -29,7 +29,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-__all__ = ["Result"]
+__all__ = ["Result", "RESULT_KEYS", "blocks"]
 
 
 @dataclass(frozen=True)
@@ -132,3 +132,38 @@ class Result:
         if self.note:
             m["note"] = self.note
         return m
+
+
+# ─── reading them back (F5) ───
+
+# The two fields `to_metrics` always writes, and the pair that distinguishes
+# a scored Result from a free-text audit verdict. An audit returns a
+# judgement with no estimate and no floor, so there is nothing to measure it
+# against and promoting one to a finding would invent precision.
+RESULT_KEYS = frozenset({"estimate", "verdict"})
+
+
+def blocks(metrics: dict) -> dict[str, dict]:
+    """Every `to_metrics()` block in a metrics tree, keyed by dotted path.
+
+    Defined here rather than in whatever happens to be reading, because two
+    definitions of "what a Result looks like" is how the register and the
+    console come to disagree about how many findings exist. The archive uses
+    this to resolve a hypothesis from a run; the console uses it to render
+    findings; there is one answer.
+
+    The root itself can be a block, in which case its path is "".
+    """
+    found: dict[str, dict] = {}
+
+    def walk(node, path: str) -> None:
+        if not isinstance(node, dict):
+            return
+        if RESULT_KEYS <= node.keys():
+            found[path] = node
+            return                      # a Result is a leaf; do not recurse
+        for k, v in node.items():
+            walk(v, f"{path}.{k}" if path else str(k))
+
+    walk(metrics, "")
+    return found

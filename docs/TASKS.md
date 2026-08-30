@@ -170,14 +170,45 @@ artifact, so Jekyll is passing it through untouched).
   because browsers auto-expand a collapsed one only when the fragment
   target is within it. Now tested.
 
-- [ ] **F5 Write outcomes back to the register.** The gap F1 exposed.
-  `outcome`, `effect_size`, `ci_low`, `ci_high` and `decision` exist in the
-  hypothesis schema and are never populated, so **the multiplicity ledger
-  cannot be computed from the register** — alpha allocated is readable,
-  alpha that bought a resolved answer is not. Deliberately not done inside a
-  reporting task: it writes to an append-only record and wants its own
-  decision about whether resolution is a new record superseding the old one
-  (almost certainly yes) or a mutation (almost certainly not).
+- [x] **F5 MECHANISM DONE 2026-08-30 — `archive.resolve_hypothesis`.**
+  The design question answered itself: `hypotheses/` has been in
+  `IMMUTABLE` since the start and `_put_json` refuses overwrites, so a
+  resolution **appends** a separate record and cannot fill in the
+  original's blanks. New `resolutions/` prefix, also immutable.
+
+  **The numbers are read from the archived run, never passed in** — letting
+  a caller supply the effect size would recreate the defect the `METRICS:`
+  line exists to prevent. What the caller supplies is `decision`: what the
+  programme does about the result, which is a judgement and cannot be read
+  from anywhere. An empty one is refused.
+
+  Resolving twice from different runs is allowed but never silently:
+  `supersedes` must name the prior resolution, because running again until
+  the answer is agreeable is optional stopping and the register's job is to
+  make it visible.
+
+  `occams/result.py` gained `blocks()` — one definition of what a `Result`
+  block looks like, shared by the archive and the console, since two
+  definitions is how they come to disagree about how many findings exist.
+
+  `scripts/resolve.py` surveys what can be resolved. **Dry by default**: the
+  register is append-only, so a resolution written in error cannot be
+  deleted, only superseded — permanently. Writing is opt-in per hypothesis,
+  never a batch.
+
+- [ ] **F5-WRITE `[needs-user]` — resolve the 7.** The mechanism is built
+  and nothing has been written. `python3 scripts/resolve.py` lists them:
+  X1-COMPRESSION (primary + confound), X2-OVERNIGHT-GAP (primary,
+  secondary, confound), X3-PRINT-SIZE (primary + confound). **The blocker
+  is the `decision` on each, which is yours** — the outcomes are in the
+  writeups but what the programme *does* about them is not a number I
+  should make permanent on your behalf.
+
+  The other **17 registered hypotheses have no scored result in the
+  archive**, so there is nothing to read an outcome from. Some were
+  answered in prose and never written back; some were never run. **The
+  register cannot tell those two apart** — which is the more expensive half
+  of the gap, and F5 only closes it going forward.
 
 **Not building:** live queries · a trading-terminal skin · animated results
 · anything needing a server, an account or a manual.

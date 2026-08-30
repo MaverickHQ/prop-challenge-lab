@@ -74,8 +74,24 @@ def test_engine_sha_is_recorded_and_flags_a_dirty_tree():
 
 def test_immutable_prefixes_are_the_ones_that_matter():
     assert set(archive.IMMUTABLE) == {
-        "raw/", "hypotheses/", "experiments/", "provenance/"}
+        "raw/", "hypotheses/", "experiments/", "provenance/", "resolutions/"}
     assert "derived/" not in archive.IMMUTABLE   # regenerable, so mutable
+
+
+# --- F5: resolving a hypothesis ---
+
+def test_a_resolution_without_a_decision_is_refused():
+    """The numbers come from the run. The decision is the only part a human
+    supplies, so a resolution without one is a number restated."""
+    with pytest.raises(ValueError, match="number restated"):
+        archive.resolve_hypothesis(hid="H-x", run_id="r1", decision="   ")
+
+
+def test_resolutions_are_immutable_like_the_rest_of_the_register():
+    """`hypotheses/{hid}.json` was write-once from the start, which is what
+    forced a resolution to APPEND rather than fill in the original's blanks.
+    A mutable resolution prefix would give that back."""
+    assert "resolutions/" in archive.IMMUTABLE
 
 
 # --- B1: the derived layer ---

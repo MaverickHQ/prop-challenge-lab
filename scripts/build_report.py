@@ -1,4 +1,4 @@
-"""F1-F4 — the research console, generated from the register.
+"""F1-F5 — the research console, generated from the register.
 
     python3 scripts/build_report.py            (or: make report)
     python3 scripts/build_report.py --offline  no network; uses the cache
@@ -23,6 +23,11 @@ Colour encodes TRUST, not profit (F3). There is no equity curve on this
 page and that is deliberate: every equity curve this lab drew came from an
 entry later proved unobtainable, and the curve looked fine throughout.
 
+Resolutions (F5) are read and merged, but a hypothesis is never shown as
+resolved because the page says so -- only because a resolution record exists
+saying so. The gap notice shrinks as they land, which is the point: a defect
+notice that cannot shrink is decoration.
+
 No JavaScript, no external assets, no network at view time. An artifact that
 needs a CDN to render has a shelf life; this one has to still open in a
 decade.
@@ -41,6 +46,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from occams import archive  # noqa: E402
+from occams.result import blocks  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 # In `docs/`, not `artifacts/`, because GitHub Pages serves this repo's site
@@ -128,6 +134,7 @@ def pull() -> dict:
                      "archived_at": row.get("archived_at")})
 
     return {"hypotheses": hyps, "experiments": exps, "provenance": prov,
+            "resolutions": archive.resolutions(),
             "manifest_objects": len(manifest),
             "engine_sha": archive.engine_sha(),
             "pulled_at": datetime.now(timezone.utc).isoformat(
@@ -175,9 +182,6 @@ def by_hypothesis(reg: dict) -> list[tuple[dict, list[dict]]]:
     return [(h, runs.get(h.get("id", ""), [])) for h in hyps] + orphans
 
 
-RESULT_KEYS = {"estimate", "verdict"}
-
-
 def find_audits(exps: list[dict]) -> list[dict]:
     """Blocks carrying a `verdict` but no `estimate`.
 
@@ -216,17 +220,10 @@ def find_results(exps: list[dict]) -> list[dict]:
     """
     out = []
     for e in exps:
-        def walk(node, path):
-            if not isinstance(node, dict):
-                return
-            if RESULT_KEYS <= node.keys():
-                out.append({**node, "_hid": e.get("hypothesis_id"),
-                            "_run": e.get("run_id"), "_path": path,
-                            "_recorded": e.get("recorded_at")})
-                return
-            for k, v in node.items():
-                walk(v, f"{path}.{k}" if path else k)
-        walk(e.get("metrics", {}), "")
+        for path, r in blocks(e.get("metrics", {})).items():
+            out.append({**r, "_hid": e.get("hypothesis_id"),
+                        "_run": e.get("run_id"), "_path": path,
+                        "_recorded": e.get("recorded_at")})
     out.sort(key=lambda r: (str(r.get("_hid")), str(r.get("_path"))))
     return out
 
@@ -640,12 +637,17 @@ Embedded rather than linked, so the page stays one file.</p>
 
 
 def _register(reg, hyps, exps) -> str:
+    res = {r.get("hypothesis_id"): r for r in
+           sorted(reg.get("resolutions", []),
+                  key=lambda r: str(r.get("resolved_at")))}
     answered = {e.get("hypothesis_id") for e in exps}
     unwritten = sorted(h.get("id") for h in hyps
                        if str(h.get("status", "")) == UNRESOLVED
-                       and h.get("id") in answered)
-    gap = _gap(unwritten) if unwritten else ""
-    rows = "".join(_hypothesis(h, runs, reg.get("provenance", {}))
+                       and h.get("id") in answered
+                       and h.get("id") not in res)
+    gap = _gap(unwritten, len(res)) if unwritten else ""
+    rows = "".join(_hypothesis(h, runs, reg.get("provenance", {}),
+                               res.get(h.get("id")))
                    for h, runs in by_hypothesis(reg))
     return f"""<section id="register">
 <h2>5 &middot; The register</h2>
@@ -656,40 +658,78 @@ with its mechanism written before the number existed.</p>
 </section>"""
 
 
-def _gap(ids: list[str]) -> str:
+def _gap(ids: list[str], n_resolved: int) -> str:
     """A known gap in the instrument, stated on the page that revealed it."""
     lst = ", ".join(f"<code>{esc(i)}</code>" for i in ids)
+    done = (f" {n_resolved} ha{'s' if n_resolved == 1 else 've'} been "
+            f"resolved." if n_resolved else "")
     return f"""<div class="gap">
-<h3>Known gap: the register records questions, not answers</h3>
-<p>{len(ids)} hypotheses below have archived runs but still carry
+<h3>Known gap: {len(ids)} answered questions the register does not record as
+answered</h3>
+<p>These have archived runs but no resolution, so they still carry
 <code>status: registered</code> and a null <code>outcome</code>.
-<strong>This is a defect in the register, not a finding about the
-market.</strong> <code>register_hypothesis</code> writes those fields once
-and nothing ever writes them back, so outcomes live in the run metrics above
-and as prose in <code>docs/</code> &mdash; but not in the field built for
-them.</p>
-<p>The consequence is specific, and it is why this is stated rather than
-filed quietly: <strong>the multiplicity ledger cannot be computed from the
-register.</strong> Alpha allocated is readable; alpha that actually bought a
-resolved answer is not, so the rising evidence bar has to be reconstructed by
-hand from documents.</p>
+<strong>That is a defect in the register, not a finding about the
+market</strong> &mdash; the outcomes exist in the run metrics above and as
+prose in <code>docs/</code>, just not in the field built for them.{done}</p>
+<p>The consequence is specific: <strong>the multiplicity ledger cannot be
+computed from the register</strong> while this holds. Alpha allocated is
+readable; alpha that actually bought a resolved answer is not, so the rising
+evidence bar has to be reconstructed by hand from documents.</p>
+<p><strong>The mechanism now exists</strong> (F5).
+<code>archive.resolve_hypothesis</code> appends a resolution rather than
+editing the original &mdash; <code>hypotheses/</code> was write-once from the
+start, which decided the design. It reads the verdict, estimate, interval and
+floor <em>from the archived run</em>, never from an argument, and requires a
+stated <code>decision</code>: what the programme does about the result is the
+one part no run can produce. Closing the list below means making those
+judgements, which is why it is not a batch job.</p>
 <p class="mono">{lst}</p>
 </div>"""
 
 
-def _hypothesis(h: dict, runs: list[dict], prov: dict) -> str:
+def _resolution(r: dict) -> str:
+    """A resolution record, shown as what it is: a later, separate record
+    that answers the one above it rather than an edit to it."""
+    lo, hi = r.get("ci_low"), r.get("ci_high")
+    try:
+        cis = f"[{float(lo):+.4f}, {float(hi):+.4f}]"
+    except (TypeError, ValueError):
+        cis = "&mdash;"
+    sup = (f'<div><dt>supersedes</dt><dd><code>{esc(r["supersedes"])}</code>'
+           f'</dd></div>' if r.get("supersedes") else "")
+    return f"""<div class="resolution">
+  <h4>Resolved <span class="badge {VERDICT_CLASS.get(str(r.get("outcome")),
+      "v-null")}">{esc(r.get("outcome"))}</span></h4>
+  <dl class="meta">
+    <div><dt>from run</dt><dd><code>{esc(r.get("run_id"))}</code>
+      <span class="thin">{esc(r.get("metric_path") or ".")}</span></dd></div>
+    <div><dt>effect</dt><dd class="v">{num(r.get("effect_size"), 5)}</dd></div>
+    <div><dt>95% CI</dt><dd class="v">{cis}</dd></div>
+    <div><dt>resolved</dt><dd><code>{esc(r.get("resolved_at"))}</code></dd></div>
+    {sup}
+  </dl>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>{esc(r.get("decision"))}</p>
+  <p class="mono thin">read from a run record hashing to
+    {esc(str(r.get("source_run_sha256"))[:16])}&hellip;</p>
+</div>"""
+
+
+def _hypothesis(h: dict, runs: list[dict], prov: dict,
+                res: dict | None = None) -> str:
     hid = esc(h.get("id"))
     status = str(h.get("status", "") or "")
-    open_ = status == UNRESOLVED
+    open_ = status == UNRESOLVED and not res
     cls = "open" if open_ else "resolved"
-    badge = "open" if open_ else esc(status)
+    badge = ("open" if open_ else
+             esc(res.get("outcome")) if res else esc(status))
 
     rows = [("axis", esc(h.get("information_axis"))),
             ("search space", esc(h.get("search_space_size"))),
             ("alpha", esc(h.get("alpha_allocated"))),
-            ("outcome", esc(h.get("outcome")) or "&mdash;"),
-            ("effect", num(h.get("effect_size"))),
-            ("interval", interval(h))]
+            ("outcome", esc((res or h).get("outcome")) or "&mdash;"),
+            ("effect", num((res or h).get("effect_size"))),
+            ("interval", interval(res or h))]
     if h.get("supersedes"):
         rows.append(("supersedes", esc(h["supersedes"])))
     meta = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
@@ -718,6 +758,8 @@ def _hypothesis(h: dict, runs: list[dict], prov: dict) -> str:
         body.append(f'<h4>Power plan</h4><pre>'
                     f'{esc(json.dumps(h["power_plan"], indent=1, sort_keys=True))}'
                     f'</pre>')
+    if res:
+        body.append(_resolution(res))
     for e in runs:
         body.append(_run(e, prov))
     body.append("</details>")
@@ -900,6 +942,10 @@ figcaption{font-size:.82rem;color:var(--sub);border-top:1px solid var(--line);
    padding-top:.6rem;margin-top:.4rem}
 
 /* register */
+.resolution{border-top:1px solid var(--line);margin-top:1.1rem;
+   padding:.7rem .9rem .3rem;background:var(--bg);border-radius:8px}
+.resolution h4{margin:.2rem 0 .4rem}
+.resolution p{font-size:.85rem}
 .gap{border:1px solid var(--rust);border-radius:10px;
    padding:.2rem 1.1rem 1rem;margin:1rem 0 1.4rem;background:var(--card)}
 .gap h3{color:var(--rust);font-size:1rem;margin:1rem 0 .4rem}

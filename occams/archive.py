@@ -50,7 +50,8 @@ BUCKET_PREFIX = "occams-research"
 
 _bucket_cache: str | None = None
 
-IMMUTABLE = ("raw/", "hypotheses/", "experiments/", "provenance/")
+IMMUTABLE = ("raw/", "hypotheses/", "experiments/", "provenance/",
+             "resolutions/")
 # Vendor bars are numeric and enormous; scanning them for English terms is
 # meaningless and slow. They are still hashed, still logged, still private.
 SCAN_SUFFIXES = {".py", ".md", ".json", ".jsonl", ".yaml", ".yml", ".toml",
@@ -221,6 +222,109 @@ def register_hypothesis(*, hid: str, statement: str, mechanism: str,
            "engine_sha": engine_sha()}
     _put_json(f"hypotheses/{hid}.json", rec)
     return rec
+
+
+def resolve_hypothesis(*, hid: str, run_id: str, decision: str,
+                       metric_path: str = "", note: str = "",
+                       supersedes: str = "") -> dict:
+    """Record what a hypothesis turned out to be. F5.
+
+    The register was write-once from the start, so `hypotheses/{hid}.json`
+    can never be edited -- `_put_json` refuses. That is the right constraint
+    and it decides the design: **a resolution APPENDS**, it does not fill in
+    the original's blanks. What it appends is a separate immutable record
+    pointing at the hypothesis and at the run that answered it.
+
+    **The numbers are READ FROM THE ARCHIVED RUN, never passed in.** Letting
+    a caller supply the effect size would recreate the exact defect the
+    `METRICS:` line exists to prevent: two independent renderings of one
+    result, free to disagree, with nothing checking. What the caller
+    supplies is the `decision` -- what the programme does about it -- which
+    is a judgement and cannot be read from anywhere.
+
+    Resolving a hypothesis a second time from a different run is allowed,
+    because a later run legitimately supersedes an earlier one. It is not
+    allowed SILENTLY: `supersedes` must name the prior resolution. Running
+    again until the answer is agreeable is optional stopping, and the
+    register's job is to make it visible rather than to prevent it.
+    """
+    if not decision.strip():
+        raise ValueError(
+            "a resolution without a stated decision is a number restated. "
+            "Say what the programme does about it -- that is the part no "
+            "run can produce.")
+
+    s3 = _client()
+
+    def _get(key: str, what: str) -> dict:
+        try:
+            return json.loads(
+                s3.get_object(Bucket=bucket(), Key=key)["Body"].read())
+        except Exception as e:
+            raise LookupError(f"{what} not in the archive ({key}): {e}") from e
+
+    _get(f"hypotheses/{hid}.json", f"{hid}")
+    run = _get(f"experiments/{hid}/{run_id}.json", f"run {run_id} of {hid}")
+
+    from occams.result import blocks
+    found = blocks(run.get("metrics", {}))
+    if not found:
+        raise ValueError(
+            f"{hid}/{run_id} carries no scored result, so there is nothing "
+            f"to resolve it with. An audit verdict has no estimate and no "
+            f"floor; record its outcome as a note on the run instead.")
+    if metric_path not in found:
+        raise KeyError(
+            f"{metric_path!r} is not a result in {hid}/{run_id}. "
+            f"Available: {sorted(found)}")
+    r = found[metric_path]
+
+    prior = [k for k in _keys_under(s3, f"resolutions/{hid}/")]
+    if prior and not supersedes:
+        raise FileExistsError(
+            f"{hid} is already resolved by {prior}. A second resolution must "
+            f"name the one it supersedes -- resolving twice without saying so "
+            f"is how running again until the answer is agreeable stops being "
+            f"visible.")
+
+    ci = r.get("ci") or [r.get("ci_low"), r.get("ci_high")]
+    rec = {"hypothesis_id": hid, "run_id": run_id, "metric_path": metric_path,
+           "resolved_at": datetime.now(timezone.utc).isoformat(
+               timespec="seconds"),
+           # read, not retyped
+           "outcome": r.get("verdict"), "effect_size": r.get("estimate"),
+           "ci_low": ci[0] if ci else None,
+           "ci_high": ci[1] if len(ci or []) > 1 else None,
+           "floor": r.get("floor"), "floor_multiples": r.get("floor_multiples"),
+           "n": r.get("n"), "n_eff": r.get("n_eff"), "unit": r.get("unit", ""),
+           "result_name": r.get("name", ""),
+           # supplied, because no run can produce it
+           "decision": decision, "note": note, "supersedes": supersedes,
+           "source_run_sha256": hashlib.sha256(
+               json.dumps(run, sort_keys=True).encode()).hexdigest(),
+           "engine_sha": engine_sha()}
+    _put_json(f"resolutions/{hid}/{run_id}.json", rec)
+    return rec
+
+
+def _keys_under(s3, prefix: str) -> list[str]:
+    try:
+        page = s3.list_objects_v2(Bucket=bucket(), Prefix=prefix)
+    except Exception:
+        return []
+    return [o["Key"] for o in page.get("Contents", [])]
+
+
+def resolutions() -> list[dict]:
+    """Every resolution record, newest first."""
+    s3 = _client()
+    out = []
+    for key in _keys_under(s3, "resolutions/"):
+        if key.endswith(".json"):
+            out.append(json.loads(
+                s3.get_object(Bucket=bucket(), Key=key)["Body"].read()))
+    out.sort(key=lambda r: str(r.get("resolved_at")), reverse=True)
+    return out
 
 
 def record_experiment(*, hid: str, run_id: str, config: dict, metrics: dict,

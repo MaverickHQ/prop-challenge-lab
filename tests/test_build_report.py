@@ -353,6 +353,52 @@ def test_controls_render_before_findings(mod):
     assert page.index('id="findings"') < page.index('id="register"')
 
 
+RESOLUTION = {
+    "hypothesis_id": "H-BETA", "run_id": "r2", "metric_path": "primary",
+    "resolved_at": "2026-08-30T12:00:00+00:00", "outcome": "detectable",
+    "effect_size": -0.089, "ci_low": -0.134, "ci_high": -0.043,
+    "floor": 0.07, "n": 3442, "n_eff": 1811, "decision": "close the family",
+    "supersedes": "", "source_run_sha256": "0" * 64, "engine_sha": "x",
+}
+
+
+def test_a_resolved_hypothesis_reports_its_outcome(mod):
+    """Before F5 every hypothesis read `open` forever, because the field was
+    written once as null and nothing wrote it back."""
+    reg = {"hypotheses": [{"id": "H-BETA", "status": "registered",
+                           "mechanism": "m", "alpha_allocated": 0.05}],
+           "experiments": [SCORED], "resolutions": [RESOLUTION],
+           "manifest_objects": 0, "engine_sha": "x", "pulled_at": "t"}
+    page = mod.render(reg)
+    assert "close the family" in page          # the decision is shown
+    assert "Resolved" in page
+    assert "Known gap" not in page             # nothing left unresolved
+
+
+def test_the_gap_shrinks_to_what_is_actually_unresolved(mod):
+    """A resolved hypothesis must leave the gap list, or the page keeps
+    reporting a defect that has been fixed -- the same stale-status failure
+    the gap notice exists to prevent."""
+    reg = {"hypotheses": [
+               {"id": "H-BETA", "status": "registered", "mechanism": "m",
+                "alpha_allocated": 0.05},
+               {"id": "H-GAMMA", "status": "registered", "mechanism": "m",
+                "alpha_allocated": 0.05}],
+           "experiments": [SCORED, {**SCORED, "hypothesis_id": "H-GAMMA"}],
+           "resolutions": [RESOLUTION],
+           "manifest_objects": 0, "engine_sha": "x", "pulled_at": "t"}
+    page = mod.render(reg)
+    listed = re.search(r'<p class="mono">(.*?)</p>', page, re.S).group(1)
+    assert "H-GAMMA" in listed
+    assert "H-BETA" not in listed
+
+
+def test_a_register_with_no_resolutions_key_still_renders(mod, register):
+    """The cache predates F5, so `resolutions` can be absent entirely."""
+    assert "resolutions" not in register
+    mod.render(register)                    # must not raise
+
+
 def test_offline_without_a_cache_fails_loudly(mod, tmp_path, monkeypatch):
     """Rendering a stale or empty page would be worse than refusing."""
     monkeypatch.setattr(mod, "CACHE", tmp_path / "nope.json")
