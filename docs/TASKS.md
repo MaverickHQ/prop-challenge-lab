@@ -173,55 +173,25 @@ decision that has not been taken yet.
   looked real and were not, each caught by a different guard."* Topics:
   `backtesting` `research-methodology` `reproducible-research`
   `pre-registration` `quantitative-finance` `python`.
-- [ ] **D2.6** `[needs-user]` **publish the lab — approach settled
-  2026-08-30.**
+- [x] **D2.6 DONE 2026-08-30 — PUBLISHED.**
+  **https://github.com/MaverickHQ/occams-trader** — public, Apache-2.0,
+  `ce85bfd` on remote `main`, 201 files, one squashed root commit.
 
-  **Do NOT create a new folder or a fresh repository.** It was considered
-  and declined for a concrete reason: **45 archived records carry an
-  `engine_sha`, referencing 19 distinct commits, and all 19 resolve in this
-  repository's history.** A repo seeded from a squashed commit has none of
-  them, so the register's provenance chain would dangle on day one — and
-  "a result you cannot reproduce in three years is not evidence" is the
-  lab's central claim. Two further costs: 50+ commit messages carrying the
-  *why* would be stranded, and a second similarly-named folder is a live
-  hazard here (the flaky-cwd problem has bitten twice, and a wrong-repo
-  green suite lies convincingly).
+  **The rebuild was necessary and proved itself.** The stale `fc1ee5a` was
+  missing **eight files**, including the figure essay L3 points at. It has
+  been deleted — a do-not-push branch sitting beside a should-push branch is
+  a footgun at exactly the moment someone types a push command.
 
-  **The insight that removes the need for one:** you do not need a new local
-  repo to get a clean public history. You need the **remote's first commit**
-  to be clean, and everything after it is clean by construction.
+  **Branch layout going forward — `public` is the working line, `main` is
+  not.** `public` tracks `origin/main`; local `main` holds the full
+  pre-release history, is never pushed and never developed, and exists so
+  the 19 commits referenced by `engine_sha` in 45 archived records keep
+  resolving. Counterintuitive by construction, so it is recorded in
+  CLAUDE.md where it is loaded every session.
 
-  **Do NOT push `fc1ee5a`** — it was cut at `815735b` and is missing the
-  fourth figure that L3 points at.
-
-  Steps:
-
-  1. `make check` and `python3 scripts/prepublish_audit.py` on `main` —
-     must be green and report PUBLISHABLE.
-  2. Cut the release branch **fresh from current `main`**:
-     `git checkout --orphan release-<date>` → `git add -A` → one commit.
-  3. Re-audit the new branch itself, not `main`. Confirm `data/` and `.env`
-     are absent, and LICENSE + NOTICE + README present.
-  4. `[needs-user]` create the remote — recommend the name `occams-trader`
-     (D2.2) — then `git push origin release-<date>:main`.
-  5. **Switch the working line to the published lineage**, so future feature
-     commits are real history rather than repeated squashes:
-
-     ```
-     git branch -m main archive/pre-release
-     git branch -m release-<date> main
-     git branch -u origin/main main
-     ```
-
-  6. **`archive/pre-release` is never pushed and never developed** — it
-     exists so the 19 `engine_sha` commits keep resolving. Keep
-     `push.default = nothing` set locally.
-
-  **Consequence worth stating: the cut-fresh rule below applies to the
-  INITIAL publish only.** Once the working line descends from the published
-  root, you push ordinary commits like any repository — the whole point of
-  the switch. A squashed first commit followed by real history is the
-  completely normal shape of a repo that was private and then opened up.
+  Audited immediately before the push: venue terms, account ids, keys, ARNs,
+  tokens, private keys, secrets, emails, home paths — **all zero**, and
+  `data/` and `.env` absent from the tree.
 
 - [ ] **D3** broker paper account — its own note says "only worth doing when
   there is a strategy worth executing". There is not.

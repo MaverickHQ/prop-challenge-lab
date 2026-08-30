@@ -572,6 +572,30 @@ decisions that are the author's rather than the drafter's, and a `voice:`
 line stating plainly that the register was matched from an existing essay
 and is not the author's own voice. The series still needs a real name.
 
+### BRANCH LAYOUT — read this before committing (2026-08-30)
+
+**`public` is the working line. `main` is NOT.**
+
+    public   ->  origin/main   the published line. ALL work goes here.
+    main                       full pre-release history. NEVER pushed,
+                               NEVER developed. It exists so the 19
+                               commits referenced by `engine_sha` in 45
+                               archived records keep resolving.
+
+This is counterintuitive and that is the point of writing it down: `git
+checkout main` puts you on the **unpublished archive**, not the live line.
+Local `main` and `origin/main` are unrelated histories — the remote's root
+is a squashed commit, deliberately, because the pre-release history carried
+an AWS account id in three commits and a leak anywhere in history is public
+regardless of what HEAD says.
+
+`push.default = nothing` is set locally, so a bare `git push` refuses rather
+than publishing whatever branch you happen to be on.
+
+**Published 2026-08-30: https://github.com/MaverickHQ/occams-trader**
+(public, Apache-2.0). Everything after the root commit is ordinary history —
+commit and push normally from `public`.
+
 ### The release-branch rule
 
 **A release branch is cut fresh at push time and never maintained between
