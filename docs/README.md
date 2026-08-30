@@ -46,7 +46,8 @@ pre-registration even if you never read a result.
 | [FEASIBILITY.md](FEASIBILITY.md) | The required-edge frontier — how big an edge has to be before it can clear the rules. |
 | [EVIDENCE.md](EVIDENCE.md) | External evidence on how this class of programme is actually passed. |
 | [day-state-machine.md](day-state-machine.md) | The trading-day state machine shared by backtest and paper paths. |
-| [TASKS.md](TASKS.md) | Open work. |
+| [IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md) | The ordered task list — Kiro-style, phase-gated, with an acceptance check per task. **Task state lives here.** |
+| [TASKS.md](TASKS.md) | The backlog: what exists and why, including the decisions that block work. |
 | [AWS-RECON.md](AWS-RECON.md) · [aws-recon-latency.md](aws-recon-latency.md) | Serverless deployment spikes and latency samples. |
 
 ---

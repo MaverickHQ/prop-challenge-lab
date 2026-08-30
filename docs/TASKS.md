@@ -327,6 +327,13 @@ decision that has not been taken yet.
 - [ ] **D4** MGC/MCL, $19.16 pre-approved and unspent — another draw from
   the same urn, but cheap, and it would reopen the queue.
 
+> **Tracks G and H are EXECUTED from
+> [`docs/IMPLEMENTATION-PLAN.md`](IMPLEMENTATION-PLAN.md)** — the Kiro-style
+> ordered task list, with per-task acceptance checks and the phase gate.
+> The sections below are the backlog: what exists and why. **Task state
+> lives in the plan, not here**, so the two cannot drift apart the way a
+> stale status note once nearly did.
+
 ## G. Register integrity — turn transcription into measurement
 
 **Opened 2026-08-30 after a level-400 review.** 19 of 20 hypotheses carry a
