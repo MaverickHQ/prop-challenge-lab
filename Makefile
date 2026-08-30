@@ -47,4 +47,10 @@ quickstart:               ## $0 controls demo — no data, no keys, no network
 plots:                    ## regenerate the published figures from the register
 	python3 scripts/make_plots.py
 
-.PHONY: quickstart plots
+report:                   ## F1 — render the research console from the register
+	python3 scripts/build_report.py
+
+report-offline:           ## same, from artifacts/register-cache.json (no network)
+	python3 scripts/build_report.py --offline
+
+.PHONY: quickstart plots report report-offline

@@ -1,0 +1,184 @@
+"""F1 — the research console must not be able to flatter the register.
+
+A generated report is a rendering, so every defect it can have is a defect
+of agreement: it says something the record does not. Three of those are
+worth a test.
+
+**It must not invent resolution.** The register currently records questions
+and never writes answers back, so a report that displayed a tidy outcome
+column would be reporting on a register that does not exist.
+
+**It must not silently drop rows.** The first run rendered a `None / None`
+row because `experiments/campaign/` holds live paper state at the same key
+depth as a run record. The fix was to exclude it by name -- and the failure
+mode of the fix is over-filtering, which loses real runs without saying so.
+
+**It must be self-contained and byte-stable.** An artifact that needs the
+network to render, or reshuffles between runs, cannot be archived beside a
+claim and cannot be diffed against the next one.
+"""
+
+from __future__ import annotations
+
+import importlib.util
+import re
+import sys
+from pathlib import Path
+
+import pytest
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+@pytest.fixture(scope="module")
+def mod():
+    spec = importlib.util.spec_from_file_location(
+        "_build_report", ROOT / "scripts" / "build_report.py")
+    m = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = m
+    spec.loader.exec_module(m)
+    return m
+
+
+@pytest.fixture
+def register():
+    """Two hypotheses -- one with a run, one untouched -- and a run whose
+    hypothesis record is missing entirely."""
+    return {
+        "hypotheses": [
+            {"id": "H-BETA", "status": "registered", "outcome": None,
+             "alpha_allocated": 0.05, "information_axis": "price",
+             "search_space_size": 2, "statement": "beta statement",
+             "mechanism": "why beta should work",
+             "power_plan": {"test": "correlation", "effect": 0.07}},
+            {"id": "H-ALPHA", "status": "registered", "outcome": None,
+             "alpha_allocated": 0.02, "information_axis": "flow",
+             "search_space_size": 1, "statement": "alpha statement",
+             "mechanism": "why alpha should work"},
+        ],
+        "experiments": [
+            {"hypothesis_id": "H-BETA", "run_id": "r1",
+             "metrics": {"MES": {"effect": -0.0004}, "n": 3260},
+             "config": {"horizon": 20}, "controls_passed": True,
+             "spend_usd": 1.5, "note": "a null",
+             "recorded_at": "2026-08-01T00:00:00+00:00",
+             "engine_sha": "abc123"},
+            {"hypothesis_id": "H-GHOST", "run_id": "r1", "metrics": {},
+             "config": {}, "controls_passed": False, "spend_usd": 0.0,
+             "note": "", "recorded_at": "2026-08-02T00:00:00+00:00",
+             "engine_sha": "def456"},
+        ],
+        "manifest_objects": 1259,
+        "engine_sha": "0f134eb",
+        "pulled_at": "2026-08-30T00:00:00+00:00",
+    }
+
+
+def test_it_reports_the_register_gap_instead_of_inventing_outcomes(
+        mod, register):
+    """The gap is the point. H-BETA has a run and no outcome, so the page
+    must say so in the words of a defect, not leave a blank cell that reads
+    as 'nothing to report'."""
+    page = mod.render(register)
+    assert "Known gap" in page
+    # Collapsed: the sentence wraps in the source, and a test that depends
+    # on where the line breaks tests the formatter, not the claim.
+    flat = " ".join(page.split())
+    assert "a defect in the register, not a finding about the market" in flat
+    assert "multiplicity ledger cannot be computed" in flat
+    assert "H-BETA" in page
+    # H-ALPHA has no run, so it is merely open -- not evidence of the gap.
+    gap = page.split('class="gap"')[1].split("</section>")[0]
+    assert "H-BETA" in gap and "H-ALPHA" not in gap
+
+
+def test_a_run_with_no_hypothesis_record_is_shown_not_dropped(mod, register):
+    """A hole in the register is evidence about the register. Dropping it
+    would make the page tidier and the record less true."""
+    page = mod.render(register)
+    assert "H-GHOST" in page
+    assert "MISSING FROM REGISTER" in page
+
+
+def test_failed_controls_are_loud(mod, register):
+    """H-GHOST's run did not pass its controls. A report that rendered that
+    the same way as a passing run would be worse than no report."""
+    page = mod.render(register)
+    assert "CONTROLS NOT PASSED" in page
+
+
+def test_nested_metrics_survive_flattening(mod, register):
+    """Records nest per instrument, and several findings turn entirely on
+    the per-instrument split."""
+    page = mod.render(register)
+    assert "MES.effect" in page
+    assert "-0.0004" in page
+
+
+def test_alpha_is_summed_from_the_records(mod, register):
+    assert mod.alpha_spent(register["hypotheses"]) == pytest.approx(0.07)
+
+
+def test_hypotheses_are_ordered_so_the_artifact_is_diffable(mod, register):
+    """Sorted by id, not by whatever order the archive listed them in. An
+    artifact that reshuffles cannot be diffed against the next one."""
+    order = [h.get("id") for h, _ in mod.by_hypothesis(register)]
+    assert order == ["H-ALPHA", "H-BETA", "H-GHOST"]
+
+
+def test_the_page_is_self_contained(mod, register):
+    """No CDN, no external stylesheet, no image src. It has to render from
+    a file:// URL years from now with no network."""
+    page = mod.render(register)
+    assert "http://" not in page
+    assert "https://" not in page
+    assert not re.search(r"<(script|img|link)\b", page)
+
+
+def test_the_page_is_well_formed(mod, register):
+    """An unclosed <html> shipped in the first run of this generator."""
+    from html.parser import HTMLParser
+
+    void = {"meta", "br", "hr", "img", "input", "link", "source"}
+
+    class P(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.stack, self.bad = [], []
+
+        def handle_starttag(self, tag, attrs):
+            if tag not in void:
+                self.stack.append(tag)
+
+        def handle_endtag(self, tag):
+            if not self.stack:
+                self.bad.append(f"stray </{tag}>")
+            elif self.stack[-1] == tag:
+                self.stack.pop()
+            else:
+                self.bad.append(f"</{tag}> inside <{self.stack[-1]}>")
+
+    p = P()
+    p.feed(mod.render(register))
+    assert p.bad == []
+    assert p.stack == []
+
+
+def test_values_from_the_register_are_escaped(mod):
+    """Notes and statements are free text written by a human. They are data,
+    not markup."""
+    reg = {"hypotheses": [{"id": "H-X", "status": "registered",
+                           "statement": "<script>alert(1)</script>",
+                           "mechanism": "m", "alpha_allocated": 0.01}],
+           "experiments": [], "manifest_objects": 0,
+           "engine_sha": "x", "pulled_at": "t"}
+    page = mod.render(reg)
+    assert "<script>" not in page
+    assert "&lt;script&gt;" in page
+
+
+def test_offline_without_a_cache_fails_loudly(mod, tmp_path, monkeypatch):
+    """Rendering a stale or empty page would be worse than refusing."""
+    monkeypatch.setattr(mod, "CACHE", tmp_path / "nope.json")
+    with pytest.raises(SystemExit, match="offline"):
+        mod.load(offline=True)
