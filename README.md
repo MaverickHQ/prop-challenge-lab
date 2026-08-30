@@ -81,9 +81,9 @@ the four controls, every scored result against its own detectable floor, the
 figures, and each hypothesis with the mechanism written before its number
 existed.
 
-**[artifacts/report/index.html](artifacts/report/index.html)** — committed,
-so it is readable without credentials. GitHub shows HTML as source, so to
-*view* it either clone and open the file, or regenerate your own:
+**[View it here](https://maverickhq.github.io/occams-trader/report.html)** —
+published from [`docs/report.html`](docs/report.html), so it is readable
+without credentials or a checkout. To regenerate your own:
 
 ```bash
 make report          # needs archive credentials on first run

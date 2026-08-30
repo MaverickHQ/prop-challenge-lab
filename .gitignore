@@ -41,7 +41,7 @@ dist/
 # SAM build output (48.6 MB artifact, regenerable)
 .aws-sam/
 
-# F1 report cache — the pulled register, re-fetchable with `make report`.
-# The RENDERED page (artifacts/report/) IS tracked: it is the only way a
-# reader without credentials can see the register at all.
+# Report cache — the pulled register, re-fetchable with `make report`.
+# The RENDERED page (docs/report.html) IS tracked and published: it is the
+# only way a reader without credentials can see the register at all.
 artifacts/register-cache.json

@@ -1,0 +1,16 @@
+# GitHub Pages serves this repo's site from `docs/`, so this is the site
+# config rather than a build tool anyone runs locally.
+#
+# Jekyll is left ON deliberately. With it, `README.md` becomes the landing
+# page and every research record renders as a page; with `.nojekyll` they
+# would serve as raw text. Checked before choosing: no file here contains
+# Liquid syntax (`{{` or `{%`), which is the one thing that would fail the
+# build and put the site back to a 404.
+#
+# `report.html` carries no front matter, so it passes through untouched --
+# which matters, because it is a self-contained artifact and anything
+# injected into it would make the published page differ from the one
+# `engine_sha` stamps.
+title: occams-trader
+description: A backtesting harness designed to be hard to fool.
+theme: jekyll-theme-primer

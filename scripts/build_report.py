@@ -43,7 +43,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from occams import archive  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "artifacts" / "report" / "index.html"
+# In `docs/`, not `artifacts/`, because GitHub Pages serves this repo's site
+# from that folder -- so the generated page is reachable at a URL instead of
+# only readable as source. The register cache stays in `artifacts/`: it is an
+# intermediate, and publishing it would put the whole register on the site
+# twice.
+OUT = ROOT / "docs" / "report.html"
 CACHE = ROOT / "artifacts" / "register-cache.json"
 PLOTS = ROOT / "artifacts" / "plots"
 
