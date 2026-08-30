@@ -86,6 +86,22 @@ def n_for_proportions(p1: float, p2: float, alpha: float = ALPHA,
     return math.ceil(num / (p1 - p2) ** 2)
 
 
+def detectable_mean_shift(n: int, alpha: float = ALPHA,
+                          power: float = POWER) -> float:
+    """Smallest mean shift, in standard deviations, this sample could see.
+
+    The counterpart to `detectable_correlation`, and the one an expectancy
+    result needs: a per-trade edge is a mean shift, not a correlation, so
+    without this there was no floor to measure one against -- which is how
+    the H- family came to be recorded as bare means with no uncertainty at
+    all. Multiply by the sample's own SD to put the floor in R.
+    """
+    if n <= 1:
+        return float("inf")
+    za, zb = _zs(alpha, power)
+    return (za + zb) / math.sqrt(n)
+
+
 def n_for_mean_shift(d: float, alpha: float = ALPHA,
                      power: float = POWER) -> int:
     """One-sample size to detect a shift of `d` standard deviations. For
