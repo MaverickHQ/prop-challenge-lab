@@ -136,6 +136,13 @@ details.hyp[open]{padding-bottom:1.1rem}
 summary{cursor:pointer;display:flex;align-items:center;gap:.7rem;
    flex-wrap:wrap;padding:.4rem 0;font-size:.92rem}
 .hid{font-family:ui-monospace,monospace;font-weight:600;font-size:.86rem}
+a.hid{color:inherit;text-decoration:underline;text-decoration-style:dotted;
+   text-underline-offset:3px;cursor:pointer}
+a.hid:hover{color:var(--brass)}
+/* The landed-on entry, for when the browser scrolls to a <details> it did
+   not auto-expand -- otherwise the jump looks like nothing happened. */
+.hid:target{background:var(--band);outline:2px solid var(--brass);
+   outline-offset:2px;border-radius:3px}
 .runs{color:var(--sub);font-size:.75rem;margin-left:auto}
 .badge{font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;
    padding:.16rem .5rem;border-radius:4px;border:1px solid currentColor;
@@ -168,11 +175,11 @@ footer .mono{font-size:.7rem}
   <h1>occams-trader <span class="thin">research console</span></h1>
   <p class="lede">A falsifiable record: what was asked, what was measured,
      and what the instrument was doing when it measured it. Rendered from
-     the register at <code>2026-08-30T16:11:11+00:00</code>.
+     the register at <code>2026-08-30T16:17:31+00:00</code>.
      <strong>A dated artifact, not a live view.</strong></p>
   <dl class="stamp">
-    <div><dt>engine_sha</dt><dd><code>9993d85ba91e6cf94c4fe63f61c0e929b144a2d8-dirty</code></dd></div>
-    <div><dt>generated</dt><dd><code>2026-08-30T16:11:12+00:00</code></dd></div>
+    <div><dt>engine_sha</dt><dd><code>4a35a3671f596007eb4b214f788e4c3023c93319-dirty</code></dd></div>
+    <div><dt>generated</dt><dd><code>2026-08-30T16:17:32+00:00</code></dd></div>
     <div><dt>archive objects</dt><dd><code>1,259</code></dd></div>
   </dl>
 </header>
@@ -277,7 +284,7 @@ from nothing <span class="sw zero"></span> zero</div>
 <article class="finding v-detect">
   <div class="f-head">
     <div>
-      <span class="hid">X1-COMPRESSION</span>
+      <a class="hid" href="#h-X1-COMPRESSION">X1-COMPRESSION</a>
       <span class="thin">&middot; r1</span>
       <h3>X1 PRIMARY — contraction run (prior days) -&gt; next-day range / ATR</h3>
     </div>
@@ -305,7 +312,7 @@ from nothing <span class="sw zero"></span> zero</div>
 </article><article class="finding v-detect">
   <div class="f-head">
     <div>
-      <span class="hid">X1-COMPRESSION</span>
+      <a class="hid" href="#h-X1-COMPRESSION">X1-COMPRESSION</a>
       <span class="thin">&middot; r1</span>
       <h3>X1 SECONDARY (CONFOUND CHECK) — opening-range ratio -&gt; same-day post-range expansion</h3>
     </div>
@@ -333,7 +340,7 @@ from nothing <span class="sw zero"></span> zero</div>
 </article><article class="finding v-detect">
   <div class="f-head">
     <div>
-      <span class="hid">X2-OVERNIGHT-GAP</span>
+      <a class="hid" href="#h-X2-OVERNIGHT-GAP">X2-OVERNIGHT-GAP</a>
       <span class="thin">&middot; r1</span>
       <h3>X2 CONTROL (CONFOUND) — |gap| -&gt; |forward move|</h3>
     </div>
@@ -361,7 +368,7 @@ from nothing <span class="sw zero"></span> zero</div>
 </article><article class="finding v-null">
   <div class="f-head">
     <div>
-      <span class="hid">X2-OVERNIGHT-GAP</span>
+      <a class="hid" href="#h-X2-OVERNIGHT-GAP">X2-OVERNIGHT-GAP</a>
       <span class="thin">&middot; r1</span>
       <h3>X2 PRIMARY — signed gap -&gt; signed forward return, first session hour</h3>
     </div>
@@ -389,7 +396,7 @@ from nothing <span class="sw zero"></span> zero</div>
 </article><article class="finding v-null">
   <div class="f-head">
     <div>
-      <span class="hid">X2-OVERNIGHT-GAP</span>
+      <a class="hid" href="#h-X2-OVERNIGHT-GAP">X2-OVERNIGHT-GAP</a>
       <span class="thin">&middot; r1</span>
       <h3>X2 SECONDARY — same predictor, held to the session close</h3>
     </div>
@@ -417,7 +424,7 @@ from nothing <span class="sw zero"></span> zero</div>
 </article><article class="finding v-null">
   <div class="f-head">
     <div>
-      <span class="hid">X3-PRINT-SIZE</span>
+      <a class="hid" href="#h-X3-PRINT-SIZE">X3-PRINT-SIZE</a>
       <span class="thin">&middot; r1</span>
       <h3>X3 CONTROL (CONFOUND) — large-print share -&gt; |forward move|</h3>
     </div>
@@ -445,7 +452,7 @@ from nothing <span class="sw zero"></span> zero</div>
 </article><article class="finding v-null">
   <div class="f-head">
     <div>
-      <span class="hid">X3-PRINT-SIZE</span>
+      <a class="hid" href="#h-X3-PRINT-SIZE">X3-PRINT-SIZE</a>
       <span class="thin">&middot; r1</span>
       <h3>X3 PRIMARY — large-print share -&gt; signed forward return, next hour</h3>
     </div>
@@ -476,7 +483,7 @@ number with an interval, so they have no floor to be measured against. They
 are here because an audit can clear or void a sealed verdict, which makes
 them load-bearing in a way their plainness hides.</p>
 <table class="metrics audits"><thead><tr><th>hypothesis</th><th>run</th>
-<th>n</th><th>verdict</th></tr></thead><tbody><tr><td><span class="hid">Z04-ORB-OBTAINABLE</span></td><td class="thin">2026-08-01-audit</td><td class="v">6,774</td><td>CLEAN - ORB does not share the fade&#x27;s defect</td></tr></tbody></table>
+<th>n</th><th>verdict</th></tr></thead><tbody><tr><td><a class="hid" href="#h-Z04-ORB-OBTAINABLE">Z04-ORB-OBTAINABLE</a></td><td class="thin">2026-08-01-audit</td><td class="v">6,774</td><td>CLEAN - ORB does not share the fade&#x27;s defect</td></tr></tbody></table>
 </section>
 <section id="figures">
 <h2>4 &middot; Figures</h2>
@@ -8770,7 +8777,7 @@ resolved answer is not, so the rising evidence bar has to be reconstructed by
 hand from documents.</p>
 <p class="mono"><code>C2-MAE-PREDICTABLE</code>, <code>E2-OBJECTIVE</code>, <code>E3-COSTS</code>, <code>H-RECLAIM</code>, <code>H-SECONDPUSH</code>, <code>H-STOPWIDTH</code>, <code>H5-FLOW-PREDICTS</code>, <code>ICT-P1-FVG</code>, <code>ICT-P2-CONTROL</code>, <code>ICT-P2-SWEEP</code>, <code>Q1-PAYOUT-PATH</code>, <code>Q2-ATTRIBUTION</code>, <code>X1-COMPRESSION</code>, <code>X1-RECONCILE</code>, <code>X2-OVERNIGHT-GAP</code>, <code>X3-PRINT-SIZE</code>, <code>Z-ENTRY-IMPLEMENTABLE</code>, <code>Z04-ORB-OBTAINABLE</code></p>
 </div>
-<details class="hyp open" id="h-C2-MAE-PREDICTABLE"><summary><span class="hid">C2-MAE-PREDICTABLE</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>conditioning</dd></div><div><dt>search space</dt><dd>4</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+<details class="hyp open"><summary><span class="hid" id="h-C2-MAE-PREDICTABLE">C2-MAE-PREDICTABLE</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>conditioning</dd></div><div><dt>search space</dt><dd>4</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Adverse excursion is FORESEEABLE before entry: pre-trade volatility measures predict MAE/stop-distance, so days on which the stop is likely to be run can be identified in advance.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>H-STOPWIDTH established MAE is LARGE -- 77% of trades exceed the stop, median 3x -- but not whether it is foreseeable. The mechanism here is the strongest available to us and is not a market-edge claim at all: MAE is essentially a realised-volatility quantity, and volatility CLUSTERS. That is one of the most robust facts in financial time series. If it holds intraday on this setup, a day&#x27;s likely excursion is partly knowable from the volatility that preceded it.
 Note what this would and would not buy. It is NOT a directional edge and cannot become one. At most it is a SIZING or STAND-ASIDE filter: skip, or size down, on days where the stop sits well inside the expected noise. That is worth having only if a strategy with a real entry ever exists -- so this is groundwork, honestly labelled.</pre>
@@ -8841,7 +8848,7 @@ Disentangling the definitional component would be a NEW hypothesis with its own 
 SCRIPT: experiments/C2-MAE-PREDICTABLE/2026-08-01-four-predictors/exp_mae_predictable.py
 OUTPUT: experiments/C2-MAE-PREDICTABLE/2026-08-01-four-predictors/output.txt</pre>
 </div>
-</details><details class="hyp open" id="h-E2-OBJECTIVE"><summary><span class="hid">E2-OBJECTIVE</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective</dd></div><div><dt>search space</dt><dd>5</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-E2-OBJECTIVE">E2-OBJECTIVE</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective</dd></div><div><dt>search space</dt><dd>5</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Scored against the REAL objective -- P(pass) on the verified Zero tier -- the obtainable fade clears the G1 gate of 0.55, and P(pass) is non-monotonic in risk size, peaking BELOW the expectancy-maximising size.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>The challenge is a path-dependent survival problem: trailing drawdown floor, profit target, minimum days. Expectancy ignores path. A lower-variance configuration should therefore reach the target more often before touching the floor, which would put the P(pass) maximum at a smaller size than the one maximising expectancy.</pre>
 <div class="run">
@@ -8900,7 +8907,7 @@ NEW LAB CAPABILITY implied: the SHAPE of P(pass) versus size is a diagnostic for
 SCRIPT: experiments/E2-OBJECTIVE/2026-08-01-zero-tier/exp_objective.py
 OUTPUT: experiments/E2-OBJECTIVE/2026-08-01-zero-tier/output.txt</pre>
 </div>
-</details><details class="hyp open" id="h-E3-COSTS"><summary><span class="hid">E3-COSTS</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-E3-COSTS">E3-COSTS</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The sealed cost model -- $1.25 per side commission and 1 tick of slippage -- is accurate for our order sizes on MES and MNQ. Specifically: the effective spread is 1 tick, and a typical order of 1-6 contracts does not move price.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Commission was measured at 0.05-0.09R per trade, which is decisive at an edge of ~0.03R gross. Slippage enters the same arithmetic and is currently ASSUMED. If real slippage is 2 ticks rather than 1, every net figure in the register shifts by roughly the same magnitude as the edge itself. The trades tape carries aggressor side and size, so both the effective spread and our size relative to typical prints can be measured rather than assumed.</pre>
 <div class="run">
@@ -8933,7 +8940,7 @@ ACTION: raise slippage_ticks to 2 for MNQ in the instrument costs, leave MES at 
 SCRIPT: experiments/E3-COSTS/2026-08-01-tape-measured/exp_costs.py
 OUTPUT: experiments/E3-COSTS/2026-08-01-tape-measured/output.txt</pre>
 </div>
-</details><details class="hyp open" id="h-H-RECLAIM"><summary><span class="hid">H-RECLAIM</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-H-RECLAIM">H-RECLAIM</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Requiring price to trade through the stop, back through it, and then reclaim the original entry before entering will improve the fade&#x27;s per-trade expectancy.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>User observation from chart inspection: on several 2026-07 setups the eventual direction was correct but the stop was hit first. Stated BEFORE the test was run. The proposed mechanism is that a reclaim confirms the fade thesis and filters days that simply keep going.</pre>
 <div class="run">
@@ -8961,7 +8968,7 @@ OUTPUT: experiments/E3-COSTS/2026-08-01-tape-measured/output.txt</pre>
 }</pre>
   <h5>Note</h5><pre>OUTCOME: hypothesis REJECTED. The reclaim is anti-confirmation, not confirmation: you enter at the same price with the same stop but only after the market has demonstrated it can punch through that stop, so the filter selects for days where the stop is weakest. It removes ~40% of trades and removes the wrong 40%. CAVEAT, recorded rather than buried: controls_passed=False because this run used a re-implementation, pooled years and no calendar filter -- it is NOT the sealed engine. The V0-vs-V5 COMPARISON is valid because both share those simplifications; the ABSOLUTE levels are not, and reconciling them is task X1.</pre>
 </div>
-</details><details class="hyp open" id="h-H-SECONDPUSH"><summary><span class="hid">H-SECONDPUSH</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-H-SECONDPUSH">H-SECONDPUSH</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Use the failed-breakout as a SIGNAL only, take no fade, and instead enter WITH the original breakout direction when price returns through extreme +/- 0.2h (the level where the fade would have been stopped). Stop at the range boundary; target one range height beyond entry.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>H-STOPWIDTH established that 77% of fade setups see price travel through the stop, median 3x the stop distance. If the fade is systematically on the wrong side, the second push through the extreme is the tradeable event: the pullback has shaken out the faders and the original breakout resumes. Distinct from the engine&#x27;s &#x27;follow&#x27; null, which enters at the BOUNDARY rather than at the stop level.</pre>
 <div class="run">
@@ -8989,7 +8996,7 @@ OUTPUT: experiments/E3-COSTS/2026-08-01-tape-measured/output.txt</pre>
 }</pre>
   <h5>Note</h5><pre>OUTCOME: REJECTED as a standalone strategy -- net -0.082R (MES) / -0.015R (MNQ), negative in 6 of 8 years on MES. BUT the decomposition is the real finding, and it is bigger than this hypothesis. BOTH directions are GROSS POSITIVE and both are made negative by COMMISSION: fade +0.042/-0.088, second push +0.011/-0.093 on MES. Cost drag is 0.05-0.09R PER TRADE because true-risk sizing buys many contracts when the stop is tight -- MES median 6 contracts x $2.50 round turn = $15 against a $175 risk budget = 0.086R of pure commission. This reconciles H-STOPWIDTH&#x27;s ladder, where net improved monotonically toward zero (x1 -0.046 -&gt; x8 -0.013 on MES) precisely as widening stops shrank position size and therefore commission. THE STRATEGIC IMPLICATION: gross signal on this setup family is roughly +0.02 to +0.04R. The challenge needs +0.25R. Even at ZERO cost the family is an order of magnitude short, so no further price-based variant of it can close the gap. This is the strongest available argument for R2 (a new information axis) over more search on price.</pre>
 </div>
-</details><details class="hyp open" id="h-H-STOPWIDTH"><summary><span class="hid">H-STOPWIDTH</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>5</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-H-STOPWIDTH">H-STOPWIDTH</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>5</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The fade stops out too early: widening the stop, or removing it, will improve per-trade expectancy because the direction is usually right over a longer horizon.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>User observation from chart inspection, corroborated on 7 live setups where adverse excursion ran 5-12x the stop distance. If the stop sits inside ordinary intraday noise, it should be converting winners into losers.</pre>
 <div class="run">
@@ -9015,13 +9022,13 @@ OUTPUT: experiments/E3-COSTS/2026-08-01-tape-measured/output.txt</pre>
 }</pre>
   <h5>Note</h5><pre>OUTCOME: the OBSERVATION is confirmed, the HYPOTHESIS is rejected. 77% of trades do have an adverse excursion exceeding the stop, median 3x -- the stop genuinely sits inside ordinary noise. But widening it does not help: win rate climbs steeply (31%-&gt;64% on MES) while expectancy stays flat and negative. That is the signature of NO EDGE -- moving along an iso-expectancy curve, trading win rate against loss size. Removing the stop is worst on both instruments and produces single-trade losses of -$4,444 and -$6,349 against a $175 risk budget (25x and 36x), which disqualifies it structurally regardless of expectancy. CAVEAT: controls_passed=False. This V0 baseline reads -0.046R / -0.026R where the sealed verdict read +0.1R. The ladder COMPARISON is valid (all rungs share the simplifications); the ABSOLUTE levels are not. Two implementations disagreeing by 0.15R across 3,295 setups makes X1 MORE urgent, not less.</pre>
 </div>
-</details><details class="hyp open" id="h-H4-ORDERFLOW"><summary><span class="hid">H4-ORDERFLOW</span><span class="badge open">open</span><span class="runs">0 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-H4-ORDERFLOW">H4-ORDERFLOW</span><span class="badge open">open</span><span class="runs">0 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Signed aggressor imbalance during the breakout leg predicts the outcome of the failed-breakout setup. Specifically: a breakout pushed by weak aggression (low or opposing signed imbalance) fades more reliably than one pushed by strong aggression.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>The fade&#x27;s own story is an order-flow story -- &#x27;the breakout had no participation behind it&#x27; -- yet every test to date has used price alone, and price alone is public information that H-SECONDPUSH showed carries only ~+0.03R gross against a +0.25R requirement. Aggressor side is information not visible on a chart. If the fade thesis is mechanically true, the trades tape at the breakout should separate the setups that revert from the ones that resume.</pre>
-</details><details class="hyp open" id="h-H4-ORDERFLOW-v2"><summary><span class="hid">H4-ORDERFLOW-v2</span><span class="badge open">open</span><span class="runs">0 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>H4-ORDERFLOW</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-H4-ORDERFLOW-v2">H4-ORDERFLOW-v2</span><span class="badge open">open</span><span class="runs">0 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>H4-ORDERFLOW</dd></div></dl>
 <h4>Statement</h4><p>Signed aggressor imbalance during the breakout leg predicts the outcome of the failed-breakout setup: a breakout pushed by weak aggression fades more reliably than one pushed by strong aggression.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Unchanged from H4-ORDERFLOW. The fade&#x27;s own story is an order-flow story that has only ever been tested through price, and H-SECONDPUSH showed price carries ~+0.03R gross against a +0.25R requirement.</pre>
-</details><details class="hyp open" id="h-H5-FLOW-PREDICTS"><summary><span class="hid">H5-FLOW-PREDICTS</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>H4-ORDERFLOW-v2</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-H5-FLOW-PREDICTS">H5-FLOW-PREDICTS</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>H4-ORDERFLOW-v2</dd></div></dl>
 <h4>Statement</h4><p>Signed aggressor imbalance during the opening-range breakout predicts the DIRECTION of the subsequent move, measured as the signed return from the failure close to the 16:00 ET close, normalised by the range height.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>SUPERSEDES H4, which asked whether imbalance improves the FADE. The fade is dead -- its entry cannot be obtained (#3a) -- so that question is moot and its answer would be unusable either way.
 The fresh question is prior to any strategy: does the tape carry directional information at the breakout AT ALL? A breakout pushed by heavy one-sided aggression is a different event from one that drifts through on thin flow, and that distinction is invisible in OHLC. If no such information exists, no strategy built on this setup can work and the programme should say so. If it does, the strategy is designed AFTERWARDS, around an entry that is obtainable by construction -- which is the inversion of how the fade was built.</pre>
@@ -9061,7 +9068,7 @@ WHAT WOULD SETTLE IT: ~780 INDEPENDENT setups, meaning ~3 years per instrument r
 SCRIPT: experiments/H5-FLOW-PREDICTS/2026-08-01-first-look/exp_flow_predicts.py
 OUTPUT: experiments/H5-FLOW-PREDICTS/2026-08-01-first-look/output.txt</pre>
 </div>
-</details><details class="hyp open" id="h-ICT-P1-FVG"><summary><span class="hid">ICT-P1-FVG</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-ICT-P1-FVG">ICT-P1-FVG</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>A fair value gap (3-bar imbalance) carries directional forward information. Specifically: after price returns to the gap&#x27;s consequent encroachment (50%), the signed forward return in the direction of the displacement that created the gap has mean &gt; 0 over a 30-minute horizon, in ATR units.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>ICT doctrine holds that a displacement leg leaves an imbalance -- one side of the book was not traded -- and that price returns to &#x27;rebalance&#x27; it before continuing. Stated as a market claim rather than a metaphor: a fast directional move leaves resting interest unfilled; that interest is still there when price returns, so the return is met by the same direction of pressure that caused the move. If true, a touch of the gap midpoint marks a point where the original direction resumes.
 
@@ -9107,7 +9114,7 @@ PRIOR, stated before the number: I expect this to be at or near zero. FVG detect
 SCRIPT: experiments/ICT-P1-FVG/r1/exp_ict_fvg.py
 OUTPUT: experiments/ICT-P1-FVG/r1/output.txt</pre>
 </div>
-</details><details class="hyp open" id="h-ICT-P2-CONTROL"><summary><span class="hid">ICT-P2-CONTROL</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned) -- control on ICT-P2-SWEEP</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>ICT-P2-SWEEP</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-ICT-P2-CONTROL">ICT-P2-CONTROL</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned) -- control on ICT-P2-SWEEP</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>ICT-P2-SWEEP</dd></div></dl>
 <h4>Statement</h4><p>P2&#x27;s -0.159 ATR reversal reading is dominated by the reference price, not by forward drift. Decomposing total = penetration + drift, the penetration term accounts for the majority of it, and the drift term is small.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Stated from construction, before the decomposition is run. On an up-sweep bar price is ALREADY above the swept level when that bar closes. Measuring forward return from the level therefore includes the penetration distance, which is positive by construction. A market that froze the instant it swept would still print a positive continuation reading. The identity total = (C[i]-level) + (C[end]-C[i]) is exact, so this control cannot manufacture a better number -- the parts must sum to P2&#x27;s r1 result. That is what makes it a control and not a second look at the hypothesis.
 
@@ -9138,7 +9145,7 @@ Registered because P2 r1 returned Cohen d = -0.43 where R1 established the gross
 SCRIPT: experiments/ICT-P2-CONTROL/r1/exp_ict_sweep_decomp.py
 OUTPUT: experiments/ICT-P2-CONTROL/r1/output.txt</pre>
 </div>
-</details><details class="hyp open" id="h-ICT-P2-SWEEP"><summary><span class="hid">ICT-P2-SWEEP</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-ICT-P2-SWEEP">ICT-P2-SWEEP</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>A sweep of the prior session&#x27;s RTH extreme carries directional forward information in the REVERSAL direction. After the first sweep of the prior day&#x27;s high (low), the signed forward return measured short (long) has mean &gt; 0 over 30 minutes, in ATR units.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>The claim is that obvious highs and lows hold resting stop orders, that price is drawn to them because filling large orders requires the liquidity those stops provide, and that once taken the move reverses because the fuel is spent. Unlike the FVG claim this is a story about participants rather than a statistical property, which is why it scores &#x27;fair&#x27; and not &#x27;strong&#x27; on mechanism.
 
@@ -9183,7 +9190,7 @@ PRIOR: I expect zero or a small NEGATIVE, i.e. continuation rather than reversal
 SCRIPT: experiments/ICT-P2-SWEEP/r1/exp_ict_sweep.py
 OUTPUT: experiments/ICT-P2-SWEEP/r1/output.txt</pre>
 </div>
-</details><details class="hyp open" id="h-Q1-PAYOUT-PATH"><summary><span class="hid">Q1-PAYOUT-PATH</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective (capability, not a market question)</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>E2-OBJECTIVE</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-Q1-PAYOUT-PATH">Q1-PAYOUT-PATH</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective (capability, not a market question)</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>E2-OBJECTIVE</dd></div></dl>
 <h4>Statement</h4><p>The engine can express P(first payout), not only P(pass). Demonstrated on the fade, whose entry is already known unobtainable, so that no decision rides on the number.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>NOT A HYPOTHESIS TEST, and registered at ZERO ALPHA for that reason. The fade is dead on obtainability (#3a); no payout figure can revive it, so nothing rides on the result and no alpha is spent. What is being established is that the question can be asked at all.
 
@@ -9222,7 +9229,7 @@ SCRIPT: experiments/Q1-PAYOUT-PATH/r1/exp_q1_payout.py
 OUTPUT: experiments/Q1-PAYOUT-PATH/r1/output.txt
 CALCS: none — the script called no audited estimator</pre>
 </div>
-</details><details class="hyp open" id="h-Q2-ATTRIBUTION"><summary><span class="hid">Q2-ATTRIBUTION</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective (capability, not a market question)</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>E2-OBJECTIVE</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-Q2-ATTRIBUTION">Q2-ATTRIBUTION</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective (capability, not a market question)</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>E2-OBJECTIVE</dd></div></dl>
 <h4>Statement</h4><p>Every failed attempt can be assigned exactly one principal reason, and those reasons plus P(pass) sum to one. Demonstrated by decomposing E2&#x27;s already-recorded runs.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>NOT A HYPOTHESIS TEST — zero alpha. The decomposition asks nothing new of the market; it re-reads runs E2 already produced. No number here can revive the fade.
 
@@ -9286,7 +9293,7 @@ SCRIPT: experiments/Q2-ATTRIBUTION/r1/exp_q2_attribution.py
 OUTPUT: experiments/Q2-ATTRIBUTION/r1/output.txt
 CALCS: none — the script called no audited estimator</pre>
 </div>
-</details><details class="hyp open" id="h-X1-COMPRESSION"><summary><span class="hid">X1-COMPRESSION</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>2</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-X1-COMPRESSION">X1-COMPRESSION</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>2</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Volatility compression predicts subsequent expansion. PRIMARY: the count of consecutive contracting RTH sessions ending at day N-1 is POSITIVELY rank-correlated with day N&#x27;s realised RTH range divided by its trailing ATR. SECONDARY: day N&#x27;s opening-range height over its trailing 20-day median is NEGATIVELY rank-correlated with the post-range expansion of the same day.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Volatility clusters and mean-reverts. Low-volatility states are followed by higher-volatility ones more often than chance. This is the strongest prior available to this programme because it is a DOCUMENTED STATISTICAL PROPERTY of financial time series rather than a story about what participants are thinking -- every other family in the catalogue rests on the latter.
 
@@ -9340,7 +9347,7 @@ SCRIPT: experiments/X1-COMPRESSION/r1/exp_x1_compression.py
 OUTPUT: experiments/X1-COMPRESSION/r1/output.txt
 CALCS: experiments/X1-COMPRESSION/r1/calcs.json</pre>
 </div>
-</details><details class="hyp open" id="h-X1-RECONCILE"><summary><span class="hid">X1-RECONCILE</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-X1-RECONCILE">X1-RECONCILE</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The comparator&#x27;s -0.046R and the sealed verdict&#x27;s +0.1R can be reconciled, and the discrepancy is explained rather than assumed.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Registered as a gate, not a bet: a lab whose two implementations disagree by 0.15R across 3,295 setups cannot evaluate anything, and cross-implementation disagreement is the defect class that voided verdict #1.</pre>
 <div class="run">
@@ -9362,7 +9369,7 @@ CALCS: experiments/X1-COMPRESSION/r1/calcs.json</pre>
 }</pre>
   <h5>Note</h5><pre>X1 CLOSED. The sealed engine reproduces verdict v3 to three decimal places, so the engine is correct and the comparator was wrong. THE CAUSE IS THE ENTRY MECHANISM, and it is not a bookkeeping detail: fade.py books a fill AT the boundary at the failure close, which in reality requires an order already RESTING there -- a stop armed during the breakout, while price is outside the range and the boundary is a valid stop level. Protocol #4a instead places a LIMIT after the failure close. That fills 95% of the time, so it is not a missed-trade problem; it is a TIMING problem. Entering on the retest forfeits 0.129R (MES) and 0.193R (MNQ) -- the entire measured edge. CONSEQUENCE: the live paper campaign is currently running a variant with NO edge, and protocol #4a needs superseding by #4b. I identified this reading on 2026-07-31, labelled it &#x27;most faithful to the engine&#x27;, and recommended against it for operational convenience. That was the wrong call and this is the measurement of what it cost.</pre>
 </div>
-</details><details class="hyp open" id="h-X2-OVERNIGHT-GAP"><summary><span class="hid">X2-OVERNIGHT-GAP</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>2</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-X2-OVERNIGHT-GAP">X2-OVERNIGHT-GAP</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>2</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The overnight gap carries DIRECTIONAL information about the session that follows. PRIMARY: the signed gap, (RTH open minus prior RTH close) / trailing ATR, is POSITIVELY rank-correlated with the signed forward return over the first session hour, measured from the close of the 09:30-09:31 bar.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>The gap prices everything that happened while the market was shut. If that repricing were complete at the bell there would be nothing left to trade; the claim is that absorption is NOT instantaneous, so a large gap leaves the market still moving toward the new level during the first hour. That is the underreaction reading, and it predicts CONTINUATION.
 
@@ -9416,7 +9423,7 @@ SCRIPT: experiments/X2-OVERNIGHT-GAP/r1/exp_x2_gap.py
 OUTPUT: experiments/X2-OVERNIGHT-GAP/r1/output.txt
 CALCS: experiments/X2-OVERNIGHT-GAP/r1/calcs.json</pre>
 </div>
-</details><details class="hyp open" id="h-X3-PRINT-SIZE"><summary><span class="hid">X3-PRINT-SIZE</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow (trades tape, 525 sessions x2, owned)</dd></div><div><dt>search space</dt><dd>2</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-X3-PRINT-SIZE">X3-PRINT-SIZE</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow (trades tape, 525 sessions x2, owned)</dd></div><div><dt>search space</dt><dd>2</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The SIZE DISTRIBUTION of aggressive prints carries directional information. PRIMARY: the share of 09:45-10:00 volume transacted in prints at or above that window&#x27;s 90th-percentile print size is POSITIVELY rank-correlated with the window-direction-signed forward return over the following hour, measured from the 10:00 bar close.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Aggressor IDENTITY is invisible in the tape. Aggressor SIZE is not. A move carried by a few large prints is a different event from one carried by many small ones: the first is consistent with a participant who has a reason and more to do, the second with retail flow and market-making churn. If size carries any signal about who is behind a move, a move dominated by large prints should extend further.
 
@@ -9475,7 +9482,7 @@ SCRIPT: experiments/X3-PRINT-SIZE/r1/exp_x3_print_size.py
 OUTPUT: experiments/X3-PRINT-SIZE/r1/output.txt
 CALCS: experiments/X3-PRINT-SIZE/r1/calcs.json</pre>
 </div>
-</details><details class="hyp open" id="h-Z-ENTRY-IMPLEMENTABLE"><summary><span class="hid">Z-ENTRY-IMPLEMENTABLE</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-Z-ENTRY-IMPLEMENTABLE">Z-ENTRY-IMPLEMENTABLE</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The sealed engine&#x27;s entry -- a fill AT the range boundary at the failure close -- is achievable by some real order, and therefore the measured +0.1R is tradeable.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Registered as a verification, not a bet. #4a&#x27;s failure showed the entry mechanism is worth ~0.13R, so before amending the protocol again the question had to be asked directly: which actual order produces the engine&#x27;s fill?</pre>
 <div class="run">
@@ -9522,7 +9529,7 @@ WHY: at the failure close price is INSIDE the range, so the boundary is a price 
 That is LOOK-AHEAD, and it is the entire measured edge: the armed-stop subset where the close DID come first reads +0.122R (MES) / +0.226R (MNQ), but that subset is only selectable after the fact.
 IMPLICATION: verdict v3&#x27;s &#x27;edge real (+0.1R, persists OOS)&#x27; is most likely an artifact of an unobtainable entry price. Protocol #4 is validating a non-edge, and H4 would be trying to improve something that is not there. This needs a DATED ADDENDUM to the verdict -- the verdicts are append-only and are never edited.</pre>
 </div>
-</details><details class="hyp open" id="h-Z04-ORB-OBTAINABLE"><summary><span class="hid">Z04-ORB-OBTAINABLE</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp open"><summary><span class="hid" id="h-Z04-ORB-OBTAINABLE">Z04-ORB-OBTAINABLE</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The ORB verdicts (#1 and #2) do NOT share the fade&#x27;s defect: every entry the ORB engine books is producible by an order that could actually have been placed at that moment.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>The fade booked a fill at the range boundary at the failure close, when the boundary was already behind the market. ORB arms stops OUTSIDE the range while price is inside it, which is the correct side for a stop, so the same failure should not apply. But #1 was already VOIDED for a different instrument defect, so the family&#x27;s entries have never been verified and reading the code is not checking it.</pre>
 <div class="run">
@@ -9572,7 +9579,7 @@ OUTPUT: experiments/Z04-ORB-OBTAINABLE/2026-08-01-audit/output.txt</pre>
 carries no equity curve. Every equity curve this lab drew came from an entry
 later proved unobtainable, and the curve looked fine throughout &mdash; so
 colour here encodes trust, not profit.</p>
-<p class="mono">engine_sha 9993d85ba91e6cf94c4fe63f61c0e929b144a2d8-dirty &middot;
-generated 2026-08-30T16:11:12+00:00</p>
+<p class="mono">engine_sha 4a35a3671f596007eb4b214f788e4c3023c93319-dirty &middot;
+generated 2026-08-30T16:17:32+00:00</p>
 </footer>
 </main></body></html>

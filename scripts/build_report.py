@@ -538,16 +538,16 @@ def _summary(hyps, exps, results, reg) -> str:
 def _audits(audits: list[dict]) -> str:
     if not audits:
         return ""
-    rows = "".join(
-        f'<tr><td><span class="hid">{esc(a.get("_hid"))}</span></td>'
-        f'<td class="thin">{esc(a.get("_run"))}</td>'
-        f'<td class="v">{int(a["n"]):,}</td>'
-        f'<td>{esc(a.get("verdict"))}</td></tr>'
-        if isinstance(a.get("n"), (int, float)) else
-        f'<tr><td><span class="hid">{esc(a.get("_hid"))}</span></td>'
-        f'<td class="thin">{esc(a.get("_run"))}</td><td class="v">&mdash;</td>'
-        f'<td>{esc(a.get("verdict"))}</td></tr>'
-        for a in audits)
+    def row(a: dict) -> str:
+        n = a.get("n")
+        size = f"{int(n):,}" if isinstance(n, (int, float)) else "&mdash;"
+        hid = esc(a.get("_hid"))
+        return (f'<tr><td><a class="hid" href="#h-{hid}">{hid}</a></td>'
+                f'<td class="thin">{esc(a.get("_run"))}</td>'
+                f'<td class="v">{size}</td>'
+                f'<td>{esc(a.get("verdict"))}</td></tr>')
+
+    rows = "".join(row(a) for a in audits)
     return f"""<h3 class="sub-h">Audit verdicts</h3>
 <p class="lede">Not scored effects &mdash; these return a judgement, not a
 number with an interval, so they have no floor to be measured against. They
@@ -594,10 +594,15 @@ def _finding(r: dict) -> str:
     except (TypeError, ValueError, IndexError):
         cis = "&mdash;"
 
+    # F4 is a verb: "click a result, get the register entry". The anchor sits
+    # on a span INSIDE the <details>, not on the <details> itself, because
+    # browsers auto-expand a collapsed <details> only when the fragment
+    # target is within it -- targeting the element itself just scrolls to
+    # something still shut.
     return f"""<article class="finding {cls}">
   <div class="f-head">
     <div>
-      <span class="hid">{esc(r.get("_hid"))}</span>
+      <a class="hid" href="#h-{esc(r.get("_hid"))}">{esc(r.get("_hid"))}</a>
       <span class="thin">&middot; {esc(r.get("_run"))}</span>
       <h3>{esc(r.get("name") or r.get("_path"))}</h3>
     </div>
@@ -689,8 +694,8 @@ def _hypothesis(h: dict, runs: list[dict], prov: dict) -> str:
         rows.append(("supersedes", esc(h["supersedes"])))
     meta = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
 
-    body = [f'<details class="hyp {cls}" id="h-{hid}"><summary>'
-            f'<span class="hid">{hid}</span>'
+    body = [f'<details class="hyp {cls}"><summary>'
+            f'<span class="hid" id="h-{hid}">{hid}</span>'
             f'<span class="badge {cls}">{badge}</span>'
             f'<span class="runs">{len(runs)} run'
             f'{"" if len(runs) == 1 else "s"}</span>'
@@ -907,6 +912,13 @@ details.hyp[open]{padding-bottom:1.1rem}
 summary{cursor:pointer;display:flex;align-items:center;gap:.7rem;
    flex-wrap:wrap;padding:.4rem 0;font-size:.92rem}
 .hid{font-family:ui-monospace,monospace;font-weight:600;font-size:.86rem}
+a.hid{color:inherit;text-decoration:underline;text-decoration-style:dotted;
+   text-underline-offset:3px;cursor:pointer}
+a.hid:hover{color:var(--brass)}
+/* The landed-on entry, for when the browser scrolls to a <details> it did
+   not auto-expand -- otherwise the jump looks like nothing happened. */
+.hid:target{background:var(--band);outline:2px solid var(--brass);
+   outline-offset:2px;border-radius:3px}
 .runs{color:var(--sub);font-size:.75rem;margin-left:auto}
 .badge{font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;
    padding:.16rem .5rem;border-radius:4px;border:1px solid currentColor;

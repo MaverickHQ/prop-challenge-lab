@@ -237,6 +237,31 @@ def test_a_finding_renders_its_verdict_and_floor_not_just_a_number(mod):
     assert "CLEAN - no defect" in page   # the audit survives, separately
 
 
+def test_every_finding_drills_through_to_its_register_entry(mod):
+    """F4 is a verb -- "click a result, get the register entry". The first
+    build defined 20 anchors and linked to none of them, so the content was
+    reachable only by scrolling and the feature was claimed but absent.
+
+    The anchor must sit INSIDE the <details>, not on it: browsers auto-expand
+    a collapsed <details> only when the fragment target is within it.
+    """
+    reg = {"hypotheses": [{"id": "H-BETA", "status": "registered",
+                           "mechanism": "m", "alpha_allocated": 0.05}],
+           "experiments": [SCORED], "manifest_objects": 0,
+           "engine_sha": "x", "pulled_at": "t"}
+    page = mod.render(reg)
+
+    targets = set(re.findall(r'href="#(h-[^"]+)"', page))
+    assert targets, "no finding links to a register entry"
+    for t in targets:
+        assert f'id="{t}"' in page, f"link to #{t} with no such anchor"
+
+    # The anchor is on a span inside the <details>, not on the element.
+    assert 'class="hid" id="h-H-BETA"' in page
+    assert '<details class="hyp' in page
+    assert 'id="h-H-BETA"><summary' not in page
+
+
 def test_the_ci_strip_places_zero_and_the_floor_band(mod):
     """The strip is the lab's argument in one graphic, so its geometry is
     worth asserting: an interval entirely below zero must draw entirely to

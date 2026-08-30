@@ -139,20 +139,45 @@ every equity curve this lab drew came from an entry later proved
 unobtainable, and the curve looked fine throughout. So: **borrow the
 familiar chassis, replace the familiar content.**
 
-- [ ] **F1 `scripts/build_report.py` + `make report`.** Reads the register,
-  writes one static HTML file stamped with `engine_sha`, archived like
-  everything else. **Generated, not live** — a page showing whatever the
-  store says today is not evidence.
-- [ ] **F2 Controls-first layout.** Positive control, dead world and
-  calibration gate render ABOVE the findings. The acceptability defence in
-  structural form: philosophy first reads as excuse-making; **the control
-  first makes the philosophy obviously necessary.**
-- [ ] **F3 Novel elements, each with a familiar anchor.** CI-vs-floor strips
-  read as error bars, band labelled "cannot be told apart from nothing".
-  Alpha as a **fuel gauge** — a metaphor this codebase already uses, reused
-  rather than invented. **Colour encodes TRUST, not profit.**
-- [ ] **F4 One drill-down layer.** Click a result, get the register entry,
-  the mechanism, the frozen script's hash.
+**F1-F4 DONE 2026-08-30 — published at
+<https://maverickhq.github.io/occams-trader/report.html>** (Pages from
+`main` `/docs`; the served bytes were verified identical to the committed
+artifact, so Jekyll is passing it through untouched).
+
+- [x] **F1 `scripts/build_report.py` + `make report`.** Reads the register,
+  writes one static HTML file stamped with `engine_sha`, archivable with
+  `--archive`. **Generated, not live.** `--offline` renders from a cached
+  register. **Rendering the register whole exposed a defect in it:** all 20
+  hypotheses carry `status: registered` and a null `outcome`, because
+  `register_hypothesis` writes those fields once and nothing writes them
+  back. The page states it rather than smoothing it over. Not fixed — see
+  F5.
+- [x] **F2 Controls-first layout.** `quickstart` grew a `controls()`
+  returning the four controls as data; its `main()` prints from that and the
+  page renders the same call, so terminal and page cannot disagree.
+- [x] **F3 Novel elements, each with a familiar anchor.** CI-vs-floor strips
+  as inline SVG (7 of them, one per scored result), band shaded and
+  labelled. Alpha gauge borrowing `report.py`'s fuel-gauge metaphor, showing
+  0.42 across 20 registrations as **8.4× the conventional 0.05 single-test
+  allowance**. Colour encodes trust; there is no equity curve anywhere.
+  Seven `Result.to_metrics()` blocks were already in the archive and F1 had
+  flattened them into rows where a verdict rendered like a bar count.
+- [x] **F4 One drill-down layer.** Every finding's hypothesis id links to
+  its register entry — mechanism, power plan, and the frozen script's
+  sha256 from the manifest. **Claimed prematurely once:** the first build
+  defined 20 anchors and linked to none of them, so the content was
+  reachable only by scrolling. The anchor sits *inside* the `<details>`,
+  because browsers auto-expand a collapsed one only when the fragment
+  target is within it. Now tested.
+
+- [ ] **F5 Write outcomes back to the register.** The gap F1 exposed.
+  `outcome`, `effect_size`, `ci_low`, `ci_high` and `decision` exist in the
+  hypothesis schema and are never populated, so **the multiplicity ledger
+  cannot be computed from the register** — alpha allocated is readable,
+  alpha that bought a resolved answer is not. Deliberately not done inside a
+  reporting task: it writes to an append-only record and wants its own
+  decision about whether resolution is a new record superseding the old one
+  (almost certainly yes) or a mutation (almost certainly not).
 
 **Not building:** live queries · a trading-terminal skin · animated results
 · anything needing a server, an account or a manual.
