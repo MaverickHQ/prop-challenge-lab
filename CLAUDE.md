@@ -542,7 +542,15 @@ to sampling error. **Do not act inside your own noise floor.**
 
 ### Sequencing from here
 
-**X1 -> Q1 -> N1-N4 -> the rest of the experiment queue -> N5-N7.**
+> **SUPERSEDED 2026-08-30 — kept because the reasoning still holds.** The
+> sequence below is complete: M1-M7, X1-X3, Q1 and Q2 all landed, the
+> experiment queue closed with a well-evidenced negative
+> (`docs/PROGRAMME-CONCLUSION.md`), and both repositories are published.
+> **Current sequence: A2-PUB + L-PUB (yours) → F1-F4 → N1-N4 →
+> B-DECISION → N5-N7**, and `docs/TASKS.md` is the authority. The reopening
+> question is B-DECISION, not the queue.
+
+~~**X1 -> Q1 -> N1-N4 -> the rest of the experiment queue -> N5-N7.**~~
 
 The gate on the experiment queue was M1-M4 and it has lifted. **Twenty-two
 open items, and exactly one can change the standing answer** — the rest make
@@ -571,6 +579,48 @@ the author's edit. Each carries a `needs-your-call:` line naming the
 decisions that are the author's rather than the drafter's, and a `voice:`
 line stating plainly that the register was matched from an existing essay
 and is not the author's own voice. The series still needs a real name.
+
+### BOTH REPOSITORIES ARE LIVE (2026-08-30)
+
+| repo | state |
+|---|---|
+| github.com/MaverickHQ/crucible-autoresearcher | MIT, 69 files, `a13dd0a` |
+| github.com/MaverickHQ/occams-trader | Apache-2.0, `0a77e78` on `main` |
+
+**All five repositories in the series are published**, so papers-with-code
+is now true in fact rather than in premise. Four drafts (A2, L1-L3) are
+written and awaiting review; **the head of the task list is now yours, not
+mine.** The first item I can start unattended is F1.
+
+### THE README SELLS THE INSTRUMENT, NOT THE RESULT (2026-08-30)
+
+The README opened by saying the lab found nothing, which answers *"why
+publish this?"* badly. Rewritten (`0a77e78`) around what the tool does:
+**most frameworks optimise for expressiveness; this one optimises for
+refusal.** Results cut to one short section pointing at the essays.
+
+**Standing rule that follows from it: the repo sells the instrument, the
+essays carry the results.** Anything that reads as a 1:1 log of what we did
+belongs in `docs/` or an essay, not in the README.
+
+`docs/` held 33 files, all research records, with no entry point. Added:
+
+- `docs/ARCHITECTURE.md` — the pipeline, eight layers, why the seams sit
+  where they do, extension-points table.
+- `docs/USAGE.md` — testing your own strategy, in the order the gates will
+  stop you.
+- `docs/README.md` — an index splitting **how the lab works** from **what we
+  ran through it**, saying you need none of the latter to use the former.
+
+**Two failures worth keeping.** The charset gate rejected a Greek rho in the
+design-effect formula in all three new files — the guard fired on the
+documents describing the guards, which is the correct outcome. And three API
+details in the first usage draft were invented: `DayPlan` takes
+`buy_stop`/`sell_stop`/`stop_dist`, `Result` takes `estimate=` and requires
+`n`, and `backfill.replay()` does not exist (`compare`/`render`/`all_ok`
+does). **Verify every example against source before publishing a usage
+guide** — on this repo especially, examples that do not run would be
+self-parody.
 
 ### BRANCH LAYOUT — read this before committing (2026-08-30)
 
@@ -691,6 +741,20 @@ Backfill: `scripts/archive_backfill.py`.
 bought. Counts against the same `project=occams` budget.
 
 ## 9. TWO WORKSTREAMS (split 2026-07-30)
+
+> **THIS SECTION IS A JULY SNAPSHOT — DO NOT READ IT AS CURRENT
+> (marked 2026-08-30).** Protocol #4 is no longer running; the programme
+> concluded 2026-07-06 with three sealed verdicts and no tradeable edge, and
+> the A/B split below was superseded on 2026-08-09 by the two workstreams in
+> `docs/TASKS.md` (**A = Crucible essays, B = the lab**). The B0 Databento
+> spike named as "next" was answered in `docs/AWS-RECON.md`.
+>
+> Kept rather than deleted because the interaction-model rules (`/ack` is an
+> acknowledgement not a veto; moving level production to engine output is a
+> PAPER-PREREG §4 amendment; the sample-size honesty guard) are still
+> binding if the paper track ever reopens. **A status section that is not
+> re-checked against the world becomes an instruction to redo finished
+> work** — the same trap that nearly cost three re-drafted essays.
 
 **LIVE STATUS 2026-07-30 (session end).** Protocol #4 is RUNNING —
 trade 1 logged (MES short 1x @ 7421.50, a 0.73R setup; the outstanding

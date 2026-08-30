@@ -16,12 +16,22 @@ B is where the substance is.**
 
 ## Recommended sequence
 
-**A1 → A6 → L1 → L2 → L3 → F1-F4 → N1-N4 → B-DECISION → N5-N7**
+**~~A1~~ → ~~L1 → L2 → L3~~ → A2-PUB + L-PUB → F1-F4 → N1-N4 →
+B-DECISION → N5-N7**
 
-Rationale: A1 is ten minutes and closes a month-old gap. The essay series
-(L) is the highest-value unbuilt thing and needs no new research. The front
-end (F) supports L. The cloud (N) supports nothing until the queue reopens,
-which is B-DECISION's call.
+Rationale: the essay series (L) was the highest-value unbuilt thing and
+needed no new research. The front end (F) supports L. The cloud (N) supports
+nothing until the queue reopens, which is B-DECISION's call.
+
+**Updated 2026-08-30.** Both publications landed (A1, D2.2, D2.6) and all
+four drafts are written (A2, L1-L3), so the head of the sequence is now
+review-and-publish, which is yours rather than mine. **F1 is the first item
+I can start without you.**
+
+> **A6 never existed.** The original sequence read `A1 → A6 → L1`, but A6 is
+> defined nowhere in this file — A1-A5 were superseded wholesale on
+> 2026-08-01 and folded into the B-series. Recorded rather than quietly
+> dropped: a phantom step in a sequence is how work gets invented to fill it.
 
 ---
 
@@ -34,13 +44,22 @@ them** — retrofitting figures into published work is low-value editing.
 
 Detail lives in `~/Documents/maverick-hq/autoresearch/05-content-status-and-open-items.md`.
 
-- [ ] **A1 `[needs-user]` — ONLY THE PUSH REMAINS (2026-08-30).** Remote
-  configured, description and topics set, `push.default = nothing` set so a
-  bare `git push` refuses rather than publishing `build/loop`. Re-audited
-  today against the IMPROVED patterns this repo had never been tested
-  against — venue terms, account ids, cloud keys, ARNs, tokens, private
-  keys, home paths: **all zero**. One command left:
-  `git push origin public-release:main`. Was: Create
+- [x] **A1 DONE 2026-08-30 — PUBLISHED.**
+  **https://github.com/MaverickHQ/crucible-autoresearcher** — `public-release`
+  (a13dd0a) pushed to remote `main` at 11:25Z. Public, MIT, 69 files, one
+  commit. **Only that branch was pushed**; `main` and `build/loop` remain
+  local, and `push.default = nothing` is set there so a bare `git push`
+  refuses rather than publishing the 50 commits carrying the venue name.
+
+  **The series is now papers-with-code in fact rather than in premise.** All
+  five repositories are published, and essays 8, 9 and the Outro have a
+  repository behind them for the first time.
+
+  Was: Remote configured, description and topics set. Re-audited against the
+  IMPROVED patterns this repo had never been tested against — venue terms,
+  account ids, cloud keys, ARNs, tokens, private keys, home paths: **all
+  zero**. One command left: `git push origin public-release:main`. Before
+  that: Create
   `MaverickHQ/crucible-autoresearcher`, push **`public-release` (a13dd0a)
   ONLY** — never `main` or `build/loop`, the latter being 50 commits
   carrying the venue name. Re-verified clean 2026-08-09: 69 files, 0
@@ -164,15 +183,23 @@ decision that has not been taken yet.
 - [ ] **D1 the autoresearch loop.** The biggest unbuilt thing, and the one
   I would most want to build. **It would industrialise searching a space we
   have just measured as empty.** Revive only after B-DECISION.
-- [ ] **D2.2** `[needs-user]` **repo name — recommend keeping
-  `occams-trader`.** It is in every doc, every commit message, and the
-  package itself is `occams/`; a better name is not worth chasing references
-  for. `crucible-*` would be actively wrong — this is not that series.
-  Suggested description: *"A falsification lab for trading strategies. It
-  found nothing — and the reason to read it is that three results here
-  looked real and were not, each caught by a different guard."* Topics:
-  `backtesting` `research-methodology` `reproducible-research`
-  `pre-registration` `quantitative-finance` `python`.
+- [x] **D2.2 DONE 2026-08-30 — name kept, About set.** `occams-trader`, as
+  recommended: it is in every doc, every commit message, and the package
+  itself is `occams/`.
+
+  **The description was rewritten rather than used as drafted.** The original
+  suggestion — *"A falsification lab for trading strategies. It found nothing
+  — and the reason to read it is that three results here looked real and were
+  not"* — leads with the outcome, which answers *"why publish this?"* badly.
+  It now reads: *"A backtesting harness designed to be hard to fool. Derives
+  fills instead of assuming them, refuses uncalibrated estimators, and keeps
+  an append-only experiment register. Controls run in ten seconds — no data,
+  no key, no network."* Same change drove the README rewrite (`0a77e78`):
+  **sell the instrument, keep the results for the essays.**
+
+  Topics live: `backtesting` `pre-registration` `python`
+  `quantitative-finance` `reproducible-research` `research-methodology`
+  `futures` `monte-carlo` `research-integrity`.
 - [x] **D2.6 DONE 2026-08-30 — PUBLISHED.**
   **https://github.com/MaverickHQ/occams-trader** — public, Apache-2.0,
   `ce85bfd` on remote `main`, 201 files, one squashed root commit.
