@@ -1,0 +1,90 @@
+# Documentation
+
+Two kinds of document live here, and it is worth knowing which you are
+reading.
+
+**How the lab works** — design, rationale and procedure. Read these to use
+the harness or to understand why it refuses what it refuses.
+
+**What we ran through it** — the research record of one programme. These are
+dated findings, not instructions. They are kept because a register you can
+only read when it agrees with you is not a register, but you do not need any
+of them to use the lab.
+
+---
+
+## How the lab works
+
+| | |
+|---|---|
+| [ARCHITECTURE.md](ARCHITECTURE.md) | The pipeline, the eight layers, and why the seams sit where they do. Start here. |
+| [USAGE.md](USAGE.md) | Testing your own strategy, in the order the gates will stop you. |
+| [SOP-EXPERIMENT.md](SOP-EXPERIMENT.md) | The standard procedure: hypothesis → test → record. `occams/experiment.py` enforces it. |
+| [CONTEXT.md](CONTEXT.md) | Level-400: the reasoning behind every design choice. The longest document here and the most useful one. |
+
+## The method
+
+The rules the programme ran under. Useful as worked examples of
+pre-registration even if you never read a result.
+
+| | |
+|---|---|
+| [RESEARCH-PROGRAM.md](RESEARCH-PROGRAM.md) | What would have to be true for a lab like this to find an edge. |
+| [PROTOCOLS.md](PROTOCOLS.md) | The multiplicity ledger — every protocol run, and the alpha it spent. |
+| [PREREG.md](PREREG.md) · [PREREG.sealed](PREREG.sealed) | The sealed evaluation protocol, and its hash. |
+| [PAPER-PREREG.md](PAPER-PREREG.md) · [AMENDMENT-4a.md](AMENDMENT-4a.md) | The paper campaign, and an amendment made in the open rather than quietly. |
+| [RULES.md](RULES.md) | Verified rule reference — evaluation and the funded/payout layer. |
+| [SPEND.md](SPEND.md) | The data budget ledger. |
+
+## Planning and reference
+
+| | |
+|---|---|
+| [EXPERIMENT-PLAN.md](EXPERIMENT-PLAN.md) | The research queue. |
+| [STRATEGY-CATALOGUE.md](STRATEGY-CATALOGUE.md) | Every strategy family, scored against the requirement. |
+| [FEASIBILITY.md](FEASIBILITY.md) | The required-edge frontier — how big an edge has to be before it can clear the rules. |
+| [EVIDENCE.md](EVIDENCE.md) | External evidence on how this class of programme is actually passed. |
+| [day-state-machine.md](day-state-machine.md) | The trading-day state machine shared by backtest and paper paths. |
+| [TASKS.md](TASKS.md) | Open work. |
+| [AWS-RECON.md](AWS-RECON.md) · [aws-recon-latency.md](aws-recon-latency.md) | Serverless deployment spikes and latency samples. |
+
+---
+
+## What we ran through it
+
+Start with **[PROGRAMME-CONCLUSION.md](PROGRAMME-CONCLUSION.md)** — 18
+registered hypotheses, three sealed verdicts, and what a year of this
+established. Everything below is detail beneath it.
+
+The narrative account is in the [essays](https://harveygill.substack.com/);
+these are the primary records the essays were written from.
+
+### Sealed verdicts
+
+| | |
+|---|---|
+| [VERDICT-2026-07-06.md](VERDICT-2026-07-06.md) | Verdict #1 — **void for instrument defect.** Kept deliberately: a register that deletes its retracted findings is not append-only. |
+| [VERDICT-2026-07-06-v2.md](VERDICT-2026-07-06-v2.md) | Verdict #2 — NO-GO, validated. |
+| [VERDICT-2026-07-06-v3.md](VERDICT-2026-07-06-v3.md) · [ADDENDUM](VERDICT-2026-07-06-v3-ADDENDUM.md) | Verdict #3 — NO-GO, validated, plus a later correction. |
+
+### Findings
+
+| | |
+|---|---|
+| [X1-WRITEUP.md](X1-WRITEUP.md) | Volatility compression does not precede expansion — it precedes more compression. |
+| [X2-WRITEUP.md](X2-WRITEUP.md) | The overnight gap is fully priced at the bell. |
+| [X3-WRITEUP.md](X3-WRITEUP.md) | Print size carries no direction — and the null is weak. The one genuinely open thread. |
+| [ICT-WRITEUP.md](ICT-WRITEUP.md) | Two measurements closing four named strategies that share one entry. |
+| [R1-WRITEUP.md](R1-WRITEUP.md) | What re-scoring data we already owned actually found. |
+| [DIAGNOSTICS.md](DIAGNOSTICS.md) | Failed-breakout anatomy, dev folds only. |
+
+### Corrections to the instrument
+
+The three documents most worth reading if you are here for the method rather
+than the market — each records the lab being wrong about itself.
+
+| | |
+|---|---|
+| [Q1-PAYOUT.md](Q1-PAYOUT.md) | P(pass) was never the objective, and it flatters weak strategies. |
+| [Q2-ATTRIBUTION.md](Q2-ATTRIBUTION.md) | Why each attempt died, not just how many did. |
+| [M5-BACKFILL.md](M5-BACKFILL.md) | Re-scoring the whole archive after a shared estimator was replaced. |

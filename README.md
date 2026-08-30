@@ -1,147 +1,261 @@
 # occams-trader
 
-A falsification lab for trading strategies. **It found nothing, and that is
-the result it was built to be able to report.**
+**A backtesting harness designed to be hard to fool.**
 
-Eighteen registered hypotheses, three sealed verdicts, $128 of market data,
-no fee ever paid to a funding provider, and no money ever put at risk in a
-market. The conclusion is
-[`docs/PROGRAMME-CONCLUSION.md`](docs/PROGRAMME-CONCLUSION.md).
+Most backtest frameworks optimise for expressiveness: how quickly can you
+describe a strategy and see a curve. This one optimises for **refusal** —
+how many distinct ways it can stop you believing something that isn't true.
 
-The reason to read the code is not the answer. It is that **three separate
-results here looked real and were not**, each was caught by a different
-guard, and each guard exists because the previous one was not enough.
+It is a Python package, a CLI, and an append-only experiment register. It
+runs on futures bars and tick data, and nothing in it is specific to any
+market or venue.
+
+```bash
+make quickstart     # ten seconds, no data, no API key, no network
+```
 
 ---
 
-## Run it in ten seconds, with no data
+## The problem it exists to solve
 
-```
+A backtest is a measurement instrument, and measurement instruments have a
+specific failure mode: **they can produce confident, well-formatted,
+statistically significant output while measuring nothing at all.**
+
+Three examples, all of which pass every check a normal framework applies:
+
+- A strategy books its entry at a price level the moment a condition becomes
+  true — but at that moment price is on the far side of the level, so no
+  order a human could place would have filled there. The equity curve is
+  fiction, and looks identical to one that isn't.
+- A forward return is measured from a level price has already passed. The
+  number now contains the distance already travelled, so a market that froze
+  solid at the signal still prints a large positive result.
+- A position sizer returns zero contracts for every parameter combination.
+  Every statistic is a structural zero, and the report says "no edge found"
+  in exactly the format it would use if it had actually looked.
+
+None of these is a statistical error. The arithmetic is correct in all
+three. They are errors in the relationship between the numbers and the
+world — and no p-value inspects that relationship.
+
+This repository is a set of gates that do.
+
+---
+
+## Quickstart
+
+```bash
+git clone https://github.com/MaverickHQ/occams-trader
+cd occams-trader && pip install -e ".[dev]"
 make quickstart
 ```
 
-No market data, no API key, no network. It runs the four things every
-backtest should have to pass before any of its numbers are read:
+No market data, no credentials, no network. It runs the four checks that
+should precede reading any backtest number:
 
-| | |
-|---|---|
-| **positive control** | a planted edge — the harness must find it |
-| **negative control** | a dead world — the harness must find nothing |
-| **calibration gate** | the same measurement from two reference prices, one of which manufactures a large effect out of a market with no drift at all |
-| **rule profile** | the challenge rules as dated, replaceable input |
+```
+1. POSITIVE CONTROL   planted-edge world  P(pass) = 1.00
+2. NEGATIVE CONTROL   dead world          P(pass) = 0.00  random-entry null = 0.00
+3. CALIBRATION GATE   from PRICE   +0.0735 = 0.5 sigma  -> calibrated
+                      from a LEVEL +0.7040 = 5.0 sigma  -> fails the dead world
+4. RULE PROFILE       example-50k   effective 2026-07-02
 
-A harness that cannot find a planted edge cannot be trusted to report its
-absence either. That gate runs first, and it is the one most backtests skip.
+ALL FOUR PASS — the instrument is calibrated.
+Nothing above touched market data, an API key, or the network.
+```
 
-## The three results that looked real
+**A harness that cannot find a planted edge cannot be trusted to report its
+absence either.** That gate runs first, and it is the one most backtests
+skip.
 
-**An entry price no order could produce.** A strategy passed a sealed
-verdict at +0.1R per trade. Then someone asked which order would have
-produced that fill, and the answer was none. All four placeable orders were
-negative.
+Then: `make check` (tests, lint, privacy and charset scans) and
+`make reproduce` (re-score archived results end to end).
 
-![four orders](artifacts/plots/03-four-orders.png)
+---
 
-**A reference price that manufactured a six-sigma effect.** A measurement
-read −0.159 ATR at Cohen's *d* = −0.43 — six times its own detectable
-floor, significant on both instruments, on both sides, and at both
-horizons. Every robustness check passed. **94.8% of it was the reference
-price:** a market that froze solid at the trigger would have printed the
-same number. No significance test asks that question. A calibration gate
-now does.
+## The five refusals
 
-**A tie-handling bug in a hand-rolled statistic.** The same defect cost
-nothing on one result and moved another by 28%. The difference was luck.
+Each gate refuses a specific class of false result. They are independent —
+none of them would have caught what the others catch.
 
-## What the machinery does
+### 1. A hypothesis without a mechanism is rejected unrun
 
-- **Pre-registration.** A hypothesis without a stated mechanism is rejected
-  unrun. The mechanism is written before the number exists, and both
-  possible directions are interpreted in advance.
-- **Alpha as a depleting resource.** Not a warning you can click past: the
-  evidence bar rises as the register grows, and every experiment says so
-  before it runs.
-- **An obtainability gate, default-deny.** A strategy declares an *order*;
-  the fill is derived from what the market then did. An entry price is never
-  an input, and a family with no auditor cannot be swept at all.
-- **A calibration gate.** Every estimator must return ~0 on a world with no
-  effect and recover the planted effect on a world that has one. Both halves
-  are required — an estimator that returns zero for everything passes the
-  first and is useless.
-- **An append-only register** in S3 with sha256, provenance, the engine
-  commit, and a `calcs.json` naming which estimator produced each number.
-  Corrections append; nothing is edited.
-- **A power gate that understands dependence.** Pooling two correlated
-  instruments is not free. Underpowered runs are refused, not run and
-  caveated.
+`occams/experiment.py`
 
-## The rules are input
+Register the claim before you measure it, including **why it should work,
+written before the number exists**, and an interpretation for *both*
+directions. A test that can only be read one way was never a test.
+
+Alpha is a depleting budget rather than a warning: each registration raises
+the evidence bar for the next survivor, and the register makes the count
+visible instead of leaving it to memory.
+
+The procedure is code, not documentation — the run refuses to proceed unless
+the hypothesis is registered, refuses inline analysis because an inline
+script cannot be archived, archives the script *before* executing it, and
+reads recorded values from the run's own output rather than from anyone
+retyping them. There is no flag to skip a step, and a test asserts no such
+flag exists.
+
+### 2. A fill is derived, never asserted
+
+`occams/execution.py`
+
+A strategy declares an **Order** — kind, side, level, the bar it was placed
+on. The fill comes from what the market subsequently did.
+
+This is stronger than a fill model. A fill model answers *"what price would
+I get?"*; this answers *"could this order have existed at that moment?"* A
+limit on the marketable side is refused. A stop on the wrong side triggers
+instantly. A gapped stop fills at the open, never at its level. Slippage is
+adverse by construction, because a simulator that lets it help is measuring
+optimism.
+
+**Default-deny:** a strategy family with no entry auditor cannot be tested
+at all. The failure mode is a loud refusal, not a plausible number.
+
+### 3. Estimators must be calibrated in both directions
+
+`occams/calibration.py`
+
+Every estimator is run against two synthetic worlds: one with no forward
+drift, where it must return approximately zero, and one with a known planted
+effect, which it must recover.
+
+**Both halves are required.** An estimator that returns zero for everything
+passes the first and is useless; one that reports an effect from noise
+passes the second and is dangerous.
+
+This is what catches the reference-price class. The same measurement, taken
+from where price actually is versus from a level price has already passed,
+reads 0.5 sigma and 5.0 sigma respectively — on a world where nothing is
+happening.
+
+### 4. Pooling correlated data is not free
+
+`occams/power.py`
+
+Sample-size gates apply a design effect: `n_eff = n / (1 + (m-1) * rho)`. Two
+highly correlated instruments do not give you twice the evidence, and
+treating them as though they do roughly halves your true sample while
+doubling your apparent one.
+
+**Underpowered runs are refused, not run-and-caveated** — an ambiguous null
+costs the same alpha as a real test and then tempts a second look at a
+bigger sample, which is optional stopping.
+
+### 5. The register is append-only, and records how
+
+`occams/archive.py`, `occams/audit.py`
+
+Every experiment writes its hypothesis, config, metrics, controls, the
+script that produced it, its stdout, and a `calcs.json` naming **which
+estimator computed each number, at which source hash**. Corrections append
+with `supersedes`; nothing is edited.
+
+`engine_sha` pins the commit. `calcs.json` pins the function — which matters
+once shared estimators replace per-script copies, because the commit no
+longer tells you which code path ran.
+
+---
+
+## Testing your own strategy
+
+Full walkthrough: **[docs/USAGE.md](docs/USAGE.md)**. In outline:
 
 ```python
-from occams import profiles
+from occams import profiles, archive, experiment
+
+# 1. Rules are input, and dated.
 p = profiles.load("profiles/example-50k.json")
 profiles.assert_fresh(p, max_age_days=90)      # refuses a stale snapshot
+
+# 2. Register before measuring — mechanism first, both directions named.
+archive.register_hypothesis(
+    hid="MY-HYPOTHESIS", statement="...", mechanism="why this should work",
+    information_axis="price", search_space_size=1, alpha_allocated=0.05,
+    power_plan={"test": "correlation", "effect": 0.07,
+                "cluster_size": 2, "intra_cluster_r": 0.9})
+
+# 3. Run the analysis as a FILE, through the harness.
+experiment.run(hypothesis_id="MY-HYPOTHESIS", script="scripts/exp_mine.py",
+               run_id="r1", config={...}, note="...", controls_passed=True)
 ```
 
-The shipped profiles describe a *geometry* — account size, target, trailing
-drawdown, guard — not any provider's current terms. Replace them with your
-own. Profiles carry an `effective_date` and a source, and `assert_fresh`
-**refuses** rather than warns: a provider retired a plan tier while its own
-public pages still advertised it, and an undated rule set is a silent
-expiry.
+Your strategy supplies an entry auditor (`occams/execution.py::AUDITORS`) so
+the obtainability gate can check it, and your estimators must pass
+`calibration.assert_calibrated` before their numbers mean anything.
 
-## Figures
+---
 
-```
-make plots
-```
+## Rules as configuration
 
-Every number is read from the register, so a figure cannot drift from the
-record it claims to show.
-
-- [`01-feasibility-frontier`](artifacts/plots/01-feasibility-frontier.png) —
-  what edge the rules actually require. Asymmetry is the lever: 2.0R needs a
-  45% win rate; 1.0R needs 60–65%, which is the hardest corner on the map.
-- [`02-p-pass-shape`](artifacts/plots/02-p-pass-shape.png) — a rising
-  P(pass) curve is a warning, not a result. Monotonic means variance
-  harvesting; an interior peak *requires* a positive edge.
-- [`03-four-orders`](artifacts/plots/03-four-orders.png) — only the
-  assumption is positive.
-
-## Layout
-
-```
-occams/          the engine — rules, simulator, estimators, gates, archive
-scripts/exp_*    frozen experiment scripts, archived byte-for-byte
-docs/            the register's prose: verdicts, write-ups, the conclusion
-profiles/        rule sets as dated, replaceable JSON
-tests/           ~430, including a reproduction guard on archived results
+```python
+p = profiles.load("profiles/example-50k.json")
+p.config          # ChallengeConfig: target, trailing drawdown, guard, min days
 ```
 
+Evaluation geometry lives in dated JSON with a source reference, not in code.
+`assert_fresh` **refuses** a snapshot older than your tolerance rather than
+warning — providers change terms, and an undated rule set is a silent
+expiry. The shipped profiles are worked examples describing a *geometry*,
+not any provider's current terms. Replace them.
+
+---
+
+## Architecture
+
+Detail: **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**
+
 ```
-make check       tests + lint + privacy scan + charset scan
-make reproduce   re-score REAL archived results end to end (~12 min)
+occams/
+  loader · sessions · calendar     vendor bars -> trading days, no lookahead
+  strategy · fade · search         a strategy is: one day -> one plan
+  execution · sim                  a plan -> fills, or a refusal
+  rules · payout                   the rule arithmetic: evaluation, then funded
+  harness                          every viable start day, simulated once
+  estimators · stats · result      the number, and what it is allowed to mean
+  calibration · power              the gates
+  archive · audit · backfill       the register and the calculation ledger
 ```
+
+Runtime dependencies are `pandas` and `numpy`. scipy is test-only, used as
+an oracle so the package's own implementations are pinned rather than
+delegated.
+
+---
 
 ## What this is not
 
-Not a trading system, and not a signal service. It emits no orders and
-places none. There is no live-execution path in this repository and there
-never was.
+Not a trading system and not a signal service. It emits no orders and places
+none; there is no live-execution path and never was.
 
-It is also not a claim about discretionary trading. What was tested is the
-part that can be written down as a rule, which is a weaker claim than the
-one people usually argue about — and that was stated before the tests ran,
-not after they failed.
+Not a claim about discretionary trading. What it tests is the part that can
+be written down as a rule, which is a weaker claim than the one usually
+argued about.
+
+Not a source of market data. `data/` is git-ignored; licensed vendor data is
+never redistributed.
+
+---
+
+## The case study
+
+The lab was built while running a real research programme against two index
+futures. That programme registered eighteen hypotheses, sealed three
+verdicts, and did not find a tradeable edge — and three of its results
+looked real and were not, each caught by a different gate above.
+
+The results, and what they say about how research goes wrong, are written up
+separately: **[essays](https://harveygill.substack.com/)**. The records
+themselves are in [`docs/`](docs/) — `PROGRAMME-CONCLUSION.md` is the
+summary.
+
+You do not need any of that to use the harness.
+
+---
 
 ## Licence
 
-**Apache License 2.0** — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
-
-Chosen over MIT for the explicit patent grant and the requirement that
-modified files say they were modified. The point of publishing is that the
-method is reusable and checkable; the licence should not get in the way of
-the first or obscure the second.
-
-The licensed market data used in the research is **not** redistributed here.
-`data/` is git-ignored and no vendor bars or ticks are included.
+Apache-2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE).
