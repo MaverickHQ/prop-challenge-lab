@@ -217,14 +217,34 @@ artifact, so Jekyll is passing it through untouched).
   The double-resolution guard was checked by firing it: a second resolution
   of X1 without `--supersedes` was refused.
 
-- [ ] **F5-BACKFILL — 16 answered questions the register still does not
-  record as answered.** No scored result is archived against them, so there
-  is nothing to read an outcome from. Some were answered in prose and never
-  written back; some were never run. **The register cannot tell those two
-  apart**, which is the more expensive half of the gap. Closing it means
-  either re-running them through the audited engine (which `make reproduce`
-  already does for some) or accepting that pre-M5 work is documented in
-  prose only. F5 closes this going forward, not backwards.
+- [x] **F5-BACKFILL DONE 2026-08-30 — 19 of 20 resolved.** The 16 split by
+  *where an outcome could honestly come from*, which turned out to be the
+  whole problem:
+
+  | provenance | n | source |
+  |---|---|---|
+  | `scored` | 2 | a Result block in an archived run (X1, X2) |
+  | `audit` | 1 | a verdict with no estimate (Z04) |
+  | `superseded` | 2 | the successor's own `supersedes` pointer (H4 x2) |
+  | `documented` | 14 | prose in `docs/`, pinned by sha256 |
+
+  **`kind` is now part of the record and shown on the page.** A `documented`
+  resolution carries NO effect size, interval or floor, because those were
+  never computed into the register — transcribing them from a writeup is
+  exactly the retyping the `METRICS:` line exists to prevent, and a page
+  rendering them in the same shape as a measured result would let a sentence
+  pass for a measurement. The summary states how many rest on a document
+  rather than a computation; "19 resolved" would otherwise read as
+  "19 measured".
+
+  `superseded` verifies rather than asserts: the successor's record must
+  actually name this hypothesis, or the resolution is refused. The H4 chain
+  (H4-ORDERFLOW → H4-ORDERFLOW-v2 → H5-FLOW-PREDICTS) resolved itself from
+  the register with no judgement from anyone.
+
+  **X3-PRINT-SIZE remains deliberately open** — its own writeup calls the
+  null weak. The gap block now says what that absence cannot: *unresolved is
+  not the same as unanswered, and the register cannot tell you which.*
 
 **Not building:** live queries · a trading-terminal skin · animated results
 · anything needing a server, an account or a manual.

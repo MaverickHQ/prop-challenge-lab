@@ -224,8 +224,15 @@ def register_hypothesis(*, hid: str, statement: str, mechanism: str,
     return rec
 
 
-def resolve_hypothesis(*, hid: str, run_id: str, decision: str,
-                       metric_path: str = "", note: str = "",
+SCORED, AUDIT, SUPERSEDED, DOCUMENTED = (
+    "scored", "audit", "superseded", "documented")
+KINDS = (SCORED, AUDIT, SUPERSEDED, DOCUMENTED)
+
+
+def resolve_hypothesis(*, hid: str, decision: str, run_id: str = "",
+                       kind: str = SCORED, metric_path: str = "",
+                       outcome: str = "", source_doc: str = "",
+                       superseded_by: str = "", note: str = "",
                        supersedes: str = "") -> dict:
     """Record what a hypothesis turned out to be. F5.
 
@@ -254,6 +261,27 @@ def resolve_hypothesis(*, hid: str, run_id: str, decision: str,
             "Say what the programme does about it -- that is the part no "
             "run can produce.")
 
+    if kind not in KINDS:
+        raise ValueError(f"kind must be one of {KINDS}, got {kind!r}")
+
+    # Shape first, network second. These checks used to sit beside the code
+    # that needed each value, which meant a malformed call paid for an S3
+    # round trip before being told it was malformed -- and could not be
+    # tested without one.
+    if kind in (SCORED, AUDIT) and not run_id:
+        raise ValueError(f"kind={kind} resolves FROM a run; give run_id")
+    if kind == SUPERSEDED and not superseded_by:
+        raise ValueError("kind=superseded needs superseded_by")
+    if kind == DOCUMENTED:
+        if not outcome.strip():
+            raise ValueError("kind=documented needs the outcome stated")
+        if not source_doc:
+            raise ValueError(
+                "kind=documented needs source_doc -- a resolution whose "
+                "provenance is a document must name the document")
+        if not (ROOT / source_doc).exists():
+            raise FileNotFoundError(f"{source_doc} does not exist")
+
     s3 = _client()
 
     def _get(key: str, what: str) -> dict:
@@ -264,20 +292,6 @@ def resolve_hypothesis(*, hid: str, run_id: str, decision: str,
             raise LookupError(f"{what} not in the archive ({key}): {e}") from e
 
     _get(f"hypotheses/{hid}.json", f"{hid}")
-    run = _get(f"experiments/{hid}/{run_id}.json", f"run {run_id} of {hid}")
-
-    from occams.result import blocks
-    found = blocks(run.get("metrics", {}))
-    if not found:
-        raise ValueError(
-            f"{hid}/{run_id} carries no scored result, so there is nothing "
-            f"to resolve it with. An audit verdict has no estimate and no "
-            f"floor; record its outcome as a note on the run instead.")
-    if metric_path not in found:
-        raise KeyError(
-            f"{metric_path!r} is not a result in {hid}/{run_id}. "
-            f"Available: {sorted(found)}")
-    r = found[metric_path]
 
     prior = [k for k in _keys_under(s3, f"resolutions/{hid}/")]
     if prior and not supersedes:
@@ -287,24 +301,96 @@ def resolve_hypothesis(*, hid: str, run_id: str, decision: str,
             f"is how running again until the answer is agreeable stops being "
             f"visible.")
 
-    ci = r.get("ci") or [r.get("ci_low"), r.get("ci_high")]
-    rec = {"hypothesis_id": hid, "run_id": run_id, "metric_path": metric_path,
-           "resolved_at": datetime.now(timezone.utc).isoformat(
-               timespec="seconds"),
-           # read, not retyped
-           "outcome": r.get("verdict"), "effect_size": r.get("estimate"),
-           "ci_low": ci[0] if ci else None,
-           "ci_high": ci[1] if len(ci or []) > 1 else None,
-           "floor": r.get("floor"), "floor_multiples": r.get("floor_multiples"),
-           "n": r.get("n"), "n_eff": r.get("n_eff"), "unit": r.get("unit", ""),
-           "result_name": r.get("name", ""),
-           # supplied, because no run can produce it
-           "decision": decision, "note": note, "supersedes": supersedes,
-           "source_run_sha256": hashlib.sha256(
-               json.dumps(run, sort_keys=True).encode()).hexdigest(),
-           "engine_sha": engine_sha()}
-    _put_json(f"resolutions/{hid}/{run_id}.json", rec)
+    rec: dict = {
+        "hypothesis_id": hid, "kind": kind, "run_id": run_id,
+        "metric_path": metric_path,
+        "resolved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "outcome": None, "effect_size": None, "ci_low": None, "ci_high": None,
+        "floor": None, "floor_multiples": None, "n": None, "n_eff": None,
+        "unit": "", "result_name": "", "source_doc": "", "source_sha256": "",
+        "superseded_by": "",
+        # supplied, because no run can produce it
+        "decision": decision, "note": note, "supersedes": supersedes,
+        "engine_sha": engine_sha()}
+
+    if kind in (SCORED, AUDIT):
+        run = _get(f"experiments/{hid}/{run_id}.json", f"run {run_id} of {hid}")
+        rec["source_sha256"] = hashlib.sha256(
+            json.dumps(run, sort_keys=True).encode()).hexdigest()
+
+    if kind == SCORED:
+        from occams.result import blocks
+        found = blocks(run.get("metrics", {}))
+        if not found:
+            raise ValueError(
+                f"{hid}/{run_id} carries no scored result. If its outcome is "
+                f"a judgement rather than an effect, use kind={AUDIT!r}; if "
+                f"it was only ever written up in prose, use "
+                f"kind={DOCUMENTED!r} -- do not retype numbers into a scored "
+                f"resolution.")
+        if metric_path not in found:
+            raise KeyError(f"{metric_path!r} is not a result in "
+                           f"{hid}/{run_id}. Available: {sorted(found)}")
+        r = found[metric_path]
+        ci = r.get("ci") or [r.get("ci_low"), r.get("ci_high")]
+        rec.update(outcome=r.get("verdict"), effect_size=r.get("estimate"),
+                   ci_low=ci[0] if ci else None,
+                   ci_high=ci[1] if len(ci or []) > 1 else None,
+                   floor=r.get("floor"),
+                   floor_multiples=r.get("floor_multiples"),
+                   n=r.get("n"), n_eff=r.get("n_eff"),
+                   unit=r.get("unit", ""), result_name=r.get("name", ""))
+
+    elif kind == AUDIT:
+        # A judgement with no estimate and no floor. Read from the run, so
+        # still not retyped -- but it must never acquire numeric fields it
+        # never had, or it would render beside scored results as though it
+        # were one.
+        found = _verdicts(run.get("metrics", {}))
+        if not found:
+            raise ValueError(f"{hid}/{run_id} states no verdict to read")
+        rec.update(outcome=found[0], n=run.get("metrics", {}).get("n"))
+
+    elif kind == SUPERSEDED:
+        # Derived from the register itself: the successor must actually
+        # point back here, so a hypothesis cannot be waved away as
+        # superseded by one that never claimed to replace it.
+        succ = _get(f"hypotheses/{superseded_by}.json", superseded_by)
+        if succ.get("supersedes") != hid:
+            raise ValueError(
+                f"{superseded_by} does not supersede {hid} -- its record says "
+                f"{succ.get('supersedes')!r}. The pointer is the evidence; "
+                f"without it this is just an assertion.")
+        rec.update(outcome="superseded", superseded_by=superseded_by,
+                   source_sha256=hashlib.sha256(
+                       json.dumps(succ, sort_keys=True).encode()).hexdigest())
+
+    elif kind == DOCUMENTED:
+        # The honest escape hatch, and the one to be suspicious of. The
+        # outcome was written up in prose and never computed into the
+        # register, so a human supplies it and the numeric fields STAY NULL.
+        # Filling them from a document would be exactly the retyping the
+        # `METRICS:` line exists to prevent, and the page would show a
+        # fabricated interval indistinguishable from a measured one.
+        rec.update(outcome=outcome, source_doc=source_doc,
+                   source_sha256=sha256(ROOT / source_doc))
+
+    key = (f"resolutions/{hid}/{run_id}.json" if run_id
+           else f"resolutions/{hid}/{kind}.json")
+    _put_json(key, rec)
     return rec
+
+
+def _verdicts(node, out: list | None = None) -> list:
+    """Every `verdict` string in a metrics tree, outermost first."""
+    out = [] if out is None else out
+    if isinstance(node, dict):
+        if "verdict" in node:
+            out.append(node["verdict"])
+            return out
+        for v in node.values():
+            _verdicts(v, out)
+    return out
 
 
 def _keys_under(s3, prefix: str) -> list[str]:

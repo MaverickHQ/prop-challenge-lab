@@ -528,8 +528,44 @@ def _summary(hyps, exps, results, reg) -> str:
     <span class="k">recorded spend</span></div>
 </div>
 <div class="chips">{chips}</div>
+{_provenance(reg.get("resolutions", []), len(hyps))}
 {alpha_gauge(alpha_spent(hyps), len(hyps))}
 </section>"""
+
+
+def _provenance(res: list[dict], n_hyps: int) -> str:
+    """How the register knows what it claims to know.
+
+    Shown beside the counts because the difference matters more than the
+    total: a hypothesis resolved from a scored result is backed by a
+    computation this repo can re-run, and one resolved from a document is
+    backed by a sentence someone wrote. Both are honest; they are not
+    interchangeable, and a page reporting only "19 resolved" would let the
+    weaker kind borrow the authority of the stronger.
+    """
+    if not res:
+        return ""
+    counts: dict[str, int] = {}
+    for r in res:
+        counts[str(r.get("kind") or "scored")] = counts.get(
+            str(r.get("kind") or "scored"), 0) + 1
+    order = ["scored", "audit", "superseded", "documented"]
+    rows = "".join(
+        f'<tr><td><span class="badge prov">{esc(KIND_LABEL.get(k, (k, ""))[0])}'
+        f'</span></td><td class="v">{counts[k]}</td>'
+        f'<td class="thin">{esc(KIND_LABEL.get(k, (k, ""))[1])}</td></tr>'
+        for k in order if k in counts)
+    doc = counts.get("documented", 0)
+    caveat = (f" <strong>{doc} of {len(res)} rest on a document rather than a "
+              f"computation</strong> &mdash; their effect sizes live in the "
+              f"cited writeup and were never entered into the register, so "
+              f"this page shows none for them." if doc else "")
+    return f"""<div class="prov-table">
+<h3 class="sub-h">How each was resolved</h3>
+<p class="lede">{len(res)} of {n_hyps} hypotheses carry a resolution
+record.{caveat}</p>
+<table class="metrics"><tbody>{rows}</tbody></table>
+</div>"""
 
 
 def _audits(audits: list[dict]) -> str:
@@ -661,16 +697,19 @@ with its mechanism written before the number existed.</p>
 def _gap(ids: list[str], n_resolved: int) -> str:
     """A known gap in the instrument, stated on the page that revealed it."""
     lst = ", ".join(f"<code>{esc(i)}</code>" for i in ids)
-    done = (f" {n_resolved} ha{'s' if n_resolved == 1 else 've'} been "
-            f"resolved." if n_resolved else "")
+    n = len(ids)
+    done = (f" {n_resolved} of the register now carr{'ies' if n_resolved == 1
+            else 'y'} one." if n_resolved else "")
     return f"""<div class="gap">
-<h3>Known gap: {len(ids)} answered questions the register does not record as
-answered</h3>
-<p>These have archived runs but no resolution, so they still carry
-<code>status: registered</code> and a null <code>outcome</code>.
-<strong>That is a defect in the register, not a finding about the
-market</strong> &mdash; the outcomes exist in the run metrics above and as
-prose in <code>docs/</code>, just not in the field built for them.{done}</p>
+<h3>{n} hypothes{'is' if n == 1 else 'es'} with an archived run and no
+resolution</h3>
+<p>{'This' if n == 1 else 'These'} still carr{'ies' if n == 1 else 'y'}
+<code>status: registered</code> and a null <code>outcome</code>.{done}</p>
+<p><strong>Unresolved is not the same as unanswered, and the register cannot
+tell you which this is.</strong> A hypothesis sits here either because
+nobody has written its outcome back, or because someone judged the evidence
+too weak to record an outcome at all &mdash; and those are opposite
+situations wearing the same absence.</p>
 <p>The consequence is specific: <strong>the multiplicity ledger cannot be
 computed from the register</strong> while this holds. Alpha allocated is
 readable; alpha that actually bought a resolved answer is not, so the rising
@@ -687,31 +726,74 @@ judgements, which is why it is not a batch job.</p>
 </div>"""
 
 
+KIND_LABEL = {
+    "scored": ("measured", "read from a scored result in an archived run"),
+    "audit": ("audit", "a judgement with no estimate and no floor"),
+    "superseded": ("superseded", "replaced before it was ever run"),
+    "documented": ("documented", "stated in prose, never computed into the "
+                                 "register"),
+}
+
+
 def _resolution(r: dict) -> str:
-    """A resolution record, shown as what it is: a later, separate record
-    that answers the one above it rather than an edit to it."""
-    lo, hi = r.get("ci_low"), r.get("ci_high")
-    try:
-        cis = f"[{float(lo):+.4f}, {float(hi):+.4f}]"
-    except (TypeError, ValueError):
-        cis = "&mdash;"
-    sup = (f'<div><dt>supersedes</dt><dd><code>{esc(r["supersedes"])}</code>'
-           f'</dd></div>' if r.get("supersedes") else "")
-    return f"""<div class="resolution">
-  <h4>Resolved <span class="badge {VERDICT_CLASS.get(str(r.get("outcome")),
-      "v-null")}">{esc(r.get("outcome"))}</span></h4>
-  <dl class="meta">
-    <div><dt>from run</dt><dd><code>{esc(r.get("run_id"))}</code>
-      <span class="thin">{esc(r.get("metric_path") or ".")}</span></dd></div>
-    <div><dt>effect</dt><dd class="v">{num(r.get("effect_size"), 5)}</dd></div>
-    <div><dt>95% CI</dt><dd class="v">{cis}</dd></div>
-    <div><dt>resolved</dt><dd><code>{esc(r.get("resolved_at"))}</code></dd></div>
-    {sup}
-  </dl>
+    """A resolution, shown as what it is: a later, separate record answering
+    the one above it rather than an edit to it.
+
+    **How it was resolved is displayed as prominently as what it says.** A
+    `documented` resolution carries no effect size, no interval and no floor,
+    because those were never computed into the register -- and a page that
+    rendered it in the same shape as a measured one would let a sentence
+    copied out of a writeup pass for a measurement.
+    """
+    kind = str(r.get("kind") or "scored")
+    label, gloss = KIND_LABEL.get(kind, (kind, ""))
+    rows = []
+
+    if r.get("run_id"):
+        rows.append(("from run", f'<code>{esc(r["run_id"])}</code> '
+                     f'<span class="thin">{esc(r.get("metric_path") or ".")}'
+                     f'</span>'))
+    if kind == "scored":
+        lo, hi = r.get("ci_low"), r.get("ci_high")
+        try:
+            cis = f"[{float(lo):+.4f}, {float(hi):+.4f}]"
+        except (TypeError, ValueError):
+            cis = "&mdash;"
+        rows.append(("effect", f'<span class="v">'
+                     f'{num(r.get("effect_size"), 5)}</span>'))
+        rows.append(("95% CI", f'<span class="v">{cis}</span>'))
+        rows.append(("floor", f'<span class="v">{esc(r.get("floor"))}</span>'))
+    if kind == "superseded" and r.get("superseded_by"):
+        rows.append(("superseded by",
+                     f'<a href="#h-{esc(r["superseded_by"])}"><code>'
+                     f'{esc(r["superseded_by"])}</code></a>'))
+    if kind == "documented" and r.get("source_doc"):
+        rows.append(("stated in", f'<code>{esc(r["source_doc"])}</code>'))
+    rows.append(("resolved", f'<code>{esc(r.get("resolved_at"))}</code>'))
+    if r.get("supersedes"):
+        rows.append(("supersedes", f'<code>{esc(r["supersedes"])}</code>'))
+
+    meta = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
+    warn = ("" if kind != "documented" else
+            '<p class="prov-warn">No effect size, interval or floor is shown '
+            'because none was ever computed into the register. The source '
+            'document’s numbers are authoritative; this record is not.</p>')
+    src = (f'<p class="mono thin">source pinned at '
+           f'{esc(str(r.get("source_sha256") or r.get("source_run_sha256"))[:16])}'
+           f'&hellip;</p>') if (r.get("source_sha256")
+                                or r.get("source_run_sha256")) else ""
+
+    return f"""<div class="resolution k-{esc(kind)}">
+  <h4>Resolved
+    <span class="badge {VERDICT_CLASS.get(str(r.get("outcome")), "v-null")}">
+      {esc(r.get("outcome"))}</span>
+    <span class="badge prov">{esc(label)}</span></h4>
+  <p class="gloss">{esc(gloss)}</p>
+  <dl class="meta">{meta}</dl>
+  {warn}
   <h5>Decision <span class="thin">the part no run can produce</span></h5>
   <p>{esc(r.get("decision"))}</p>
-  <p class="mono thin">read from a run record hashing to
-    {esc(str(r.get("source_run_sha256"))[:16])}&hellip;</p>
+  {src}
 </div>"""
 
 
@@ -944,8 +1026,15 @@ figcaption{font-size:.82rem;color:var(--sub);border-top:1px solid var(--line);
 /* register */
 .resolution{border-top:1px solid var(--line);margin-top:1.1rem;
    padding:.7rem .9rem .3rem;background:var(--bg);border-radius:8px}
-.resolution h4{margin:.2rem 0 .4rem}
+.resolution h4{margin:.2rem 0 .3rem;display:flex;align-items:center;
+   gap:.5rem;flex-wrap:wrap}
 .resolution p{font-size:.85rem}
+.resolution .gloss{font-size:.74rem;color:var(--sub);margin:0 0 .5rem}
+.badge.prov{color:var(--sub)}
+.resolution.k-documented{border-left:3px solid var(--brass)}
+.resolution.k-superseded{opacity:.85}
+.prov-warn{font-size:.78rem;color:var(--brass);border-left:2px solid
+   var(--brass);padding-left:.7rem;margin:.6rem 0}
 .gap{border:1px solid var(--rust);border-radius:10px;
    padding:.2rem 1.1rem 1rem;margin:1rem 0 1.4rem;background:var(--card)}
 .gap h3{color:var(--rust);font-size:1rem;margin:1rem 0 .4rem}

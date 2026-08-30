@@ -91,12 +91,13 @@ def test_it_reports_the_register_gap_instead_of_inventing_outcomes(
     must say so in the words of a defect, not leave a blank cell that reads
     as 'nothing to report'."""
     page = mod.render(register)
-    assert "Known gap" in page
     # Collapsed: the sentence wraps in the source, and a test that depends
     # on where the line breaks tests the formatter, not the claim.
     flat = " ".join(page.split())
-    assert "a defect in the register, not a finding about the market" in flat
+    assert "with an archived run and no resolution" in flat
     assert "multiplicity ledger cannot be computed" in flat
+    # The distinction the absence cannot express, stated rather than implied.
+    assert "Unresolved is not the same as unanswered" in flat
     assert "H-BETA" in page
     # The gap names only hypotheses that HAVE a run and no outcome. H-ALPHA
     # has no run, so it is merely open -- not evidence of the gap. Read from
@@ -391,6 +392,48 @@ def test_the_gap_shrinks_to_what_is_actually_unresolved(mod):
     listed = re.search(r'<p class="mono">(.*?)</p>', page, re.S).group(1)
     assert "H-GAMMA" in listed
     assert "H-BETA" not in listed
+
+
+def test_a_documented_resolution_never_shows_numbers_it_does_not_have(mod):
+    """The one that matters. A `documented` outcome was written up in prose
+    and never computed into the register, so it has no effect size, interval
+    or floor -- and a page that rendered it in the same shape as a measured
+    one would let a sentence copied out of a writeup pass for a measurement.
+    """
+    doc = {"hypothesis_id": "H-BETA", "kind": "documented",
+           "outcome": "dead - costs ate the signal", "run_id": "",
+           "effect_size": None, "ci_low": None, "ci_high": None, "floor": None,
+           "decision": "closed", "source_doc": "docs/PROGRAMME-CONCLUSION.md",
+           "source_sha256": "a" * 64, "resolved_at": "2026-08-30T00:00:00Z",
+           "supersedes": ""}
+    reg = {"hypotheses": [{"id": "H-BETA", "status": "registered",
+                           "mechanism": "m", "alpha_allocated": 0.05}],
+           "experiments": [], "resolutions": [doc],
+           "manifest_objects": 0, "engine_sha": "x", "pulled_at": "t"}
+    page = mod.render(reg)
+
+    assert "documented" in page
+    assert "docs/PROGRAMME-CONCLUSION.md" in page
+    assert "never computed into the register" in page
+    # No numeric row may appear for it.
+    block = page.split('class="resolution')[1].split("</div>")[0]
+    for label in (">effect<", ">95% CI<", ">floor<"):
+        assert label not in block, f"{label} rendered for a documented outcome"
+
+
+def test_the_page_says_how_many_rest_on_a_document(mod):
+    """19 resolved reads as 19 measured unless the page says otherwise, and
+    the weaker kind would borrow the authority of the stronger."""
+    res = [{"hypothesis_id": f"H-{i}", "kind": k, "outcome": "o",
+            "decision": "d", "run_id": "", "resolved_at": "t",
+            "supersedes": ""}
+           for i, k in enumerate(["scored", "documented", "documented",
+                                  "superseded", "audit"])]
+    reg = {"hypotheses": [], "experiments": [], "resolutions": res,
+           "manifest_objects": 0, "engine_sha": "x", "pulled_at": "t"}
+    page = mod.render(reg)
+    assert "How each was resolved" in page
+    assert "2 of 5 rest on a document rather than a computation" in page
 
 
 def test_a_register_with_no_resolutions_key_still_renders(mod, register):

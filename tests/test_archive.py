@@ -87,6 +87,38 @@ def test_a_resolution_without_a_decision_is_refused():
         archive.resolve_hypothesis(hid="H-x", run_id="r1", decision="   ")
 
 
+def test_an_unknown_resolution_kind_is_refused():
+    with pytest.raises(ValueError, match="kind must be one of"):
+        archive.resolve_hypothesis(hid="H-x", kind="vibes", decision="d")
+
+
+def test_a_documented_resolution_must_name_its_document():
+    """Its whole claim is that the outcome was written down somewhere. A
+    documented resolution with no document is an assertion."""
+    with pytest.raises(ValueError, match="source_doc"):
+        archive.resolve_hypothesis(hid="H-x", kind="documented",
+                                   outcome="dead", decision="d")
+
+
+def test_a_documented_resolution_must_state_an_outcome():
+    with pytest.raises(ValueError, match="outcome"):
+        archive.resolve_hypothesis(hid="H-x", kind="documented",
+                                   source_doc="README.md", decision="d")
+
+
+def test_a_superseded_resolution_needs_the_successor():
+    with pytest.raises(ValueError, match="superseded_by"):
+        archive.resolve_hypothesis(hid="H-x", kind="superseded", decision="d")
+
+
+def test_scored_and_audit_resolutions_need_a_run():
+    """They resolve FROM a run, so the absence of one is not a detail to
+    default around."""
+    for kind in ("scored", "audit"):
+        with pytest.raises(ValueError, match="run_id"):
+            archive.resolve_hypothesis(hid="H-x", kind=kind, decision="d")
+
+
 def test_resolutions_are_immutable_like_the_rest_of_the_register():
     """`hypotheses/{hid}.json` was write-once from the start, which is what
     forced a resolution to APPEND rather than fill in the original's blanks.

@@ -126,8 +126,15 @@ figcaption{font-size:.82rem;color:var(--sub);border-top:1px solid var(--line);
 /* register */
 .resolution{border-top:1px solid var(--line);margin-top:1.1rem;
    padding:.7rem .9rem .3rem;background:var(--bg);border-radius:8px}
-.resolution h4{margin:.2rem 0 .4rem}
+.resolution h4{margin:.2rem 0 .3rem;display:flex;align-items:center;
+   gap:.5rem;flex-wrap:wrap}
 .resolution p{font-size:.85rem}
+.resolution .gloss{font-size:.74rem;color:var(--sub);margin:0 0 .5rem}
+.badge.prov{color:var(--sub)}
+.resolution.k-documented{border-left:3px solid var(--brass)}
+.resolution.k-superseded{opacity:.85}
+.prov-warn{font-size:.78rem;color:var(--brass);border-left:2px solid
+   var(--brass);padding-left:.7rem;margin:.6rem 0}
 .gap{border:1px solid var(--rust);border-radius:10px;
    padding:.2rem 1.1rem 1rem;margin:1rem 0 1.4rem;background:var(--card)}
 .gap h3{color:var(--rust);font-size:1rem;margin:1rem 0 .4rem}
@@ -179,12 +186,12 @@ footer .mono{font-size:.7rem}
   <h1>occams-trader <span class="thin">research console</span></h1>
   <p class="lede">A falsifiable record: what was asked, what was measured,
      and what the instrument was doing when it measured it. Rendered from
-     the register at <code>2026-08-30T16:39:41+00:00</code>.
+     the register at <code>2026-08-30T16:57:40+00:00</code>.
      <strong>A dated artifact, not a live view.</strong></p>
   <dl class="stamp">
-    <div><dt>engine_sha</dt><dd><code>66825c98f0005f3a1ca3f100d1f6a1b41f909a16-dirty</code></dd></div>
-    <div><dt>generated</dt><dd><code>2026-08-30T16:39:43+00:00</code></dd></div>
-    <div><dt>archive objects</dt><dd><code>1,261</code></dd></div>
+    <div><dt>engine_sha</dt><dd><code>c7d20461f9a008dfaf41716189561cc487671d3b-dirty</code></dd></div>
+    <div><dt>generated</dt><dd><code>2026-08-30T16:57:42+00:00</code></dd></div>
+    <div><dt>archive objects</dt><dd><code>1,278</code></dd></div>
   </dl>
 </header>
 <nav class="toc"><a href="#controls">Controls</a><a href="#summary">Position</a><a href="#findings">Findings (7)</a><a href="#figures">Figures</a><a href="#register">The register</a></nav>
@@ -261,6 +268,12 @@ touch no market data, no key and no network.</p>
     <span class="k">recorded spend</span></div>
 </div>
 <div class="chips"><span class="chip v-detect">detectable <b>3</b></span><span class="chip v-null">null <b>4</b></span></div>
+<div class="prov-table">
+<h3 class="sub-h">How each was resolved</h3>
+<p class="lede">19 of 20 hypotheses carry a resolution
+record. <strong>14 of 19 rest on a document rather than a computation</strong> &mdash; their effect sizes live in the cited writeup and were never entered into the register, so this page shows none for them.</p>
+<table class="metrics"><tbody><tr><td><span class="badge prov">measured</span></td><td class="v">2</td><td class="thin">read from a scored result in an archived run</td></tr><tr><td><span class="badge prov">audit</span></td><td class="v">1</td><td class="thin">a judgement with no estimate and no floor</td></tr><tr><td><span class="badge prov">superseded</span></td><td class="v">2</td><td class="thin">replaced before it was ever run</td></tr><tr><td><span class="badge prov">documented</span></td><td class="v">14</td><td class="thin">stated in prose, never computed into the register</td></tr></tbody></table>
+</div>
 <div class="gauge">
   <div class="gauge-head">
     <span class="gauge-n">0.42</span>
@@ -8766,13 +8779,15 @@ z
 <p class="lede">Every hypothesis, in the state the record actually holds it,
 with its mechanism written before the number existed.</p>
 <div class="gap">
-<h3>Known gap: 16 answered questions the register does not record as
-answered</h3>
-<p>These have archived runs but no resolution, so they still carry
-<code>status: registered</code> and a null <code>outcome</code>.
-<strong>That is a defect in the register, not a finding about the
-market</strong> &mdash; the outcomes exist in the run metrics above and as
-prose in <code>docs/</code>, just not in the field built for them. 2 have been resolved.</p>
+<h3>1 hypothesis with an archived run and no
+resolution</h3>
+<p>This still carries
+<code>status: registered</code> and a null <code>outcome</code>. 19 of the register now carry one.</p>
+<p><strong>Unresolved is not the same as unanswered, and the register cannot
+tell you which this is.</strong> A hypothesis sits here either because
+nobody has written its outcome back, or because someone judged the evidence
+too weak to record an outcome at all &mdash; and those are opposite
+situations wearing the same absence.</p>
 <p>The consequence is specific: <strong>the multiplicity ledger cannot be
 computed from the register</strong> while this holds. Alpha allocated is
 readable; alpha that actually bought a resolved answer is not, so the rising
@@ -8785,9 +8800,9 @@ floor <em>from the archived run</em>, never from an argument, and requires a
 stated <code>decision</code>: what the programme does about the result is the
 one part no run can produce. Closing the list below means making those
 judgements, which is why it is not a batch job.</p>
-<p class="mono"><code>C2-MAE-PREDICTABLE</code>, <code>E2-OBJECTIVE</code>, <code>E3-COSTS</code>, <code>H-RECLAIM</code>, <code>H-SECONDPUSH</code>, <code>H-STOPWIDTH</code>, <code>H5-FLOW-PREDICTS</code>, <code>ICT-P1-FVG</code>, <code>ICT-P2-CONTROL</code>, <code>ICT-P2-SWEEP</code>, <code>Q1-PAYOUT-PATH</code>, <code>Q2-ATTRIBUTION</code>, <code>X1-RECONCILE</code>, <code>X3-PRINT-SIZE</code>, <code>Z-ENTRY-IMPLEMENTABLE</code>, <code>Z04-ORB-OBTAINABLE</code></p>
+<p class="mono"><code>X3-PRINT-SIZE</code></p>
 </div>
-<details class="hyp open"><summary><span class="hid" id="h-C2-MAE-PREDICTABLE">C2-MAE-PREDICTABLE</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>conditioning</dd></div><div><dt>search space</dt><dd>4</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+<details class="hyp resolved"><summary><span class="hid" id="h-C2-MAE-PREDICTABLE">C2-MAE-PREDICTABLE</span><span class="badge resolved">range/ATR r = -0.131, partly algebraic, 1.7% of variance</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>conditioning</dd></div><div><dt>search space</dt><dd>4</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>range/ATR r = -0.131, partly algebraic, 1.7% of variance</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Adverse excursion is FORESEEABLE before entry: pre-trade volatility measures predict MAE/stop-distance, so days on which the stop is likely to be run can be identified in advance.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>H-STOPWIDTH established MAE is LARGE -- 77% of trades exceed the stop, median 3x -- but not whether it is foreseeable. The mechanism here is the strongest available to us and is not a market-edge claim at all: MAE is essentially a realised-volatility quantity, and volatility CLUSTERS. That is one of the most robust facts in financial time series. If it holds intraday on this setup, a day&#x27;s likely excursion is partly knowable from the volatility that preceded it.
 Note what this would and would not buy. It is NOT a directional edge and cannot become one. At most it is a SIZING or STAND-ASIDE filter: skip, or size down, on days where the stop sits well inside the expected noise. That is worth having only if a strategy with a real entry ever exists -- so this is groundwork, honestly labelled.</pre>
@@ -8797,6 +8812,18 @@ Note what this would and would not buy. It is NOT a directional edge and cannot 
  &quot;intra_cluster_r&quot;: 0.9,
  &quot;test&quot;: &quot;correlation&quot;
 }</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      range/ATR r = -0.131, partly algebraic, 1.7% of variance</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:11+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Precise but immaterial -- the corner of the 2x2 a significance test alone would have reported as a finding. Detectable, partly algebraic, and worth 1.7% of variance. Conditioning on adverse excursion is closed as an avenue.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-03-m5-reproduction <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -8858,9 +8885,21 @@ Disentangling the definitional component would be a NEW hypothesis with its own 
 SCRIPT: experiments/C2-MAE-PREDICTABLE/2026-08-01-four-predictors/exp_mae_predictable.py
 OUTPUT: experiments/C2-MAE-PREDICTABLE/2026-08-01-four-predictors/output.txt</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-E2-OBJECTIVE">E2-OBJECTIVE</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective</dd></div><div><dt>search space</dt><dd>5</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-E2-OBJECTIVE">E2-OBJECTIVE</span><span class="badge resolved">P(pass) 0.042 against a 0.55 gate</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective</dd></div><div><dt>search space</dt><dd>5</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>P(pass) 0.042 against a 0.55 gate</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Scored against the REAL objective -- P(pass) on the verified Zero tier -- the obtainable fade clears the G1 gate of 0.55, and P(pass) is non-monotonic in risk size, peaking BELOW the expectancy-maximising size.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>The challenge is a path-dependent survival problem: trailing drawdown floor, profit target, minimum days. Expectancy ignores path. A lower-variance configuration should therefore reach the target more often before touching the floor, which would put the P(pass) maximum at a smaller size than the one maximising expectancy.</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      P(pass) 0.042 against a 0.55 gate</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:06+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Fails twice over, and independently of the entry defect: even the artifact variant of the strategy reaches only 0.258 against a 0.55 gate. Confirms the objective was never close rather than narrowly missed.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-01-zero-tier-INTERPRETATION <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -8917,9 +8956,21 @@ NEW LAB CAPABILITY implied: the SHAPE of P(pass) versus size is a diagnostic for
 SCRIPT: experiments/E2-OBJECTIVE/2026-08-01-zero-tier/exp_objective.py
 OUTPUT: experiments/E2-OBJECTIVE/2026-08-01-zero-tier/output.txt</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-E3-COSTS">E3-COSTS</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-E3-COSTS">E3-COSTS</span><span class="badge resolved">MES spread 1.0 tick, MNQ 2.0 -- assumption optimistic</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>MES spread 1.0 tick, MNQ 2.0 -- assumption optimistic</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The sealed cost model -- $1.25 per side commission and 1 tick of slippage -- is accurate for our order sizes on MES and MNQ. Specifically: the effective spread is 1 tick, and a typical order of 1-6 contracts does not move price.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Commission was measured at 0.05-0.09R per trade, which is decisive at an edge of ~0.03R gross. Slippage enters the same arithmetic and is currently ASSUMED. If real slippage is 2 ticks rather than 1, every net figure in the register shifts by roughly the same magnitude as the edge itself. The trades tape carries aggressor side and size, so both the effective spread and our size relative to typical prints can be measured rather than assumed.</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      MES spread 1.0 tick, MNQ 2.0 -- assumption optimistic</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:08+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Cost assumption tightened, not overturned. The sealed one-tick assumption is correct for MES and optimistic for MNQ, where the effective spread is double it. Changes no verdict -- every family failed by far more than the correction -- but it removes an optimism the numbers had been carrying silently.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-01-tape-measured <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -8950,9 +9001,21 @@ ACTION: raise slippage_ticks to 2 for MNQ in the instrument costs, leave MES at 
 SCRIPT: experiments/E3-COSTS/2026-08-01-tape-measured/exp_costs.py
 OUTPUT: experiments/E3-COSTS/2026-08-01-tape-measured/output.txt</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-H-RECLAIM">H-RECLAIM</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-H-RECLAIM">H-RECLAIM</span><span class="badge resolved">-0.046 -&gt; -0.262 R; the filter made it strictly worse</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>-0.046 -&gt; -0.262 R; the filter made it strictly worse</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Requiring price to trade through the stop, back through it, and then reclaim the original entry before entering will improve the fade&#x27;s per-trade expectancy.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>User observation from chart inspection: on several 2026-07 setups the eventual direction was correct but the stop was hit first. Stated BEFORE the test was run. The proposed mechanism is that a reclaim confirms the fade thesis and filters days that simply keep going.</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      -0.046 -&gt; -0.262 R; the filter made it strictly worse</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:51:58+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Entry filter rejected. Waiting for price to reclaim the level before entering was meant to improve entry quality and made the result strictly worse -- confirmation costs you the move you were confirming. Does not rehabilitate the unfiltered fade, which failed separately and for a different reason.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-01-full-history <span class="badge fail">CONTROLS NOT PASSED</span></h4>
   <dl class="meta">
@@ -8978,9 +9041,21 @@ OUTPUT: experiments/E3-COSTS/2026-08-01-tape-measured/output.txt</pre>
 }</pre>
   <h5>Note</h5><pre>OUTCOME: hypothesis REJECTED. The reclaim is anti-confirmation, not confirmation: you enter at the same price with the same stop but only after the market has demonstrated it can punch through that stop, so the filter selects for days where the stop is weakest. It removes ~40% of trades and removes the wrong 40%. CAVEAT, recorded rather than buried: controls_passed=False because this run used a re-implementation, pooled years and no calendar filter -- it is NOT the sealed engine. The V0-vs-V5 COMPARISON is valid because both share those simplifications; the ABSOLUTE levels are not, and reconciling them is task X1.</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-H-SECONDPUSH">H-SECONDPUSH</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-H-SECONDPUSH">H-SECONDPUSH</span><span class="badge resolved">gross +0.011 -&gt; net -0.082 R; costs ate the signal</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>gross +0.011 -&gt; net -0.082 R; costs ate the signal</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Use the failed-breakout as a SIGNAL only, take no fade, and instead enter WITH the original breakout direction when price returns through extreme +/- 0.2h (the level where the fade would have been stopped). Stop at the range boundary; target one range height beyond entry.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>H-STOPWIDTH established that 77% of fade setups see price travel through the stop, median 3x the stop distance. If the fade is systematically on the wrong side, the second push through the extreme is the tradeable event: the pullback has shaken out the faders and the original breakout resumes. Distinct from the engine&#x27;s &#x27;follow&#x27; null, which enters at the BOUNDARY rather than at the stop level.</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      gross +0.011 -&gt; net -0.082 R; costs ate the signal</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:01+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Closed. The only family here with a positive gross signal, and the costs consumed all of it and more. Kept as the clearest single demonstration that a gross number is worthless on these instruments: the strategy was right about the market and wrong about the arithmetic.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-01-full-history <span class="badge fail">CONTROLS NOT PASSED</span></h4>
   <dl class="meta">
@@ -9006,9 +9081,21 @@ OUTPUT: experiments/E3-COSTS/2026-08-01-tape-measured/output.txt</pre>
 }</pre>
   <h5>Note</h5><pre>OUTCOME: REJECTED as a standalone strategy -- net -0.082R (MES) / -0.015R (MNQ), negative in 6 of 8 years on MES. BUT the decomposition is the real finding, and it is bigger than this hypothesis. BOTH directions are GROSS POSITIVE and both are made negative by COMMISSION: fade +0.042/-0.088, second push +0.011/-0.093 on MES. Cost drag is 0.05-0.09R PER TRADE because true-risk sizing buys many contracts when the stop is tight -- MES median 6 contracts x $2.50 round turn = $15 against a $175 risk budget = 0.086R of pure commission. This reconciles H-STOPWIDTH&#x27;s ladder, where net improved monotonically toward zero (x1 -0.046 -&gt; x8 -0.013 on MES) precisely as widening stops shrank position size and therefore commission. THE STRATEGIC IMPLICATION: gross signal on this setup family is roughly +0.02 to +0.04R. The challenge needs +0.25R. Even at ZERO cost the family is an order of magnitude short, so no further price-based variant of it can close the gap. This is the strongest available argument for R2 (a new information axis) over more search on price.</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-H-STOPWIDTH">H-STOPWIDTH</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>5</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-H-STOPWIDTH">H-STOPWIDTH</span><span class="badge resolved">ladder flat at every rung, 77.5% exceed stop</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>5</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>ladder flat at every rung, 77.5% exceed stop</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The fade stops out too early: widening the stop, or removing it, will improve per-trade expectancy because the direction is usually right over a longer horizon.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>User observation from chart inspection, corroborated on 7 live setups where adverse excursion ran 5-12x the stop distance. If the stop sits inside ordinary intraday noise, it should be converting winners into losers.</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      ladder flat at every rung, 77.5% exceed stop</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:00+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Stop width closed as an avenue. Expectancy is unchanged across a four-rung ladder from tight to wide, while 77.5% of trades exceed their stop at some point at a median of three times the stop distance. The adverse excursion is enormous and none of the answer lives in tuning it.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-01-full-history <span class="badge fail">CONTROLS NOT PASSED</span></h4>
   <dl class="meta">
@@ -9032,13 +9119,37 @@ OUTPUT: experiments/E3-COSTS/2026-08-01-tape-measured/output.txt</pre>
 }</pre>
   <h5>Note</h5><pre>OUTCOME: the OBSERVATION is confirmed, the HYPOTHESIS is rejected. 77% of trades do have an adverse excursion exceeding the stop, median 3x -- the stop genuinely sits inside ordinary noise. But widening it does not help: win rate climbs steeply (31%-&gt;64% on MES) while expectancy stays flat and negative. That is the signature of NO EDGE -- moving along an iso-expectancy curve, trading win rate against loss size. Removing the stop is worst on both instruments and produces single-trade losses of -$4,444 and -$6,349 against a $175 risk budget (25x and 36x), which disqualifies it structurally regardless of expectancy. CAVEAT: controls_passed=False. This V0 baseline reads -0.046R / -0.026R where the sealed verdict read +0.1R. The ladder COMPARISON is valid (all rungs share the simplifications); the ABSOLUTE levels are not. Two implementations disagreeing by 0.15R across 3,295 setups makes X1 MORE urgent, not less.</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-H4-ORDERFLOW">H4-ORDERFLOW</span><span class="badge open">open</span><span class="runs">0 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-H4-ORDERFLOW">H4-ORDERFLOW</span><span class="badge resolved">superseded</span><span class="runs">0 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>superseded</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Signed aggressor imbalance during the breakout leg predicts the outcome of the failed-breakout setup. Specifically: a breakout pushed by weak aggression (low or opposing signed imbalance) fades more reliably than one pushed by strong aggression.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>The fade&#x27;s own story is an order-flow story -- &#x27;the breakout had no participation behind it&#x27; -- yet every test to date has used price alone, and price alone is public information that H-SECONDPUSH showed carries only ~+0.03R gross against a +0.25R requirement. Aggressor side is information not visible on a chart. If the fade thesis is mechanically true, the trades tape at the breakout should separate the setups that revert from the ones that resume.</pre>
-</details><details class="hyp open"><summary><span class="hid" id="h-H4-ORDERFLOW-v2">H4-ORDERFLOW-v2</span><span class="badge open">open</span><span class="runs">0 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>H4-ORDERFLOW</dd></div></dl>
+<div class="resolution k-superseded">
+  <h4>Resolved
+    <span class="badge v-null">
+      superseded</span>
+    <span class="badge prov">superseded</span></h4>
+  <p class="gloss">replaced before it was ever run</p>
+  <dl class="meta"><div><dt>superseded by</dt><dd><a href="#h-H4-ORDERFLOW-v2"><code>H4-ORDERFLOW-v2</code></a></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:50:06+00:00</code></dd></div></dl>
+  
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Never run. Superseded before any data existed by H4-ORDERFLOW-v2, which changed only the SAMPLE and for budget reasons -- the analysis plan is identical. Costs no alpha beyond the successor&#x27;s, because it was replaced rather than tested and abandoned.</p>
+  <p class="mono thin">source pinned at cc633b4319d480fd&hellip;</p>
+</div>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-H4-ORDERFLOW-v2">H4-ORDERFLOW-v2</span><span class="badge resolved">superseded</span><span class="runs">0 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>superseded</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>H4-ORDERFLOW</dd></div></dl>
 <h4>Statement</h4><p>Signed aggressor imbalance during the breakout leg predicts the outcome of the failed-breakout setup: a breakout pushed by weak aggression fades more reliably than one pushed by strong aggression.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Unchanged from H4-ORDERFLOW. The fade&#x27;s own story is an order-flow story that has only ever been tested through price, and H-SECONDPUSH showed price carries ~+0.03R gross against a +0.25R requirement.</pre>
-</details><details class="hyp open"><summary><span class="hid" id="h-H5-FLOW-PREDICTS">H5-FLOW-PREDICTS</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>H4-ORDERFLOW-v2</dd></div></dl>
+<div class="resolution k-superseded">
+  <h4>Resolved
+    <span class="badge v-null">
+      superseded</span>
+    <span class="badge prov">superseded</span></h4>
+  <p class="gloss">replaced before it was ever run</p>
+  <dl class="meta"><div><dt>superseded by</dt><dd><a href="#h-H5-FLOW-PREDICTS"><code>H5-FLOW-PREDICTS</code></a></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:50:07+00:00</code></dd></div></dl>
+  
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Never run. Superseded before any data existed by H5-FLOW-PREDICTS, which restated the same order-flow axis with a different outcome variable (signed return to the session close rather than the fade outcome). The order-flow question survives in H5; this framing of it does not.</p>
+  <p class="mono thin">source pinned at 5d5113f74dd29374&hellip;</p>
+</div>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-H5-FLOW-PREDICTS">H5-FLOW-PREDICTS</span><span class="badge resolved">r = -0.072, UNDERPOWERED (n_eff 474, floor 0.131)</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.03</dd></div><div><dt>outcome</dt><dd>r = -0.072, UNDERPOWERED (n_eff 474, floor 0.131)</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>H4-ORDERFLOW-v2</dd></div></dl>
 <h4>Statement</h4><p>Signed aggressor imbalance during the opening-range breakout predicts the DIRECTION of the subsequent move, measured as the signed return from the failure close to the 16:00 ET close, normalised by the range height.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>SUPERSEDES H4, which asked whether imbalance improves the FADE. The fade is dead -- its entry cannot be obtained (#3a) -- so that question is moot and its answer would be unusable either way.
 The fresh question is prior to any strategy: does the tape carry directional information at the breakout AT ALL? A breakout pushed by heavy one-sided aggression is a different event from one that drifts through on thin flow, and that distinction is invisible in OHLC. If no such information exists, no strategy built on this setup can work and the programme should say so. If it does, the strategy is designed AFTERWARDS, around an entry that is obtainable by construction -- which is the inversion of how the fade was built.</pre>
@@ -9048,6 +9159,18 @@ The fresh question is prior to any strategy: does the tape carry directional inf
  &quot;power&quot;: 0.8,
  &quot;test&quot;: &quot;correlation&quot;
 }</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      r = -0.072, UNDERPOWERED (n_eff 474, floor 0.131)</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:09+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Inconclusive, NOT null, and the distinction is the point: the sample cannot see an effect the size of the one measured, so this records a question probed and not answered. The same data shortage later left X3 unresolved on the same axis. Ambiguous nulls cost alpha and buy nothing, which is why the power gate now refuses them in advance.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-01-first-look <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9078,7 +9201,7 @@ WHAT WOULD SETTLE IT: ~780 INDEPENDENT setups, meaning ~3 years per instrument r
 SCRIPT: experiments/H5-FLOW-PREDICTS/2026-08-01-first-look/exp_flow_predicts.py
 OUTPUT: experiments/H5-FLOW-PREDICTS/2026-08-01-first-look/output.txt</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-ICT-P1-FVG">ICT-P1-FVG</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-ICT-P1-FVG">ICT-P1-FVG</span><span class="badge resolved">-0.00036 ATR, d -0.0015; no forward information</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>-0.00036 ATR, d -0.0015; no forward information</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>A fair value gap (3-bar imbalance) carries directional forward information. Specifically: after price returns to the gap&#x27;s consequent encroachment (50%), the signed forward return in the direction of the displacement that created the gap has mean &gt; 0 over a 30-minute horizon, in ATR units.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>ICT doctrine holds that a displacement leg leaves an imbalance -- one side of the book was not traded -- and that price returns to &#x27;rebalance&#x27; it before continuing. Stated as a market claim rather than a metaphor: a fast directional move leaves resting interest unfilled; that interest is still there when price returns, so the return is met by the same direction of pressure that caused the move. If true, a touch of the gap midpoint marks a point where the original direction resumes.
 
@@ -9095,6 +9218,18 @@ PRIOR, stated before the number: I expect this to be at or near zero. FVG detect
  &quot;power&quot;: 0.8,
  &quot;test&quot;: &quot;mean_shift&quot;
 }</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      -0.00036 ATR, d -0.0015; no forward information</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:13+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>No forward information at all, in units where the test was built to detect 0.07. This is the entry shared by four named strategies in the methodology, which is how two register entries closed eight named strategies and their variants.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>r1 <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9124,11 +9259,23 @@ PRIOR, stated before the number: I expect this to be at or near zero. FVG detect
 SCRIPT: experiments/ICT-P1-FVG/r1/exp_ict_fvg.py
 OUTPUT: experiments/ICT-P1-FVG/r1/output.txt</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-ICT-P2-CONTROL">ICT-P2-CONTROL</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned) -- control on ICT-P2-SWEEP</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>ICT-P2-SWEEP</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-ICT-P2-CONTROL">ICT-P2-CONTROL</span><span class="badge resolved">drift -0.008, CI crosses zero; the corrected reading</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned) -- control on ICT-P2-SWEEP</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>drift -0.008, CI crosses zero; the corrected reading</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>ICT-P2-SWEEP</dd></div></dl>
 <h4>Statement</h4><p>P2&#x27;s -0.159 ATR reversal reading is dominated by the reference price, not by forward drift. Decomposing total = penetration + drift, the penetration term accounts for the majority of it, and the drift term is small.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Stated from construction, before the decomposition is run. On an up-sweep bar price is ALREADY above the swept level when that bar closes. Measuring forward return from the level therefore includes the penetration distance, which is positive by construction. A market that froze the instant it swept would still print a positive continuation reading. The identity total = (C[i]-level) + (C[end]-C[i]) is exact, so this control cannot manufacture a better number -- the parts must sum to P2&#x27;s r1 result. That is what makes it a control and not a second look at the hypothesis.
 
 Registered because P2 r1 returned Cohen d = -0.43 where R1 established the gross signal on these instruments at +0.02 to +0.04R. An effect six times the declared detectable floor, appearing suddenly on the family we have already killed twice, is far more likely to be an artifact of measurement than a discovery. That is the #3a lesson: the fade also passed a sealed verdict before anyone asked what price it was using.</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      drift -0.008, CI crosses zero; the corrected reading</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:17+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>The corrected reading, registered at zero alpha because it is a control rather than a new question. What remains once the reference-price term is removed is indistinguishable from nothing: the sweep carries no forward information.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>r1 <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9155,7 +9302,7 @@ Registered because P2 r1 returned Cohen d = -0.43 where R1 established the gross
 SCRIPT: experiments/ICT-P2-CONTROL/r1/exp_ict_sweep_decomp.py
 OUTPUT: experiments/ICT-P2-CONTROL/r1/output.txt</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-ICT-P2-SWEEP">ICT-P2-SWEEP</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-ICT-P2-SWEEP">ICT-P2-SWEEP</span><span class="badge resolved">-0.159 ATR, d -0.43 -- ARTIFACT, 94.8% reference price</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>-0.159 ATR, d -0.43 -- ARTIFACT, 94.8% reference price</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>A sweep of the prior session&#x27;s RTH extreme carries directional forward information in the REVERSAL direction. After the first sweep of the prior day&#x27;s high (low), the signed forward return measured short (long) has mean &gt; 0 over 30 minutes, in ATR units.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>The claim is that obvious highs and lows hold resting stop orders, that price is drawn to them because filling large orders requires the liquidity those stops provide, and that once taken the move reverses because the fuel is spent. Unlike the FVG claim this is a story about participants rather than a statistical property, which is why it scores &#x27;fair&#x27; and not &#x27;strong&#x27; on mechanism.
 
@@ -9172,6 +9319,18 @@ PRIOR: I expect zero or a small NEGATIVE, i.e. continuation rather than reversal
  &quot;power&quot;: 0.8,
  &quot;test&quot;: &quot;mean_shift&quot;
 }</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      -0.159 ATR, d -0.43 -- ARTIFACT, 94.8% reference price</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:15+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>Withdrawn as a finding. Six times the detectable floor, significant on both instruments, both sides and both horizons -- and 94.8% of it was the distance price had already travelled before the signal was observable. A market that froze solid at the trigger would have printed most of it. Superseded by ICT-P2-CONTROL; produced the calibration gate, which now catches this class on day one.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>r1 <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9200,13 +9359,25 @@ PRIOR: I expect zero or a small NEGATIVE, i.e. continuation rather than reversal
 SCRIPT: experiments/ICT-P2-SWEEP/r1/exp_ict_sweep.py
 OUTPUT: experiments/ICT-P2-SWEEP/r1/output.txt</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-Q1-PAYOUT-PATH">Q1-PAYOUT-PATH</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective (capability, not a market question)</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>E2-OBJECTIVE</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-Q1-PAYOUT-PATH">Q1-PAYOUT-PATH</span><span class="badge resolved">P(pass) 0.042 vs P(first payout) 0.012 -- 73% of qualifiers never paid</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective (capability, not a market question)</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>P(pass) 0.042 vs P(first payout) 0.012 -- 73% of qualifiers never paid</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>E2-OBJECTIVE</dd></div></dl>
 <h4>Statement</h4><p>The engine can express P(first payout), not only P(pass). Demonstrated on the fade, whose entry is already known unobtainable, so that no decision rides on the number.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>NOT A HYPOTHESIS TEST, and registered at ZERO ALPHA for that reason. The fade is dead on obtainability (#3a); no payout figure can revive it, so nothing rides on the result and no alpha is spent. What is being established is that the question can be asked at all.
 
 The gap it closes: consistency rules differ BY STAGE and the engine held only the first. The tier we sealed has no evaluation consistency requirement; the qualified tier applies a largest-day rule to PAYOUT eligibility. A strategy can therefore qualify comfortably and never be paid, and ChallengeState alone could not express that. Every P(pass) this programme has quoted -- E2&#x27;s 0.042, the 0.55 gate, the whole feasibility frontier -- measured getting through the door.
 
 THE PAYOUT PARAMETERS ARE ILLUSTRATIVE AND UNVERIFIED. We verified the evaluation geometry and never verified the funded-stage terms. Every number this produces is conditional on parameters that a user must confirm before any of it is cited. Stated here rather than discovered in a footnote later.</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      P(pass) 0.042 vs P(first payout) 0.012 -- 73% of qualifiers never paid</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/Q1-PAYOUT.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:18+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>The objective was incomplete, and incomplete in the direction that flatters. Every probability the programme had quoted measured passing the evaluation; the funded stage that follows applies a stricter rule on an account whose drawdown floor has already ratcheted up. Passing is a one-time hurdle, getting paid requires surviving and then accumulating again -- so the standard metric flatters weak strategies, and flatters them worse the weaker they are. Registered at zero alpha: a capability demonstration, not an edge hunt.</p>
+  <p class="mono thin">source pinned at 0052f2af885e78a5&hellip;</p>
+</div>
 <div class="run">
   <h4>r1 <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9239,7 +9410,7 @@ SCRIPT: experiments/Q1-PAYOUT-PATH/r1/exp_q1_payout.py
 OUTPUT: experiments/Q1-PAYOUT-PATH/r1/output.txt
 CALCS: none — the script called no audited estimator</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-Q2-ATTRIBUTION">Q2-ATTRIBUTION</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective (capability, not a market question)</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>E2-OBJECTIVE</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-Q2-ATTRIBUTION">Q2-ATTRIBUTION</span><span class="badge resolved">4.2% pass, 44.0% breach, 35.4% timeout ahead, 16.4% timeout underwater</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>objective (capability, not a market question)</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>4.2% pass, 44.0% breach, 35.4% timeout ahead, 16.4% timeout underwater</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div><div><dt>supersedes</dt><dd>E2-OBJECTIVE</dd></div></dl>
 <h4>Statement</h4><p>Every failed attempt can be assigned exactly one principal reason, and those reasons plus P(pass) sum to one. Demonstrated by decomposing E2&#x27;s already-recorded runs.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>NOT A HYPOTHESIS TEST — zero alpha. The decomposition asks nothing new of the market; it re-reads runs E2 already produced. No number here can revive the fade.
 
@@ -9248,6 +9419,18 @@ The gap: E2 reported P(pass) 0.042 and P(breach) 0.440, which do not sum to one,
 The rule that makes it honest: EXACTLY ONE REASON PER PATH, chosen by a DECLARED precedence rather than by whichever check happens to run first -- the latter reads as an ordering detail and behaves as a definition. Shares are computed over ALL attempts including passes, so P(pass) plus the shares sums to one; reporting shares of failures only would invite double-counting.
 
 One reason exists purely to protect a past lesson: NEVER_TRADED. Verdict #1 was void for instrument failure, and a run whose equity never moved must be named as that rather than counted as a market result.</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      4.2% pass, 44.0% breach, 35.4% timeout ahead, 16.4% timeout underwater</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/Q2-ATTRIBUTION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:20+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>A single probability could not have said this. Given only P(pass)=0.042 a sensible reader concludes the horizon was too short -- which is wrong in the most expensive possible direction, because more days on a breaching strategy produce more breaches. The decomposition points at less size instead. Registered at zero alpha as a capability demonstration on already-recorded runs.</p>
+  <p class="mono thin">source pinned at 7d7976dde6a5519c&hellip;</p>
+</div>
 <div class="run">
   <h4>r2-timeout-split <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9326,20 +9509,17 @@ PRIOR: genuinely uncertain, which is unusual here and is the point. Volatility c
  &quot;power&quot;: 0.8,
  &quot;test&quot;: &quot;correlation&quot;
 }</pre>
-<div class="resolution">
-  <h4>Resolved <span class="badge v-detect">detectable</span></h4>
-  <dl class="meta">
-    <div><dt>from run</dt><dd><code>r1</code>
-      <span class="thin">primary</span></dd></div>
-    <div><dt>effect</dt><dd class="v">-0.08900</dd></div>
-    <div><dt>95% CI</dt><dd class="v">[-0.1345, -0.0431]</dd></div>
-    <div><dt>resolved</dt><dd><code>2026-08-30T16:38:17+00:00</code></dd></div>
-    
-  </dl>
+<div class="resolution k-scored">
+  <h4>Resolved
+    <span class="badge v-detect">
+      detectable</span>
+    <span class="badge prov">measured</span></h4>
+  <p class="gloss">read from a scored result in an archived run</p>
+  <dl class="meta"><div><dt>from run</dt><dd><code>r1</code> <span class="thin">primary</span></dd></div><div><dt>effect</dt><dd><span class="v">-0.08900</span></dd></div><div><dt>95% CI</dt><dd><span class="v">[-0.1345, -0.0431]</span></dd></div><div><dt>floor</dt><dd><span class="v">0.07</span></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:38:17+00:00</code></dd></div></dl>
+  
   <h5>Decision <span class="thin">the part no run can produce</span></h5>
   <p>Family closed on MES and MNQ at a one-day horizon. The result is a REVERSAL, not a null: compression predicts more compression, so the half of the mechanism that is a documented property of financial time series (volatility clusters) survives, and the half the strategy needed (compression is stored energy about to release) does not. This was the best-scoring family in the catalogue and the strongest prior available to the programme. Does NOT close other horizons, other instruments, or the queue -- serial order stands, and X2 proceeded next against a bar raised by this registration.</p>
-  <p class="mono thin">read from a run record hashing to
-    41a78536c4277c56&hellip;</p>
+  <p class="mono thin">source pinned at 41a78536c4277c56&hellip;</p>
 </div>
 <div class="run">
   <h4>r1 <span class="badge pass">controls passed</span></h4>
@@ -9372,9 +9552,21 @@ SCRIPT: experiments/X1-COMPRESSION/r1/exp_x1_compression.py
 OUTPUT: experiments/X1-COMPRESSION/r1/output.txt
 CALCS: experiments/X1-COMPRESSION/r1/calcs.json</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-X1-RECONCILE">X1-RECONCILE</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-X1-RECONCILE">X1-RECONCILE</span><span class="badge resolved">reproduces verdict #3 to 3 d.p.; instrument trusted</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>reproduces verdict #3 to 3 d.p.; instrument trusted</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The comparator&#x27;s -0.046R and the sealed verdict&#x27;s +0.1R can be reconciled, and the discrepancy is explained rather than assumed.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Registered as a gate, not a bet: a lab whose two implementations disagree by 0.15R across 3,295 setups cannot evaluate anything, and cross-implementation disagreement is the defect class that voided verdict #1.</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      reproduces verdict #3 to 3 d.p.; instrument trusted</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:03+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>The audited engine (M1-M7) reproduces a sealed verdict computed by the earlier code to three decimal places, so replacing three divergent bootstrap copies with one shared implementation did not silently change what the programme had already concluded. This is what licenses re-scoring the archive rather than re-running it.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-01-decomposition <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9418,20 +9610,17 @@ PRIOR: I expect approximately zero. Index futures trade nearly 23 hours, so the 
  &quot;power&quot;: 0.8,
  &quot;test&quot;: &quot;correlation&quot;
 }</pre>
-<div class="resolution">
-  <h4>Resolved <span class="badge v-null">null</span></h4>
-  <dl class="meta">
-    <div><dt>from run</dt><dd><code>r1</code>
-      <span class="thin">primary</span></dd></div>
-    <div><dt>effect</dt><dd class="v">+0.00249</dd></div>
-    <div><dt>95% CI</dt><dd class="v">[-0.0433, +0.0483]</dd></div>
-    <div><dt>resolved</dt><dd><code>2026-08-30T16:38:45+00:00</code></dd></div>
-    
-  </dl>
+<div class="resolution k-scored">
+  <h4>Resolved
+    <span class="badge v-null">
+      null</span>
+    <span class="badge prov">measured</span></h4>
+  <p class="gloss">read from a scored result in an archived run</p>
+  <dl class="meta"><div><dt>from run</dt><dd><code>r1</code> <span class="thin">primary</span></dd></div><div><dt>effect</dt><dd><span class="v">+0.00249</span></dd></div><div><dt>95% CI</dt><dd><span class="v">[-0.0433, +0.0483]</span></dd></div><div><dt>floor</dt><dd><span class="v">0.07</span></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:38:45+00:00</code></dd></div></dl>
+  
   <h5>Decision <span class="thin">the part no run can produce</span></h5>
   <p>Family closed. Both folklore readings die together: gaps neither run nor fill. The gap itself is real and predicts the day&#x27;s VOLATILITY perfectly well, but carries no directional information -- the market prices the news at the bell and leaves the leftover motion pointing nowhere. The registered confound behaved exactly as predicted, which is what makes the null trustworthy rather than merely quiet. Taken with X1 this strengthens R1&#x27;s conclusion rather than adding to it: public price structure on MES and MNQ is exhausted at this resolution. X3, the only non-public axis held, remained the last structurally different item in the queue.</p>
-  <p class="mono thin">read from a run record hashing to
-    79b06807bac76c5c&hellip;</p>
+  <p class="mono thin">source pinned at 79b06807bac76c5c&hellip;</p>
 </div>
 <div class="run">
   <h4>r1 <span class="badge pass">controls passed</span></h4>
@@ -9522,9 +9711,21 @@ SCRIPT: experiments/X3-PRINT-SIZE/r1/exp_x3_print_size.py
 OUTPUT: experiments/X3-PRINT-SIZE/r1/output.txt
 CALCS: experiments/X3-PRINT-SIZE/r1/calcs.json</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-Z-ENTRY-IMPLEMENTABLE">Z-ENTRY-IMPLEMENTABLE</span><span class="badge open">open</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-Z-ENTRY-IMPLEMENTABLE">Z-ENTRY-IMPLEMENTABLE</span><span class="badge resolved">assumed +0.080/+0.186 R; all four placeable orders negative</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>3</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>assumed +0.080/+0.186 R; all four placeable orders negative</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The sealed engine&#x27;s entry -- a fill AT the range boundary at the failure close -- is achievable by some real order, and therefore the measured +0.1R is tradeable.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Registered as a verification, not a bet. #4a&#x27;s failure showed the entry mechanism is worth ~0.13R, so before amending the protocol again the question had to be asked directly: which actual order produces the engine&#x27;s fill?</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      assumed +0.080/+0.186 R; all four placeable orders negative</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:52:05+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>The fade&#x27;s +0.1R does not exist. The engine booked entries at a level that sat behind the market at the failure close, so no order a human could place would have filled there; every placeable order is negative on both instruments. Verdict #3&#x27;s NO-GO stands and the reasoning beneath it does not. Produced the obtainability gate, which is now a precondition on every family.</p>
+  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-01-sop-verified <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9569,9 +9770,21 @@ WHY: at the failure close price is INSIDE the range, so the boundary is a price 
 That is LOOK-AHEAD, and it is the entire measured edge: the armed-stop subset where the close DID come first reads +0.122R (MES) / +0.226R (MNQ), but that subset is only selectable after the fact.
 IMPLICATION: verdict v3&#x27;s &#x27;edge real (+0.1R, persists OOS)&#x27; is most likely an artifact of an unobtainable entry price. Protocol #4 is validating a non-edge, and H4 would be trying to improve something that is not there. This needs a DATED ADDENDUM to the verdict -- the verdicts are append-only and are never edited.</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-Z04-ORB-OBTAINABLE">Z04-ORB-OBTAINABLE</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-Z04-ORB-OBTAINABLE">Z04-ORB-OBTAINABLE</span><span class="badge resolved">CLEAN - ORB does not share the fade&#x27;s defect</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>instrument-trust</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.0</dd></div><div><dt>outcome</dt><dd>CLEAN - ORB does not share the fade&#x27;s defect</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>The ORB verdicts (#1 and #2) do NOT share the fade&#x27;s defect: every entry the ORB engine books is producible by an order that could actually have been placed at that moment.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>The fade booked a fill at the range boundary at the failure close, when the boundary was already behind the market. ORB arms stops OUTSIDE the range while price is inside it, which is the correct side for a stop, so the same failure should not apply. But #1 was already VOIDED for a different instrument defect, so the family&#x27;s entries have never been verified and reading the code is not checking it.</pre>
+<div class="resolution k-audit">
+  <h4>Resolved
+    <span class="badge v-null">
+      CLEAN - ORB does not share the fade&#x27;s defect</span>
+    <span class="badge prov">audit</span></h4>
+  <p class="gloss">a judgement with no estimate and no floor</p>
+  <dl class="meta"><div><dt>from run</dt><dd><code>2026-08-01-audit</code> <span class="thin">.</span></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:50:09+00:00</code></dd></div></dl>
+  
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>ORB is CLEARED of the defect that voided the fade. 6,774 armed orders audited across both instruments: zero unplaceable, zero fill disagreements. ORB arms its stops OUTSIDE the range while price is inside it, so the order is on the correct side when placed -- structurally unlike the fade, whose entry sat behind the market at the failure close. Sealed verdicts #1 and #2 stand as recorded.</p>
+  <p class="mono thin">source pinned at 5cc2a49189f78d64&hellip;</p>
+</div>
 <div class="run">
   <h4>2026-08-01-audit <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9613,13 +9826,13 @@ OUTPUT: experiments/Z04-ORB-OBTAINABLE/2026-08-01-audit/output.txt</pre>
 <p><strong>Provenance.</strong> Rendered from
 20 hypothesis records and
 22 run records held in the append-only archive
-(1,261 objects). Corrections append with a
+(1,278 objects). Corrections append with a
 <code>supersedes</code> pointer; nothing is edited in place.</p>
 <p><strong>What this page is not.</strong> It is not a trading dashboard and
 carries no equity curve. Every equity curve this lab drew came from an entry
 later proved unobtainable, and the curve looked fine throughout &mdash; so
 colour here encodes trust, not profit.</p>
-<p class="mono">engine_sha 66825c98f0005f3a1ca3f100d1f6a1b41f909a16-dirty &middot;
-generated 2026-08-30T16:39:43+00:00</p>
+<p class="mono">engine_sha c7d20461f9a008dfaf41716189561cc487671d3b-dirty &middot;
+generated 2026-08-30T16:57:42+00:00</p>
 </footer>
 </main></body></html>
