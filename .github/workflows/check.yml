@@ -1,0 +1,70 @@
+name: check
+
+# H1. A repository whose whole proposition is "hard to fool" had no
+# automated proof that it still passes its own gates -- 503 tests that ran
+# only on one laptop. The claim rested on trust, which is the one thing this
+# codebase refuses to accept anywhere else.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -e ".[dev]"
+
+      - name: Tests
+        # The suite runs with no AWS and no network: verified by running it
+        # with bogus credentials. The `reproduction` tier is excluded by
+        # pyproject's addopts -- it needs 2 GB of licensed vendor bars and
+        # the private archive, neither of which belongs in CI.
+        env:
+          AWS_ACCESS_KEY_ID: ci-has-no-aws
+          AWS_SECRET_ACCESS_KEY: ci-has-no-aws
+          AWS_DEFAULT_REGION: us-east-1
+          OCCAMS_RESEARCH_BUCKET: ci-has-no-bucket
+        run: python -m pytest
+
+      - name: Lint
+        run: python -m ruff check occams/ tests/ scripts/
+
+      - name: Charset scan
+        run: python -m occams.charset
+
+      - name: Privacy scan (disarmed — see note)
+        # `.privacy-terms` is git-ignored BY DESIGN: the terms are the thing
+        # being protected, so they cannot live in a public repo, and a fork
+        # legitimately has none.
+        #
+        # So this step cannot do the real job, and it is set up to say so
+        # rather than print a line that reads like a pass. Without the
+        # acknowledgement the scanner now REFUSES (exit 1) instead of
+        # reporting clean on zero terms -- a guard that passes because it was
+        # given nothing to look for is the defect this lab keeps finding.
+        #
+        # The armed scan runs locally in `make check` before any push, which
+        # is where it has the terms to be armed with. This step exists to
+        # keep the scanner itself exercised, not to certify the tree.
+        env:
+          OCCAMS_PRIVACY_ALLOW_EMPTY: "1"
+        run: python -m occams.privacy
+
+      - name: Controls
+        # The four gates the README leads with, run on every push. If these
+        # stop passing, nothing else in the repository means anything.
+        run: python scripts/quickstart.py

@@ -375,13 +375,27 @@ mostly transcription is a reading list.
 
 ## H. Engineering hygiene — small, and two of them are overdue
 
-- [ ] **H1 CI (`.github/workflows`) — highest value per line in the repo.**
-  `make check` on push. 503 tests, and nothing automated proves they still
-  pass. A repository whose proposition is "hard to fool" currently asks the
-  reader to take that on trust.
-- [ ] **H2 unload the launchd jobs.** `com.occams.paper-morning` and
-  `paper-evening` still fire weekdays 13:30 for a campaign that concluded
-  **2026-07-06** — eight weeks of a dead loop.
+- [x] **H1 DONE 2026-08-30 — `.github/workflows/check.yml`.** Tests, lint,
+  charset, privacy and the four controls, on every push and PR. Verified by
+  simulating CI locally (data/ hidden, bogus AWS credentials): 503 pass.
+
+  **Two defects surfaced the moment the gates were pointed at a machine that
+  is not this one.** The privacy scanner exited 0 with "nothing to scan"
+  when `.privacy-terms` was absent — a guard reporting success while
+  disarmed, which is the same shape as the test that asserted a forbidden
+  term was absent while containing it. It now REFUSES unless
+  `OCCAMS_PRIVACY_ALLOW_EMPTY=1` says the disarming is deliberate, and even
+  then prints "DISARMED — this is not a pass".
+
+  And `test_it_needs_no_data_no_keys_and_no_network` asserted that
+  `data/MES.csv` exists and is non-empty. A test whose entire claim is about
+  what a READER lacks could only pass on a machine that had the data. It
+  failed the first time the suite ran without it, which was the first time
+  the claim was ever tested.
+- [x] **H2 DONE 2026-08-30 — launchd jobs unloaded.** `paper-morning` and
+  `paper-evening` had been firing weekdays 13:30 for eight weeks past the
+  campaign's conclusion. The plists are left on disk, so `launchctl load`
+  reverses this if the paper track ever reopens.
 - [ ] **H3 `[needs-user]` AWS teardown — ~$100/year.** ~$10.50/month for
   infrastructure with **zero Lambda invocations in 14 days**: Lambda $3.05,
   EC2-Other $1.89, Secrets $1.50, KMS $0.93, ECR $0.62, CloudWatch $0.40.

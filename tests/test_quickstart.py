@@ -37,8 +37,14 @@ def test_it_needs_no_data_no_keys_and_no_network(capsys):
     _load().main()
     assert "touched market data, an API key, or the network" \
         in capsys.readouterr().out
-    # the two things a reader would not have
-    assert not (ROOT / "data" / "MES.csv").stat().st_size == 0
+    # There WAS an assertion here that `data/MES.csv` exists and is
+    # non-empty, under a comment about "the two things a reader would not
+    # have". It asserted the author's situation in a test whose entire claim
+    # is about the reader's: a test named "needs no data" that could only
+    # pass on a machine which had the data. It failed the moment CI ran the
+    # suite without it -- which is the first time the claim was ever
+    # actually tested. Removed rather than repaired; the source checks below
+    # are the real test, and its absence is now proof by construction.
     src = (ROOT / "scripts" / "quickstart.py").read_text()
     for forbidden in ("data/", "archive", "boto3", "_client"):
         assert forbidden not in src, f"quickstart reaches for {forbidden}"
