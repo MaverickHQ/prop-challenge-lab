@@ -16,8 +16,18 @@ B is where the substance is.**
 
 ## Recommended sequence
 
-**~~A1~~ → ~~L1 → L2 → L3~~ → A2-PUB + L-PUB → F1-F4 → N1-N4 →
-B-DECISION → N5-N7**
+**H2 → H1 → B-DECISION.1 → G1 → G3-G8 → H3/H4/H5 → A2-PUB + L-PUB**
+
+**Revised 2026-08-30 after the level-400 review, and the order is a claim.**
+H2 (unload the dead cron) is one command. H1 (CI) is the highest value per
+line in the repo. **B-DECISION.1 comes before the recompute track**,
+because G exists to make the register honest — it cannot find an edge that
+was missed, and sequencing it ahead of the trading decision would spend a
+week making a well-evidenced negative slightly better evidenced. If the
+answer to B-DECISION is "stop", G is still worth doing for the essays and
+the method; if it is "close X3", that runs first and G follows.
+
+~~**A1 → L1 → L2 → L3 → F1-F4 → N1-N4 → B-DECISION → N5-N7**~~
 
 Rationale: the essay series (L) was the highest-value unbuilt thing and
 needed no new research. The front end (F) supports L. The cloud (N) supports
@@ -316,6 +326,79 @@ decision that has not been taken yet.
   there is a strategy worth executing". There is not.
 - [ ] **D4** MGC/MCL, $19.16 pre-approved and unspent — another draw from
   the same urn, but cheap, and it would reopen the queue.
+
+## G. Register integrity — turn transcription into measurement
+
+**Opened 2026-08-30 after a level-400 review.** 19 of 20 hypotheses carry a
+resolution, but **14 are `documented`** — an outcome copied from a writeup
+with null numeric fields — and only 2 are measured. A register that is
+mostly transcription is a reading list.
+
+> **This does NOT change the trading conclusion, and should not be
+> sequenced as though it might.** H-RECLAIM reproduced its archived numbers
+> **10/10 to three decimal places**; M5 previously reproduced H5 exactly and
+> Z0 to twelve decimals. What the recompute buys is VERDICTS — several bare
+> means will resolve to `null` (inside the floor) rather than "small
+> negative" — not different numbers. The gap to requirement is a factor of
+> ten and no interval closes it. **Do this for the lab's integrity, not for
+> the edge.**
+
+- [x] **G0 H-RECLAIM done 2026-08-30** (`4e9e9f1`). Reproduces 10/10, then
+  states the estimand: filtered expectancy −0.239R [−0.291, −0.184]
+  `detectable` against a sealed arm of −0.036R [−0.083, +0.013] `null`.
+  Resolved `scored`, superseding its `documented` record.
+
+- [ ] **G1 IMPORT, DO NOT TRANSCRIBE — do this before the other 12.**
+  The recompute currently retypes logic out of a frozen script. On the
+  first attempt that produced a clean `detectable` result at 2.33x floor
+  **for a strategy that does not exist** — breakout bar conflated with the
+  failure close, excursion term dropped from the stop, slippage dropped
+  from sizing. The reproduction gate caught it, but the design invites the
+  error. `exp_reclaim.py` already exposes `run(inst)`; import the frozen
+  module and call it, so the recompute physically cannot diverge and the
+  gate becomes belt-and-braces rather than the only defence.
+- [ ] **G2 collapse the wrapper sprawl.** `experiment.run` executes an
+  archived script with no arguments, so each hypothesis needs its own entry
+  point — but 14 near-identical 4-line files is the wrong answer. Generate
+  them, or give `experiment.run` an explicit argv contract.
+- [ ] **G3 recompute H-STOPWIDTH · H-SECONDPUSH** (share H-RECLAIM's shape).
+- [ ] **G4 recompute the three ICT runs** (P1-FVG, P2-SWEEP, P2-CONTROL) —
+  the first genuinely stochastic CIs in the backfill.
+- [ ] **G5 recompute E3-COSTS · X1-RECONCILE · C2 · H5** (M5 already
+  re-scored the last two; needs promoting to `scored` resolutions).
+- [ ] **G6 recompute E2-OBJECTIVE · Q1-PAYOUT-PATH · Q2-ATTRIBUTION** —
+  Monte Carlo, so pin seeds explicitly.
+- [ ] **G7 restrict `kind="documented"`.** Refuse it when an archived script
+  exists for that hypothesis: if it can be run, it may not merely be
+  described. Turns a judgement error into something the code refuses.
+- [ ] **G8 re-run `make report` and republish** once G3-G6 land.
+
+## H. Engineering hygiene — small, and two of them are overdue
+
+- [ ] **H1 CI (`.github/workflows`) — highest value per line in the repo.**
+  `make check` on push. 503 tests, and nothing automated proves they still
+  pass. A repository whose proposition is "hard to fool" currently asks the
+  reader to take that on trust.
+- [ ] **H2 unload the launchd jobs.** `com.occams.paper-morning` and
+  `paper-evening` still fire weekdays 13:30 for a campaign that concluded
+  **2026-07-06** — eight weeks of a dead loop.
+- [ ] **H3 `[needs-user]` AWS teardown — ~$100/year.** ~$10.50/month for
+  infrastructure with **zero Lambda invocations in 14 days**: Lambda $3.05,
+  EC2-Other $1.89, Secrets $1.50, KMS $0.93, ECR $0.62, CloudWatch $0.40.
+  **The archive itself — 2.11 GB, the only part with evidentiary value —
+  costs $0.08.** Also **4 secrets and 13 KMS keys across three regions**
+  while the configured default is a fourth (eu-north-1). Keep the bucket,
+  drop the scaffolding. Gated on whether the N track is dead or paused,
+  which is the same question as B-DECISION.
+- [ ] **H4 make the console reproducible without S3.** `make report`,
+  `make plots` and `make reproduce` all need the author's bucket, so the
+  two most compelling artifacts cannot be rebuilt by anyone else. Ship the
+  register cache, or let `make report` fall back to a committed snapshot.
+- [ ] **H5 two one-line performance fixes.** `hm = ts.dt.hour*60+...` is
+  recomputed inside the groupby loop — **32% of recompute time (2.7s of
+  8.4s), 3,701 redundant timezone conversions**, and `load()` already
+  computes it once and discards it. And wire up `scripts/to_parquet.py`,
+  which is written and unused: 28 MB vs 200 MB, 0.3s vs 1.4s.
 
 ## B-DECISION — where to point the instrument
 
