@@ -60,9 +60,10 @@ results that looked real and were not, what the closing analysis corrected,
 and why we stopped before entering a challenge. Every number resolves to a
 register record.
 
-Then **[PROGRAMME-CONCLUSION.md](PROGRAMME-CONCLUSION.md)** — 18
-registered hypotheses, three sealed verdicts, and what a year of this
-established. Everything below is detail beneath it.
+Then **[PROGRAMME-CONCLUSION.md](PROGRAMME-CONCLUSION.md)** — the mid-programme
+conclusion at 18 hypotheses and alpha 0.42, **kept as a dated snapshot** and
+carrying a correction notice: one of its rows was later shown wrong.
+Everything below is detail beneath these two.
 
 The narrative account is in the [essays](https://harveygill.substack.com/);
 these are the primary records the essays were written from.

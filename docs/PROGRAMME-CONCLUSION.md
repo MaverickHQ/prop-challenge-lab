@@ -19,6 +19,20 @@ could previously be seen in one place.
 > than fixed silently, because a repository whose argument is provenance
 > does not get to quietly repair its own dates.
 
+> **DATED SNAPSHOT, SUPERSEDED 2026-08-30 by [RESULTS.md](RESULTS.md).**
+> The register closed at **24 hypotheses, alpha 0.62, 24 resolved**. The
+> figures below were correct when written and are kept unedited, because a
+> conclusion that quietly updates itself is not a record.
+>
+> **One row below is now known WRONG.** "H-STOPWIDTH — ladder flat,
+> expectancy unchanged at every stop width" holds on MNQ and **does not hold
+> on MES**, where the archived ladder is a monotone 3.5x improvement
+> (−0.046R at x1 to −0.013R at x8) driven by cost-in-R falling 15x as the
+> stop widens. Neither reading carried an interval, so neither was
+> established — but "flat" was asserted and is not supported. The closing
+> analysis (T1, T2, T4) found **trade geometry moved results more than any
+> signal this programme measured.**
+
 **Position:** 18 registered hypotheses · alpha 0.42 spent · three sealed
 verdicts · $128.09 of a $150 data budget · 1,216 archived objects, 2.11 GB ·
 427 tests green. **No strategy with a demonstrable edge.**
@@ -40,7 +54,7 @@ The register, in the order it was written:
 | hypothesis | axis | result | cause of death |
 |---|---|---|---|
 | H-RECLAIM | price | −0.046 → −0.262 R | the filter made it strictly worse |
-| H-STOPWIDTH | price | ladder flat, 77.5% exceed stop | expectancy unchanged at every stop width |
+| H-STOPWIDTH | price | ~~ladder flat~~ **see correction below**, 77.5% exceed stop | ~~expectancy unchanged at every stop width~~ |
 | H-SECONDPUSH | price | gross +0.011 → net **−0.082 R** | costs ate the whole signal |
 | H4-ORDERFLOW ×2 | order flow | not run | closed unrun — moot once the fade's entry failed |
 | X1-RECONCILE | instrument | reproduces verdict #3 to 3 d.p. | *instrument trusted* |

@@ -1,0 +1,83 @@
+---
+# Front matter required: it tells Jekyll to process this file rather than
+# copy it. Overrides the primer theme so the markdown pages share the
+# research console's identity -- same palette, same serif, same dark-mode
+# behaviour. A docs site that looks unrelated to the artifact it documents
+# reads as two projects.
+---
+
+@import "{{ site.theme }}";
+
+:root {
+  --bg:#FBFAF7; --ink:#16211F; --sub:#6D7F82; --line:#D2DAD8; --card:#fff;
+  --brass:#96690F; --verdigris:#2F6C63; --rust:#9C4429;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#12191A; --ink:#E6EDEB; --sub:#8FA3A5; --line:#2A3839; --card:#182223;
+    --brass:#C79233; --verdigris:#4E9C90; --rust:#C9714B;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 15.5px/1.65 ui-serif, Georgia, "Times New Roman", serif;
+}
+
+.page-header {
+  background: var(--card);
+  color: var(--ink);
+  border-bottom: 2px solid var(--line);
+  padding: 2rem 1rem 1.6rem;
+}
+.page-header .project-name { font-size: 1.9rem; letter-spacing: -.015em; }
+.page-header .project-tagline { color: var(--sub); opacity: 1; font-size: .95rem; }
+.page-header .btn {
+  background: transparent; border: 1px solid var(--line); color: var(--sub);
+  border-radius: 999px; font-size: .78rem;
+}
+.page-header .btn:hover { color: var(--ink); border-color: var(--sub); }
+
+.main-content {
+  max-width: 66rem; color: var(--ink); font-size: 15.5px; line-height: 1.65;
+}
+.main-content h1, .main-content h2, .main-content h3,
+.main-content h4, .main-content h5 { color: var(--ink); font-weight: 600; }
+.main-content h2 {
+  font-size: 1.3rem; margin-top: 2.6rem; padding-bottom: .35rem;
+  border-bottom: 1px solid var(--line);
+}
+.main-content h3 { font-size: 1.05rem; }
+.main-content a { color: var(--verdigris); }
+.main-content a:hover { color: var(--brass); }
+
+.main-content code, .main-content pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .8rem;
+}
+.main-content code { background: var(--card); border: 1px solid var(--line);
+  border-radius: 4px; padding: .08em .35em; color: var(--ink); }
+.main-content pre {
+  background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+  padding: .7rem .85rem;
+}
+.main-content pre code { border: 0; padding: 0; background: transparent; }
+
+.main-content table { display: table; width: 100%; border-collapse: collapse; }
+.main-content table th {
+  background: transparent; color: var(--sub); font-weight: 600;
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .07em;
+  border-bottom: 1px solid var(--line); text-align: left;
+}
+.main-content table td { border-bottom: 1px solid var(--line); }
+.main-content table tr:nth-child(2n) { background: transparent; }
+
+.main-content blockquote {
+  color: var(--sub); border-left: 3px solid var(--line);
+  padding-left: .9rem; font-size: .92rem;
+}
+.main-content hr { background: var(--line); height: 1px; border: 0; }
+.site-footer {
+  border-top: 2px solid var(--line); color: var(--sub); font-size: .85rem;
+}
