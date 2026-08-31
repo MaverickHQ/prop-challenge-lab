@@ -545,8 +545,16 @@ def _provenance(res: list[dict], n_hyps: int) -> str:
     """
     if not res:
         return ""
+    # COUNT HYPOTHESES, NOT RECORDS. A correction appends a superseding
+    # resolution rather than editing the original, so H-RECLAIM carries two
+    # -- and counting records printed "25 of 24 hypotheses carry a
+    # resolution", which is nonsense on its face and on a page whose whole
+    # claim is that its numbers can be trusted.
+    latest: dict[str, dict] = {}
+    for r in sorted(res, key=lambda r: str(r.get("resolved_at"))):
+        latest[str(r.get("hypothesis_id"))] = r
     counts: dict[str, int] = {}
-    for r in res:
+    for r in latest.values():
         counts[str(r.get("kind") or "scored")] = counts.get(
             str(r.get("kind") or "scored"), 0) + 1
     order = ["scored", "audit", "superseded", "documented"]
@@ -556,13 +564,14 @@ def _provenance(res: list[dict], n_hyps: int) -> str:
         f'<td class="thin">{esc(KIND_LABEL.get(k, (k, ""))[1])}</td></tr>'
         for k in order if k in counts)
     doc = counts.get("documented", 0)
-    caveat = (f" <strong>{doc} of {len(res)} rest on a document rather than a "
+    caveat = (f" <strong>{doc} of {len(latest)} rest on a document rather than a "
               f"computation</strong> &mdash; their effect sizes live in the "
               f"cited writeup and were never entered into the register, so "
               f"this page shows none for them." if doc else "")
     return f"""<div class="prov-table">
 <h3 class="sub-h">How each was resolved</h3>
-<p class="lede">{len(res)} of {n_hyps} hypotheses carry a resolution
+<p class="lede">{len(latest)} of {n_hyps} hypotheses carry a resolution
+({len(res)} records; a correction appends rather than edits)
 record.{caveat}</p>
 <table class="metrics"><tbody>{rows}</tbody></table>
 </div>"""
