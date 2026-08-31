@@ -259,7 +259,28 @@ permanent rather than transitional.
   **event axis** — crude's scheduled weekly inventory release is a mechanism
   equity index does not have — rather than re-running dead families on new
   symbols.
-- [ ] **H3** `[needs-user]` AWS teardown, ~$100/year, zero invocations in 14
-  days. Keep the bucket ($0.08/month); drop the scaffolding.
+- [x] **H3 CLOSED 2026-08-30 — NOT DONE, and correctly so. The ~$100/year
+  figure was WRONG.** It came from a service-level cost breakdown never
+  checked against regions, in an account holding **five projects**.
+
+  **By region, this project's entire footprint is eu-north-1 at
+  $0.09/month**, of which **$0.08 is the S3 register that must be kept.**
+  The ~$10.50/month is mostly elsewhere: **$6.25 eu-west-2** (SignalFlow,
+  godseye) and **$2.47 eu-west-1** (FitnessCore).
+
+  **Three line items were wrongly attributed here:** zero secrets and zero
+  customer-managed KMS keys exist in eu-north-1, and the ECR repo there is
+  called `valvur` and belongs to something else.
+
+  `occams-campaign`'s four EventBridge Schedules are all **DISABLED**, zero
+  invocations in 30 days, no provisioned concurrency. **Tearing it down
+  saves about a penny and risks deleting the wrong stack.**
+
+  The earlier "dormant" check was also right by accident: it queried
+  EventBridge *Rules* while the stack uses EventBridge *Scheduler*.
+  **Attribute costs by region or tag before acting on a service-level
+  total.** The real target ($8.72) has its own brief:
+  `10 - Projects/aws-account-cleanup.md`.
+
 - [ ] **A2-PUB / L-PUB** `[needs-user]` four essay drafts awaiting review.
   **The lab series still has no name.**

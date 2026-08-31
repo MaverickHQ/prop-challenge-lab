@@ -403,14 +403,29 @@ mostly transcription is a reading list.
   `paper-evening` had been firing weekdays 13:30 for eight weeks past the
   campaign's conclusion. The plists are left on disk, so `launchctl load`
   reverses this if the paper track ever reopens.
-- [ ] **H3 `[needs-user]` AWS teardown — ~$100/year.** ~$10.50/month for
-  infrastructure with **zero Lambda invocations in 14 days**: Lambda $3.05,
-  EC2-Other $1.89, Secrets $1.50, KMS $0.93, ECR $0.62, CloudWatch $0.40.
-  **The archive itself — 2.11 GB, the only part with evidentiary value —
-  costs $0.08.** Also **4 secrets and 13 KMS keys across three regions**
-  while the configured default is a fourth (eu-north-1). Keep the bucket,
-  drop the scaffolding. Gated on whether the N track is dead or paused,
-  which is the same question as B-DECISION.
+- [x] **H3 CLOSED 2026-08-30 — NOT DONE, and correctly so. The ~$100/year
+  figure was WRONG.** It came from a service-level cost breakdown never
+  checked against regions, in an account holding **five projects**.
+
+  **By region, this project's entire footprint is eu-north-1 at
+  $0.09/month**, of which **$0.08 is the S3 register that must be kept.**
+  The ~$10.50/month is mostly elsewhere: **$6.25 eu-west-2** (SignalFlow,
+  godseye) and **$2.47 eu-west-1** (FitnessCore).
+
+  **Three line items were wrongly attributed here:** zero secrets and zero
+  customer-managed KMS keys exist in eu-north-1, and the ECR repo there is
+  called `valvur` and belongs to something else.
+
+  `occams-campaign`'s four EventBridge Schedules are all **DISABLED**, zero
+  invocations in 30 days, no provisioned concurrency. **Tearing it down
+  saves about a penny and risks deleting the wrong stack.**
+
+  The earlier "dormant" check was also right by accident: it queried
+  EventBridge *Rules* while the stack uses EventBridge *Scheduler*.
+  **Attribute costs by region or tag before acting on a service-level
+  total.** The real target ($8.72) has its own brief:
+  `10 - Projects/aws-account-cleanup.md`.
+
 - [ ] **H4 make the console reproducible without S3.** `make report`,
   `make plots` and `make reproduce` all need the author's bucket, so the
   two most compelling artifacts cannot be rebuilt by anyone else. Ship the
