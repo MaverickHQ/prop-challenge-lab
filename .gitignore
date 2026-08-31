@@ -45,3 +45,7 @@ dist/
 # The RENDERED page (docs/report.html) IS tracked and published: it is the
 # only way a reader without credentials can see the register at all.
 artifacts/register-cache.json
+
+# Venue-identifying plan data (privacy rule: the venue is never in git).
+# The MODEL is public; the provider's actual menu is not.
+*.local.json
