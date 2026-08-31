@@ -14,6 +14,12 @@ market or venue.
 make quickstart     # ten seconds, no data, no API key, no network
 ```
 
+**Status: the research programme that built this is closed.** 24 registered
+hypotheses, 24 resolved, three sealed verdicts, no edge found — and no fee
+ever paid to a funded-account provider, because the instrument said not to.
+The harness stands on its own; see **[docs/RESULTS.md](docs/RESULTS.md)** for
+what it was pointed at and what came back.
+
 ---
 
 ## The problem it exists to solve
@@ -269,19 +275,35 @@ never redistributed.
 
 ---
 
-## The case study
+## The programme this was built for
 
-The lab was built while running a real research programme against two index
-futures. That programme registered eighteen hypotheses, sealed three
-verdicts, and did not find a tradeable edge — and three of its results
-looked real and were not, each caught by a different gate above.
+The lab ran for a year against two index futures, testing whether a
+mechanical strategy could clear a funded-account evaluation. **It closed
+without entering one.**
 
-The results, and what they say about how research goes wrong, are written up
-separately: **[essays](https://harveygill.substack.com/)**. The records
-themselves are in [`docs/`](docs/) — `PROGRAMME-CONCLUSION.md` is the
-summary.
+**24 registered hypotheses, 24 resolved, three sealed verdicts, $128 of
+market data, and no provider fee ever paid.** Nine distinct rearrangements
+of seven years of 1-minute bars produced a gross signal of +0.02 to +0.04R
+per trade against costs of 0.05–0.09R.
 
-You do not need any of that to use the harness.
+Two findings are worth the click even if you never trade:
+
+- **Three results looked real and were not** — an unobtainable entry price,
+  a measurement containing 94.8% of its own answer, and a broken estimator
+  that met forgiving data. Each was caught by a different gate above, and
+  none by a significance test.
+- **The constraint was the adversary, not the market.** Trade *geometry*
+  moved results more than any signal the programme measured, and roughly
+  half of modelled failures breach the trailing drawdown rather than run out
+  of edge.
+
+**[docs/RESULTS.md](docs/RESULTS.md)** is the checkable record — every number
+resolves to an entry in
+[the register](https://maverickhq.github.io/prop-challenge-lab/report.html).
+The narrative versions are [essays](https://harveygill.substack.com/).
+
+**You do not need any of it to use the harness.** Nothing in `occams/` is
+specific to that programme, that venue, or those instruments.
 
 ---
 
