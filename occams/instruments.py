@@ -40,6 +40,61 @@ MEASURED_COSTS: dict[str, Costs] = {
 }
 
 
+# ─── T3: metals and energy, RECORDED BUT NOT USABLE ───
+#
+# `T3-COST-FILTER-REPLICATION` needs MGC and MCL, and its first validity gate
+# says the specs must come from the exchange's published contract
+# specifications rather than be inferred. On 2026-08-30 both sources were
+# unreachable (CME timed out, the broker page returned 403), so these are
+# RECORDED FROM MEMORY AND NOT VERIFIED.
+#
+# They are deliberately NOT in `COSTS_BY_INSTRUMENT` or `MEASURED_COSTS`, so
+# `costs_for` cannot reach them and no simulation can quietly consume them.
+# `unverified_costs()` raises instead of returning, and a test pins that.
+#
+# Slippage is the field that matters and the one nobody can look up. E3
+# measured 1.00 ticks on MES -- the sealed assumption was right -- and 2.00
+# ticks on MNQ, DOUBLE the assumption, off 60 sessions of trades tape. Metals
+# and energy have their own microstructure and no tape has been bought, so
+# `slippage_ticks` below is a placeholder, not an estimate.
+UNVERIFIED_COSTS: dict[str, dict] = {
+    "MGC": {"contract": "Micro Gold, 10 troy oz",
+            "multiplier": 10.0, "tick_size": 0.10,
+            "commission_per_side": None,   # broker-specific, not published
+            "slippage_ticks": None,        # UNMEASURED -- needs tape
+            "verified": False},
+    "MCL": {"contract": "Micro WTI Crude Oil, 100 barrels",
+            "multiplier": 100.0, "tick_size": 0.01,
+            "commission_per_side": None,
+            "slippage_ticks": None,
+            "verified": False},
+}
+
+
+def unverified_costs(instrument: str) -> Costs:
+    """Refuse. Recorded specs are not verified specs.
+
+    This exists so the MGC/MCL numbers can be written down without becoming
+    usable. Every field marked None is a real unknown -- commission is
+    broker-specific and slippage cannot be known without a trades tape --
+    and a `Costs` built by filling them with plausible values would produce
+    an expectancy indistinguishable from a measured one.
+    """
+    spec = UNVERIFIED_COSTS.get(instrument)
+    if spec is None:
+        raise ValueError(f"no unverified spec recorded for {instrument!r}")
+    missing = [k for k, v in spec.items() if v is None]
+    raise NotImplementedError(
+        f"{instrument} ({spec['contract']}) is RECORDED, NOT VERIFIED. "
+        f"multiplier={spec['multiplier']}, tick={spec['tick_size']} were "
+        f"written from memory on 2026-08-30 because the exchange's published "
+        f"specifications were unreachable, and {missing} are genuine "
+        f"unknowns. Verify against the contract specs and measure slippage "
+        f"off a trades tape before registering a result -- E3 found the "
+        f"sealed slippage assumption optimistic by 2x on MNQ."
+    )
+
+
 def costs_for(instrument: str,
               table: Mapping[str, Costs] | None = None) -> Costs:
     table = COSTS_BY_INSTRUMENT if table is None else table
