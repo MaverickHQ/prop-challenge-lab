@@ -186,15 +186,15 @@ footer .mono{font-size:.7rem}
   <h1>occams-trader <span class="thin">research console</span></h1>
   <p class="lede">A falsifiable record: what was asked, what was measured,
      and what the instrument was doing when it measured it. Rendered from
-     the register at <code>2026-08-30T16:57:40+00:00</code>.
+     the register at <code>2026-08-31T14:32:36+00:00</code>.
      <strong>A dated artifact, not a live view.</strong></p>
   <dl class="stamp">
-    <div><dt>engine_sha</dt><dd><code>c7d20461f9a008dfaf41716189561cc487671d3b-dirty</code></dd></div>
-    <div><dt>generated</dt><dd><code>2026-08-30T16:57:42+00:00</code></dd></div>
-    <div><dt>archive objects</dt><dd><code>1,278</code></dd></div>
+    <div><dt>engine_sha</dt><dd><code>a1afdc7f6aaafd7bfbf0f4e5f00b7bc823090064-dirty</code></dd></div>
+    <div><dt>generated</dt><dd><code>2026-08-31T14:32:39+00:00</code></dd></div>
+    <div><dt>archive objects</dt><dd><code>1,307</code></dd></div>
   </dl>
 </header>
-<nav class="toc"><a href="#controls">Controls</a><a href="#summary">Position</a><a href="#findings">Findings (7)</a><a href="#figures">Figures</a><a href="#register">The register</a></nav>
+<nav class="toc"><a href="#controls">Controls</a><a href="#summary">Position</a><a href="#findings">Findings (24)</a><a href="#figures">Figures</a><a href="#register">The register</a></nav>
 <section id="controls">
 <h2>1 &middot; Controls</h2>
 <p class="lede">Run first, and shown first. Nothing below is worth reading
@@ -258,31 +258,31 @@ touch no market data, no key and no network.</p>
 <section id="summary">
 <h2>2 &middot; Position</h2>
 <div class="grid">
-  <div class="card"><span class="n">20</span>
+  <div class="card"><span class="n">24</span>
     <span class="k">hypotheses registered</span></div>
-  <div class="card"><span class="n">22</span>
+  <div class="card"><span class="n">26</span>
     <span class="k">archived runs</span></div>
-  <div class="card"><span class="n">7</span>
+  <div class="card"><span class="n">24</span>
     <span class="k">scored results</span></div>
   <div class="card"><span class="n">$0.00</span>
     <span class="k">recorded spend</span></div>
 </div>
-<div class="chips"><span class="chip v-detect">detectable <b>3</b></span><span class="chip v-null">null <b>4</b></span></div>
+<div class="chips"><span class="chip v-detect">detectable <b>10</b></span><span class="chip v-null">null <b>11</b></span><span class="chip v-immat">precise but immaterial <b>3</b></span></div>
 <div class="prov-table">
 <h3 class="sub-h">How each was resolved</h3>
-<p class="lede">19 of 20 hypotheses carry a resolution
-record. <strong>14 of 19 rest on a document rather than a computation</strong> &mdash; their effect sizes live in the cited writeup and were never entered into the register, so this page shows none for them.</p>
-<table class="metrics"><tbody><tr><td><span class="badge prov">measured</span></td><td class="v">2</td><td class="thin">read from a scored result in an archived run</td></tr><tr><td><span class="badge prov">audit</span></td><td class="v">1</td><td class="thin">a judgement with no estimate and no floor</td></tr><tr><td><span class="badge prov">superseded</span></td><td class="v">2</td><td class="thin">replaced before it was ever run</td></tr><tr><td><span class="badge prov">documented</span></td><td class="v">14</td><td class="thin">stated in prose, never computed into the register</td></tr></tbody></table>
+<p class="lede">25 of 24 hypotheses carry a resolution
+record. <strong>15 of 25 rest on a document rather than a computation</strong> &mdash; their effect sizes live in the cited writeup and were never entered into the register, so this page shows none for them.</p>
+<table class="metrics"><tbody><tr><td><span class="badge prov">measured</span></td><td class="v">7</td><td class="thin">read from a scored result in an archived run</td></tr><tr><td><span class="badge prov">audit</span></td><td class="v">1</td><td class="thin">a judgement with no estimate and no floor</td></tr><tr><td><span class="badge prov">superseded</span></td><td class="v">2</td><td class="thin">replaced before it was ever run</td></tr><tr><td><span class="badge prov">documented</span></td><td class="v">15</td><td class="thin">stated in prose, never computed into the register</td></tr></tbody></table>
 </div>
 <div class="gauge">
   <div class="gauge-head">
-    <span class="gauge-n">0.42</span>
-    <span class="gauge-k">alpha allocated across 20 registrations</span>
+    <span class="gauge-n">0.62</span>
+    <span class="gauge-k">alpha allocated across 24 registrations</span>
   </div>
-  <div class="gauge-bar"><div class="gauge-fill" style="width:84.0%"></div></div>
-  <p class="gauge-note"><strong>8.4&times;</strong> the conventional
+  <div class="gauge-bar"><div class="gauge-fill" style="width:100.0%"></div></div>
+  <p class="gauge-note"><strong>12.4&times;</strong> the conventional
   0.05 single-test allowance. Alpha is a non-renewable
-  resource: a finding at attempt 20 must clear a materially higher bar than
+  resource: a finding at attempt 24 must clear a materially higher bar than
   the same finding at attempt 3. The gauge is here so that bar is visible
   rather than remembered.</p>
 </div>
@@ -298,7 +298,483 @@ is <em>inconclusive</em> and means get more data, while one inside the floor
 is <em>null</em> and means the question is answered.</p>
 <div class="legend"><span class="sw floorband"></span> cannot be told apart
 from nothing <span class="sw zero"></span> zero</div>
-<article class="finding v-detect">
+<article class="finding v-null">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-H-RECLAIM">H-RECLAIM</a>
+      <span class="thin">&middot; 2026-08-30-audited</span>
+      <h3>H-RECLAIM COMPARATOR - sealed (unfiltered) expectancy, per trade</h3>
+    </div>
+    <span class="badge v-null">null</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-null" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0359, interval -0.0835 to +0.0135, floor 0.090">
+<rect class="floorband" x="45.0" y="8" width="250.0" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="54.0" y1="24" x2="188.7" y2="24"/>
+<line class="cap" x1="54.0" y1="18" x2="54.0" y2="30"/>
+<line class="cap" x1="188.7" y1="18" x2="188.7" y2="30"/>
+<circle class="est" cx="120.1" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.03592 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.0835, +0.0135]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.08996991758658018 <span class="fm">-0.40&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">3,161 <span class="thin">&rarr; 1,663 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">the arm the filter was supposed to improve on.</p>
+</article><article class="finding v-detect">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-H-RECLAIM">H-RECLAIM</a>
+      <span class="thin">&middot; 2026-08-30-audited</span>
+      <h3>H-RECLAIM PRIMARY - reclaim-filtered expectancy, per trade</h3>
+    </div>
+    <span class="badge v-detect">detectable</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-detect" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.2393, interval -0.2910 to -0.1843, floor 0.104">
+<rect class="floorband" x="125.4" y="8" width="89.2" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="45.0" y1="24" x2="90.8" y2="24"/>
+<line class="cap" x1="45.0" y1="18" x2="45.0" y2="30"/>
+<line class="cap" x1="90.8" y1="18" x2="90.8" y2="30"/>
+<circle class="est" cx="67.2" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.23931 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.2910, -0.1843]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.10378428725965629 <span class="fm">-2.31&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">1,964 <span class="thin">&rarr; 1,033 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">the filtered strategy&#x27;s own expectancy. Compare with the sealed arm below: the intervals do not overlap.</p>
+</article><article class="finding v-detect">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-H-RECLAIM">H-RECLAIM</a>
+      <span class="thin">&middot; 2026-08-30-audited</span>
+      <h3>H-RECLAIM SECONDARY - paired reclaim minus sealed, shared days only</h3>
+    </div>
+    <span class="badge v-detect">detectable</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-detect" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect +0.2427, interval +0.1736 to +0.3115, floor 0.133">
+<rect class="floorband" x="116.4" y="8" width="107.1" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="239.7" y1="24" x2="295.0" y2="24"/>
+<line class="cap" x1="239.7" y1="18" x2="239.7" y2="30"/>
+<line class="cap" x1="295.0" y1="18" x2="295.0" y2="30"/>
+<circle class="est" cx="267.4" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">+0.24266 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[+0.1736, +0.3115]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.1334909642818425 <span class="fm">+1.82&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">1,964 <span class="thin">&rarr; 1,033 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">POSITIVE and it does NOT rescue the filter. This conditions on days a reclaim occurred, which are days price first went through the stop -- exactly where the sealed entry does worst. It answers &#x27;given a reclaim happened, was the later entry better&#x27;, not &#x27;is the filter worth applying&#x27;.</p>
+</article><article class="finding v-detect">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T1-TARGET-LADDER">T1-TARGET-LADDER</a>
+      <span class="thin">&middot; 2026-08-30-ladder-v2</span>
+      <h3>T1 target_r=1.0 - net R per trade</h3>
+    </div>
+    <span class="badge v-detect">detectable</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-detect" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.1028, interval -0.1324 to -0.0705, floor 0.053">
+<rect class="floorband" x="120.3" y="8" width="99.4" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="45.0" y1="24" x2="103.4" y2="24"/>
+<line class="cap" x1="45.0" y1="18" x2="45.0" y2="30"/>
+<line class="cap" x1="103.4" y1="18" x2="103.4" y2="30"/>
+<circle class="est" cx="72.9" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.10285 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.1324, -0.0705]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.05262286279943919 <span class="fm">-1.95&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">3,384 <span class="thin">&rarr; 1,781 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">win rate 0.476; ORB vehicle, stop_range=0.5, risk=$175</p>
+</article><article class="finding v-detect">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T1-TARGET-LADDER">T1-TARGET-LADDER</a>
+      <span class="thin">&middot; 2026-08-30-ladder-v2</span>
+      <h3>T1 target_r=1.5 - net R per trade</h3>
+    </div>
+    <span class="badge v-detect">detectable</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-detect" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0973, interval -0.1340 to -0.0577, floor 0.064">
+<rect class="floorband" x="110.7" y="8" width="118.7" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="45.0" y1="24" x2="116.1" y2="24"/>
+<line class="cap" x1="45.0" y1="18" x2="45.0" y2="30"/>
+<line class="cap" x1="116.1" y1="18" x2="116.1" y2="30"/>
+<circle class="est" cx="79.2" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.09735 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.1340, -0.0577]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.06357818583823024 <span class="fm">-1.53&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">3,384 <span class="thin">&rarr; 1,781 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">win rate 0.385; ORB vehicle, stop_range=0.5, risk=$175</p>
+</article><article class="finding v-detect">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T1-TARGET-LADDER">T1-TARGET-LADDER</a>
+      <span class="thin">&middot; 2026-08-30-ladder-v2</span>
+      <h3>T1 target_r=2.0 - net R per trade</h3>
+    </div>
+    <span class="badge v-detect">detectable</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-detect" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0851, interval -0.1281 to -0.0398, floor 0.073">
+<rect class="floorband" x="98.8" y="8" width="142.4" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="45.0" y1="24" x2="131.2" y2="24"/>
+<line class="cap" x1="45.0" y1="18" x2="45.0" y2="30"/>
+<line class="cap" x1="131.2" y1="18" x2="131.2" y2="30"/>
+<circle class="est" cx="87.0" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.08511 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.1281, -0.0398]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.07297645225758571 <span class="fm">-1.17&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">3,384 <span class="thin">&rarr; 1,781 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">win rate 0.330; ORB vehicle, stop_range=0.5, risk=$175</p>
+</article><article class="finding v-immat">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T1-TARGET-LADDER">T1-TARGET-LADDER</a>
+      <span class="thin">&middot; 2026-08-30-ladder-v2</span>
+      <h3>T1 target_r=3.0 - net R per trade</h3>
+    </div>
+    <span class="badge v-immat">precise but immaterial</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-immat" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0669, interval -0.1186 to -0.0142, floor 0.088">
+<rect class="floorband" x="77.4" y="8" width="185.2" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="45.0" y1="24" x2="155.0" y2="24"/>
+<line class="cap" x1="45.0" y1="18" x2="45.0" y2="30"/>
+<line class="cap" x1="155.0" y1="18" x2="155.0" y2="30"/>
+<circle class="est" cx="99.5" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.06694 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.1186, -0.0142]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.08789775560052443 <span class="fm">-0.76&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">3,384 <span class="thin">&rarr; 1,781 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">win rate 0.268; ORB vehicle, stop_range=0.5, risk=$175</p>
+</article><article class="finding v-null">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T1-TARGET-LADDER">T1-TARGET-LADDER</a>
+      <span class="thin">&middot; 2026-08-30-ladder-v2</span>
+      <h3>T1 target_r=4.0 - net R per trade</h3>
+    </div>
+    <span class="badge v-null">null</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-null" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0372, interval -0.0956 to +0.0236, floor 0.100">
+<rect class="floorband" x="45.0" y="8" width="250.0" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="50.5" y1="24" x2="199.5" y2="24"/>
+<line class="cap" x1="50.5" y1="18" x2="50.5" y2="30"/>
+<line class="cap" x1="199.5" y1="18" x2="199.5" y2="30"/>
+<circle class="est" cx="123.5" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.03717 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.0956, +0.0236]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.1000020079817115 <span class="fm">-0.37&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">3,384 <span class="thin">&rarr; 1,781 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">win rate 0.242; ORB vehicle, stop_range=0.5, risk=$175</p>
+</article><article class="finding v-null">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T1-TARGET-LADDER">T1-TARGET-LADDER</a>
+      <span class="thin">&middot; 2026-08-30-ladder-v2</span>
+      <h3>T1 target_r=6.0 - net R per trade</h3>
+    </div>
+    <span class="badge v-null">null</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-null" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0213, interval -0.0893 to +0.0523, floor 0.114">
+<rect class="floorband" x="45.0" y="8" width="250.0" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="71.8" y1="24" x2="227.6" y2="24"/>
+<line class="cap" x1="71.8" y1="18" x2="71.8" y2="30"/>
+<line class="cap" x1="227.6" y1="18" x2="227.6" y2="30"/>
+<circle class="est" cx="146.6" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.02128 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.0893, +0.0523]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.11361893769086785 <span class="fm">-0.19&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">3,384 <span class="thin">&rarr; 1,781 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">win rate 0.223; ORB vehicle, stop_range=0.5, risk=$175</p>
+</article><article class="finding v-null">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T2-COST-CONDITIONED">T2-COST-CONDITIONED</a>
+      <span class="thin">&middot; 2026-08-30-cost-ladder</span>
+      <h3>T2 cost_R&lt;=0.05 - net R per trade</h3>
+    </div>
+    <span class="badge v-null">null</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-null" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect +0.0230, interval -0.0361 to +0.0840, floor 0.115">
+<rect class="floorband" x="45.0" y="8" width="250.0" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="130.9" y1="24" x2="261.0" y2="24"/>
+<line class="cap" x1="130.9" y1="18" x2="130.9" y2="30"/>
+<line class="cap" x1="261.0" y1="18" x2="261.0" y2="30"/>
+<circle class="est" cx="194.9" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">+0.02296 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.0361, +0.0840]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.11543800752505227 <span class="fm">+0.20&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">1,226 <span class="thin">&rarr; 645 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">kept 36.2% of trades</p>
+</article><article class="finding v-null">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T2-COST-CONDITIONED">T2-COST-CONDITIONED</a>
+      <span class="thin">&middot; 2026-08-30-cost-ladder</span>
+      <h3>T2 cost_R&lt;=0.07 - net R per trade</h3>
+    </div>
+    <span class="badge v-null">null</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-null" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0115, interval -0.0639 to +0.0406, floor 0.097">
+<rect class="floorband" x="45.0" y="8" width="250.0" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="87.3" y1="24" x2="222.6" y2="24"/>
+<line class="cap" x1="87.3" y1="18" x2="87.3" y2="30"/>
+<line class="cap" x1="222.6" y1="18" x2="222.6" y2="30"/>
+<circle class="est" cx="155.1" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.01152 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.0639, +0.0406]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.09657798063502403 <span class="fm">-0.12&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">1,836 <span class="thin">&rarr; 966 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">kept 54.3% of trades</p>
+</article><article class="finding v-null">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T2-COST-CONDITIONED">T2-COST-CONDITIONED</a>
+      <span class="thin">&middot; 2026-08-30-cost-ladder</span>
+      <h3>T2 cost_R&lt;=0.1 - net R per trade</h3>
+    </div>
+    <span class="badge v-null">null</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-null" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0321, interval -0.0804 to +0.0179, floor 0.086">
+<rect class="floorband" x="45.0" y="8" width="250.0" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="53.6" y1="24" x2="195.9" y2="24"/>
+<line class="cap" x1="53.6" y1="18" x2="53.6" y2="30"/>
+<line class="cap" x1="195.9" y1="18" x2="195.9" y2="30"/>
+<circle class="est" cx="123.5" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.03211 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.0804, +0.0179]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.086290625752713 <span class="fm">-0.37&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">2,377 <span class="thin">&rarr; 1,251 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">kept 70.2% of trades</p>
+</article><article class="finding v-detect">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T2-COST-CONDITIONED">T2-COST-CONDITIONED</a>
+      <span class="thin">&middot; 2026-08-30-cost-ladder</span>
+      <h3>T2 cost_R&lt;=None - net R per trade</h3>
+    </div>
+    <span class="badge v-detect">detectable</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-detect" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0851, interval -0.1281 to -0.0398, floor 0.073">
+<rect class="floorband" x="98.8" y="8" width="142.4" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="45.0" y1="24" x2="131.2" y2="24"/>
+<line class="cap" x1="45.0" y1="18" x2="45.0" y2="30"/>
+<line class="cap" x1="131.2" y1="18" x2="131.2" y2="30"/>
+<circle class="est" cx="87.0" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.08511 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.1281, -0.0398]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.07297645225758571 <span class="fm">-1.17&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">3,384 <span class="thin">&rarr; 1,781 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">kept 100.0% of trades</p>
+</article><article class="finding v-null">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T4-COST-FILTER-AT-LOW-TARGET">T4-COST-FILTER-AT-LOW-TARGET</a>
+      <span class="thin">&middot; 2026-08-30-low-target</span>
+      <h3>T4 cost_R&lt;=0.05 - net R per trade</h3>
+    </div>
+    <span class="badge v-null">null</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-null" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0218, interval -0.0635 to +0.0195, floor 0.069">
+<rect class="floorband" x="45.0" y="8" width="250.0" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="55.8" y1="24" x2="205.1" y2="24"/>
+<line class="cap" x1="55.8" y1="18" x2="55.8" y2="30"/>
+<line class="cap" x1="205.1" y1="18" x2="205.1" y2="30"/>
+<circle class="est" cx="130.8" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.02179 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.0635, +0.0195]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.06945045557523696 <span class="fm">-0.31&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">1,226 <span class="thin">&rarr; 887 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">kept 36.2% of trades</p>
+</article><article class="finding v-immat">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T4-COST-FILTER-AT-LOW-TARGET">T4-COST-FILTER-AT-LOW-TARGET</a>
+      <span class="thin">&middot; 2026-08-30-low-target</span>
+      <h3>T4 cost_R&lt;=0.07 - net R per trade</h3>
+    </div>
+    <span class="badge v-immat">precise but immaterial</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-immat" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0386, interval -0.0758 to -0.0013, floor 0.059">
+<rect class="floorband" x="73.4" y="8" width="193.2" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="45.0" y1="24" x2="167.8" y2="24"/>
+<line class="cap" x1="45.0" y1="18" x2="45.0" y2="30"/>
+<line class="cap" x1="167.8" y1="18" x2="167.8" y2="30"/>
+<circle class="est" cx="106.3" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.03865 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.0758, -0.0013]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.05859399141997629 <span class="fm">-0.66&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">1,836 <span class="thin">&rarr; 1,328 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">kept 54.3% of trades</p>
+</article><article class="finding v-immat">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T4-COST-FILTER-AT-LOW-TARGET">T4-COST-FILTER-AT-LOW-TARGET</a>
+      <span class="thin">&middot; 2026-08-30-low-target</span>
+      <h3>T4 cost_R&lt;=0.1 - net R per trade</h3>
+    </div>
+    <span class="badge v-immat">precise but immaterial</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-immat" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.0494, interval -0.0847 to -0.0133, floor 0.053">
+<rect class="floorband" x="92.5" y="8" width="155.1" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="45.0" y1="24" x2="150.4" y2="24"/>
+<line class="cap" x1="45.0" y1="18" x2="45.0" y2="30"/>
+<line class="cap" x1="150.4" y1="18" x2="150.4" y2="30"/>
+<circle class="est" cx="97.1" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.04939 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.0847, -0.0133]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.052568626722908414 <span class="fm">-0.94&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">2,377 <span class="thin">&rarr; 1,720 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">kept 70.2% of trades</p>
+</article><article class="finding v-detect">
+  <div class="f-head">
+    <div>
+      <a class="hid" href="#h-T4-COST-FILTER-AT-LOW-TARGET">T4-COST-FILTER-AT-LOW-TARGET</a>
+      <span class="thin">&middot; 2026-08-30-low-target</span>
+      <h3>T4 cost_R&lt;=None - net R per trade</h3>
+    </div>
+    <span class="badge v-detect">detectable</span>
+  </div>
+  <div class="f-body">
+    <svg class="strip v-detect" viewBox="0 0 340 46"
+ width="340" height="46" role="img"
+ aria-label="effect -0.1028, interval -0.1324 to -0.0705, floor 0.045">
+<rect class="floorband" x="127.6" y="8" width="84.8" height="32" rx="2"/>
+<line class="zero" x1="170.0" y1="6" x2="170.0" y2="42"/>
+<line class="bar" x1="45.0" y1="24" x2="103.4" y2="24"/>
+<line class="cap" x1="45.0" y1="18" x2="45.0" y2="30"/>
+<line class="cap" x1="103.4" y1="18" x2="103.4" y2="30"/>
+<circle class="est" cx="72.9" cy="24" r="4"/>
+</svg>
+    <dl class="meta">
+      <div><dt>estimate</dt><dd class="v">-0.10285 R</dd></div>
+      <div><dt>95% CI</dt><dd class="v">[-0.1324, -0.0705]</dd></div>
+      <div><dt>floor</dt><dd class="v">0.04488494774988622 <span class="fm">-2.29&times; floor</span></dd></div>
+      <div><dt>n</dt><dd class="v">3,384 <span class="thin">&rarr; 2,448 independent-equivalent</span></dd></div>
+    </dl>
+  </div>
+  <p class="f-note">kept 100.0% of trades</p>
+</article><article class="finding v-detect">
   <div class="f-head">
     <div>
       <a class="hid" href="#h-X1-COMPRESSION">X1-COMPRESSION</a>
@@ -8778,30 +9254,7 @@ z
 <h2>5 &middot; The register</h2>
 <p class="lede">Every hypothesis, in the state the record actually holds it,
 with its mechanism written before the number existed.</p>
-<div class="gap">
-<h3>1 hypothesis with an archived run and no
-resolution</h3>
-<p>This still carries
-<code>status: registered</code> and a null <code>outcome</code>. 19 of the register now carry one.</p>
-<p><strong>Unresolved is not the same as unanswered, and the register cannot
-tell you which this is.</strong> A hypothesis sits here either because
-nobody has written its outcome back, or because someone judged the evidence
-too weak to record an outcome at all &mdash; and those are opposite
-situations wearing the same absence.</p>
-<p>The consequence is specific: <strong>the multiplicity ledger cannot be
-computed from the register</strong> while this holds. Alpha allocated is
-readable; alpha that actually bought a resolved answer is not, so the rising
-evidence bar has to be reconstructed by hand from documents.</p>
-<p><strong>The mechanism now exists</strong> (F5).
-<code>archive.resolve_hypothesis</code> appends a resolution rather than
-editing the original &mdash; <code>hypotheses/</code> was write-once from the
-start, which decided the design. It reads the verdict, estimate, interval and
-floor <em>from the archived run</em>, never from an argument, and requires a
-stated <code>decision</code>: what the programme does about the result is the
-one part no run can produce. Closing the list below means making those
-judgements, which is why it is not a batch job.</p>
-<p class="mono"><code>X3-PRINT-SIZE</code></p>
-</div>
+
 <details class="hyp resolved"><summary><span class="hid" id="h-C2-MAE-PREDICTABLE">C2-MAE-PREDICTABLE</span><span class="badge resolved">range/ATR r = -0.131, partly algebraic, 1.7% of variance</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>conditioning</dd></div><div><dt>search space</dt><dd>4</dd></div><div><dt>alpha</dt><dd>0.02</dd></div><div><dt>outcome</dt><dd>range/ATR r = -0.131, partly algebraic, 1.7% of variance</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
 <h4>Statement</h4><p>Adverse excursion is FORESEEABLE before entry: pre-trade volatility measures predict MAE/stop-distance, so days on which the stop is likely to be run can be identified in advance.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>H-STOPWIDTH established MAE is LARGE -- 77% of trades exceed the stop, median 3x -- but not whether it is foreseeable. The mechanism here is the strongest available to us and is not a market-edge claim at all: MAE is essentially a realised-volatility quantity, and volatility CLUSTERS. That is one of the most robust facts in financial time series. If it holds intraday on this setup, a day&#x27;s likely excursion is partly knowable from the volatility that preceded it.
@@ -9001,20 +9454,45 @@ ACTION: raise slippage_ticks to 2 for MNQ in the instrument costs, leave MES at 
 SCRIPT: experiments/E3-COSTS/2026-08-01-tape-measured/exp_costs.py
 OUTPUT: experiments/E3-COSTS/2026-08-01-tape-measured/output.txt</pre>
 </div>
-</details><details class="hyp resolved"><summary><span class="hid" id="h-H-RECLAIM">H-RECLAIM</span><span class="badge resolved">-0.046 -&gt; -0.262 R; the filter made it strictly worse</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>-0.046 -&gt; -0.262 R; the filter made it strictly worse</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-H-RECLAIM">H-RECLAIM</span><span class="badge resolved">detectable</span><span class="runs">2 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>price</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.01</dd></div><div><dt>outcome</dt><dd>detectable</dd></div><div><dt>effect</dt><dd>-0.2393</dd></div><div><dt>interval</dt><dd>[-0.2910, -0.1843]</dd></div></dl>
 <h4>Statement</h4><p>Requiring price to trade through the stop, back through it, and then reclaim the original entry before entering will improve the fade&#x27;s per-trade expectancy.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>User observation from chart inspection: on several 2026-07 setups the eventual direction was correct but the stop was hit first. Stated BEFORE the test was run. The proposed mechanism is that a reclaim confirms the fade thesis and filters days that simply keep going.</pre>
-<div class="resolution k-documented">
+<div class="resolution k-scored">
   <h4>Resolved
-    <span class="badge v-null">
-      -0.046 -&gt; -0.262 R; the filter made it strictly worse</span>
-    <span class="badge prov">documented</span></h4>
-  <p class="gloss">stated in prose, never computed into the register</p>
-  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/PROGRAMME-CONCLUSION.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T16:51:58+00:00</code></dd></div></dl>
-  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+    <span class="badge v-detect">
+      detectable</span>
+    <span class="badge prov">measured</span></h4>
+  <p class="gloss">read from a scored result in an archived run</p>
+  <dl class="meta"><div><dt>from run</dt><dd><code>2026-08-30-audited</code> <span class="thin">primary</span></dd></div><div><dt>effect</dt><dd><span class="v">-0.23931</span></dd></div><div><dt>95% CI</dt><dd><span class="v">[-0.2910, -0.1843]</span></dd></div><div><dt>floor</dt><dd><span class="v">0.10378428725965629</span></dd></div><div><dt>resolved</dt><dd><code>2026-08-30T18:19:13+00:00</code></dd></div><div><dt>supersedes</dt><dd><code>resolutions/H-RECLAIM/documented.json</code></dd></div></dl>
+  
   <h5>Decision <span class="thin">the part no run can produce</span></h5>
-  <p>Entry filter rejected. Waiting for price to reclaim the level before entering was meant to improve entry quality and made the result strictly worse -- confirmation costs you the move you were confirming. Does not rehabilitate the unfiltered fade, which failed separately and for a different reason.</p>
-  <p class="mono thin">source pinned at 4580cf2667b92398&hellip;</p>
+  <p>Entry filter rejected, now on measured grounds. The reclaim-filtered strategy returns -0.239R per trade with a 95% interval of [-0.291, -0.184] -- detectably negative at 2.3 times its own floor. The sealed arm it was meant to improve on is -0.036R with an interval crossing zero: NULL, indistinguishable from nothing. So the filter does not fail to help, it actively converts an unprofitable-but-indistinguishable strategy into a reliably losing one. Confirmation costs the move being confirmed.</p>
+  <p class="mono thin">source pinned at ee712d854cbf82d2&hellip;</p>
+</div>
+<div class="run">
+  <h4>2026-08-30-audited <span class="badge pass">controls passed</span></h4>
+  <dl class="meta">
+    <div><dt>recorded</dt><dd><code>2026-08-30T18:19:00+00:00</code></dd></div>
+    <div><dt>engine_sha</dt><dd><code>b9a735e8289e5f9f85e747eea2abe1cf2c6309ac-dirty</code></dd></div>
+    <div><dt>spend</dt><dd>$0.00</dd></div>
+  </dl>
+  <table class="metrics"><thead><tr><th>metric</th><th>value</th></tr></thead>
+  <tbody><tr><td>comparator.ci</td><td class='v'>[-0.08349605615389351, 0.013471034229541627]</td></tr><tr><td>comparator.crosses_zero</td><td class='v'>True</td></tr><tr><td>comparator.d</td><td class='v'>-0.035917566773626265</td></tr><tr><td>comparator.estimate</td><td class='v'>-0.035917566773626265</td></tr><tr><td>comparator.floor</td><td class='v'>0.08996991758658018</td></tr><tr><td>comparator.floor_multiples</td><td class='v'>-0.3992175133322973</td></tr><tr><td>comparator.n</td><td class='v'>3161</td></tr><tr><td>comparator.n_eff</td><td class='v'>1663</td></tr><tr><td>comparator.name</td><td class='v'>H-RECLAIM COMPARATOR - sealed (unfiltered) expectancy, per trade</td></tr><tr><td>comparator.note</td><td class='v'>the arm the filter was supposed to improve on.</td></tr><tr><td>comparator.unit</td><td class='v'>R</td></tr><tr><td>comparator.verdict</td><td class='v'>null</td></tr><tr><td>n_paired</td><td class='v'>1964</td></tr><tr><td>n_reclaim</td><td class='v'>1964</td></tr><tr><td>n_sealed</td><td class='v'>3161</td></tr><tr><td>primary.ci</td><td class='v'>[-0.29097243965739494, -0.18426419181005807]</td></tr><tr><td>primary.crosses_zero</td><td class='v'>False</td></tr><tr><td>primary.d</td><td class='v'>-0.2393066627873168</td></tr><tr><td>primary.estimate</td><td class='v'>-0.2393066627873168</td></tr><tr><td>primary.floor</td><td class='v'>0.10378428725965629</td></tr><tr><td>primary.floor_multiples</td><td class='v'>-2.3058082211288804</td></tr><tr><td>primary.n</td><td class='v'>1964</td></tr><tr><td>primary.n_eff</td><td class='v'>1033</td></tr><tr><td>primary.name</td><td class='v'>H-RECLAIM PRIMARY - reclaim-filtered expectancy, per trade</td></tr><tr><td>primary.note</td><td class='v'>the filtered strategy&#x27;s own expectancy. Compare with the sealed arm below: the intervals do not overlap.</td></tr><tr><td>primary.unit</td><td class='v'>R</td></tr><tr><td>primary.verdict</td><td class='v'>detectable</td></tr><tr><td>secondary_paired.ci</td><td class='v'>[0.17358297226237054, 0.31150096492367946]</td></tr><tr><td>secondary_paired.crosses_zero</td><td class='v'>False</td></tr><tr><td>secondary_paired.d</td><td class='v'>0.24265522257782926</td></tr><tr><td>secondary_paired.estimate</td><td class='v'>0.24265522257782926</td></tr><tr><td>secondary_paired.floor</td><td class='v'>0.1334909642818425</td></tr><tr><td>secondary_paired.floor_multiples</td><td class='v'>1.817765148999192</td></tr><tr><td>secondary_paired.n</td><td class='v'>1964</td></tr><tr><td>secondary_paired.n_eff</td><td class='v'>1033</td></tr><tr><td>secondary_paired.name</td><td class='v'>H-RECLAIM SECONDARY - paired reclaim minus sealed, shared days only</td></tr><tr><td>secondary_paired.note</td><td class='v'>POSITIVE and it does NOT rescue the filter. This conditions on days a reclaim occurred, which are days price first went through the stop -- exactly where the sealed entry does worst. It answers &#x27;given a reclaim happened, was the later entry better&#x27;, not &#x27;is the filter worth applying&#x27;.</td></tr><tr><td>secondary_paired.unit</td><td class='v'>R</td></tr><tr><td>secondary_paired.verdict</td><td class='v'>detectable</td></tr></tbody></table>
+  <h5>Provenance <span class="thin">the frozen script and
+    its output, archived before the run</span></h5>
+    <table class="metrics"><tbody><tr><td><code>calcs.json</code></td><td class='v'>1,141 B</td><td class='sha'><code>1eea15ed12c7cb9b&hellip;</code></td></tr><tr><td><code>f5_reclaim.py</code></td><td class='v'>854 B</td><td class='sha'><code>90d54d48bdbda147&hellip;</code></td></tr><tr><td><code>output.txt</code></td><td class='v'>4,038 B</td><td class='sha'><code>d542a9ee98a7f943&hellip;</code></td></tr></tbody></table>
+  <h5>Config</h5><pre>{
+ &quot;cluster_size&quot;: 2,
+ &quot;engine&quot;: &quot;M1-M7 audited&quot;,
+ &quot;intra_cluster_r&quot;: 0.9,
+ &quot;reproduces&quot;: &quot;2026-08-01-full-history (10/10)&quot;,
+ &quot;seed&quot;: 20260830
+}</pre>
+  <h5>Note</h5><pre>F5 recompute. The archived run recorded bare means with no interval, no floor and no effective n, so it could not be resolved as a measured result. This reproduces it 10/10 and then states the estimand: the FILTERED strategy expectancy against the sealed arm. Strategy level, not trade level -- the filter changes which days are traded.
+
+SCRIPT: experiments/H-RECLAIM/2026-08-30-audited/f5_reclaim.py
+OUTPUT: experiments/H-RECLAIM/2026-08-30-audited/output.txt
+CALCS: experiments/H-RECLAIM/2026-08-30-audited/calcs.json</pre>
 </div>
 <div class="run">
   <h4>2026-08-01-full-history <span class="badge fail">CONTROLS NOT PASSED</span></h4>
@@ -9486,6 +9964,271 @@ SCRIPT: experiments/Q2-ATTRIBUTION/r1/exp_q2_attribution.py
 OUTPUT: experiments/Q2-ATTRIBUTION/r1/output.txt
 CALCS: none — the script called no audited estimator</pre>
 </div>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-T1-TARGET-LADDER">T1-TARGET-LADDER</span><span class="badge resolved">null</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned; no new data)</dd></div><div><dt>search space</dt><dd>6</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>null</dd></div><div><dt>effect</dt><dd>-0.0213</dd></div><div><dt>interval</dt><dd>[-0.0893, +0.0523]</dd></div></dl>
+<h4>Statement</h4><p>At a FIXED stop distance, raising the target multiple (target_r) improves expected value on a funded-account contract. PRIMARY: EV in dollars on the best-ranked contract is monotone non-decreasing in target_r across the declared ladder {1.0, 1.5, 2.0, 3.0, 4.0, 6.0}. SECONDARY: net R per trade across the same ladder, with a cluster-bootstrap interval per rung.</p>
+<h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>A funded-account evaluation is a BARRIER-CROSSING problem -- reach +target before a trailing drawdown ratchets up behind you -- not an expectancy problem. For a barrier, asymmetry dominates the mean: FEASIBILITY.md&#x27;s frontier shows the required win rate falling from 60-65% at a 1.0R payoff to 45% at 2.0R.
+
+The evidence for running it forwards comes from running it backwards. The archived H-STOPWIDTH ladder widens the STOP at a fixed target, which mechanically LOWERS the payoff ratio: MES goes 2.09 -&gt; 1.21 -&gt; 0.79 -&gt; 0.54 across x1..x8. Net R per trade IMPROVES over that range (-0.046 -&gt; -0.013) because cost in R falls 15x as the fixed per-contract cost is amortised over a larger per-contract risk -- and yet EV through the contract menu COLLAPSES (-$38 -&gt; -$269). Expectancy and EV disagree, and the barrier is why.
+
+So the mechanism predicts the mirror image: moving the TARGET outward at a fixed stop raises the payoff ratio, and if the market&#x27;s hit-rate decay with target distance is slower than the payoff gain, EV rises. This axis has never been tested. The sealed grid varied k_stop and width_max and recorded &#x27;Fixed, not searched: target = far side&#x27;.
+
+BOTH DIRECTIONS, INTERPRETED IN ADVANCE. A rising EV curve means asymmetry is the untested lever and the axis reopens -- NOT that the ORB family reopens, which is closed on its own evidence. A flat or falling curve means hit-rate decay exactly offsets the payoff gain, and the &#x27;exhausted&#x27; conclusion then extends to the one dimension that had never been searched, which is a stronger negative than the programme currently holds.</pre>
+<h4>Power plan</h4><pre>{
+ &quot;alpha&quot;: 0.05,
+ &quot;cluster_size&quot;: 2,
+ &quot;effect&quot;: 0.05,
+ &quot;intra_cluster_r&quot;: 0.9,
+ &quot;power&quot;: 0.8,
+ &quot;search_space_size&quot;: 6,
+ &quot;test&quot;: &quot;mean_shift&quot;
+}</pre>
+<div class="resolution k-scored">
+  <h4>Resolved
+    <span class="badge v-null">
+      null</span>
+    <span class="badge prov">measured</span></h4>
+  <p class="gloss">read from a scored result in an archived run</p>
+  <dl class="meta"><div><dt>from run</dt><dd><code>2026-08-30-ladder-v2</code> <span class="thin">ladder.t6.0</span></dd></div><div><dt>effect</dt><dd><span class="v">-0.02128</span></dd></div><div><dt>95% CI</dt><dd><span class="v">[-0.0893, +0.0523]</span></dd></div><div><dt>floor</dt><dd><span class="v">0.11361893769086785</span></dd></div><div><dt>resolved</dt><dd><code>2026-08-31T11:43:18+00:00</code></dd></div></dl>
+  
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>MECHANISM CONFIRMED IN DIRECTION, INSUFFICIENT IN MAGNITUDE. The ladder is monotone increasing exactly as registered: net R per trade rises from -0.1028 at target_r=1.0 to -0.0213 at 6.0, a span of +0.0816R. That span is LARGER THAN THE ENTIRE GROSS SIGNAL nine families produced (+0.02 to +0.04R), so asymmetry is a real lever and the axis was worth searching.
+
+It is not enough. The ladder converts a DETECTABLE loss into an INDISTINGUISHABLE one -- verdicts walk -1.95x floor, -1.53x, -1.17x, &#x27;precise but immaterial&#x27;, then null, null. The best rung sits at -0.0213R against a +0.003R break-even on the best-ranked contract. It does not reach profitability.
+
+AND THIS DESIGN CANNOT RESOLVE WHETHER IT COULD. The detectable floor GROWS with target_r (0.0526 -&gt; 0.1136) because variance rises with the target distance, so the test loses power precisely where the answer becomes interesting. At the top rung the floor is 38x the break-even requirement. The upper interval bound (+0.0523) clears break-even and the estimate does not: that is inconclusive, not null, and pretending otherwise would be the error this lab exists to catch.
+
+The correction it forces on the record: &#x27;stop width did not matter at all&#x27; is wrong. Trade GEOMETRY matters more than any signal this programme found. It was never searched because the sealed grid fixed the target at the far side.</p>
+  <p class="mono thin">source pinned at b85cd8e779a6ee2f&hellip;</p>
+</div>
+<div class="run">
+  <h4>2026-08-30-ladder-v2 <span class="badge pass">controls passed</span></h4>
+  <dl class="meta">
+    <div><dt>recorded</dt><dd><code>2026-08-31T11:42:35+00:00</code></dd></div>
+    <div><dt>engine_sha</dt><dd><code>da556eaa427a3591b4b7bd6df7263ee7c4108c7b-dirty</code></dd></div>
+    <div><dt>spend</dt><dd>$0.00</dd></div>
+  </dl>
+  <table class="metrics"><thead><tr><th>metric</th><th>value</th></tr></thead>
+  <tbody><tr><td>best_target_r</td><td class='v'>6.0</td></tr><tr><td>ladder.t1.0.ci</td><td class='v'>[-0.1323610022746174, -0.07047785662557962]</td></tr><tr><td>ladder.t1.0.crosses_zero</td><td class='v'>False</td></tr><tr><td>ladder.t1.0.d</td><td class='v'>-0.10284912191827084</td></tr><tr><td>ladder.t1.0.estimate</td><td class='v'>-0.10284912191827084</td></tr><tr><td>ladder.t1.0.floor</td><td class='v'>0.05262286279943919</td></tr><tr><td>ladder.t1.0.floor_multiples</td><td class='v'>-1.9544569878354645</td></tr><tr><td>ladder.t1.0.n</td><td class='v'>3384</td></tr><tr><td>ladder.t1.0.n_eff</td><td class='v'>1781</td></tr><tr><td>ladder.t1.0.name</td><td class='v'>T1 target_r=1.0 - net R per trade</td></tr><tr><td>ladder.t1.0.note</td><td class='v'>win rate 0.476; ORB vehicle, stop_range=0.5, risk=$175</td></tr><tr><td>ladder.t1.0.unit</td><td class='v'>R</td></tr><tr><td>ladder.t1.0.verdict</td><td class='v'>detectable</td></tr><tr><td>ladder.t1.5.ci</td><td class='v'>[-0.13395610533552763, -0.05774732086542981]</td></tr><tr><td>ladder.t1.5.crosses_zero</td><td class='v'>False</td></tr><tr><td>ladder.t1.5.d</td><td class='v'>-0.0973464412360689</td></tr><tr><td>ladder.t1.5.estimate</td><td class='v'>-0.0973464412360689</td></tr><tr><td>ladder.t1.5.floor</td><td class='v'>0.06357818583823024</td></tr><tr><td>ladder.t1.5.floor_multiples</td><td class='v'>-1.5311295840331047</td></tr><tr><td>ladder.t1.5.n</td><td class='v'>3384</td></tr><tr><td>ladder.t1.5.n_eff</td><td class='v'>1781</td></tr><tr><td>ladder.t1.5.name</td><td class='v'>T1 target_r=1.5 - net R per trade</td></tr><tr><td>ladder.t1.5.note</td><td class='v'>win rate 0.385; ORB vehicle, stop_range=0.5, risk=$175</td></tr><tr><td>ladder.t1.5.unit</td><td class='v'>R</td></tr><tr><td>ladder.t1.5.verdict</td><td class='v'>detectable</td></tr><tr><td>ladder.t2.0.ci</td><td class='v'>[-0.12810560011677785, -0.0397759305814457]</td></tr><tr><td>ladder.t2.0.crosses_zero</td><td class='v'>False</td></tr><tr><td>ladder.t2.0.d</td><td class='v'>-0.08511039344815942</td></tr><tr><td>ladder.t2.0.estimate</td><td class='v'>-0.08511039344815942</td></tr><tr><td>ladder.t2.0.floor</td><td class='v'>0.07297645225758571</td></tr><tr><td>ladder.t2.0.floor_multiples</td><td class='v'>-1.1662720071365542</td></tr><tr><td>ladder.t2.0.n</td><td class='v'>3384</td></tr><tr><td>ladder.t2.0.n_eff</td><td class='v'>1781</td></tr><tr><td>ladder.t2.0.name</td><td class='v'>T1 target_r=2.0 - net R per trade</td></tr><tr><td>ladder.t2.0.note</td><td class='v'>win rate 0.330; ORB vehicle, stop_range=0.5, risk=$175</td></tr><tr><td>ladder.t2.0.unit</td><td class='v'>R</td></tr><tr><td>ladder.t2.0.verdict</td><td class='v'>detectable</td></tr><tr><td>ladder.t3.0.ci</td><td class='v'>[-0.11864270901508335, -0.01423587617806432]</td></tr><tr><td>ladder.t3.0.crosses_zero</td><td class='v'>False</td></tr><tr><td>ladder.t3.0.d</td><td class='v'>-0.06694465552178319</td></tr><tr><td>ladder.t3.0.estimate</td><td class='v'>-0.06694465552178319</td></tr><tr><td>ladder.t3.0.floor</td><td class='v'>0.08789775560052443</td></tr><tr><td>ladder.t3.0.floor_multiples</td><td class='v'>-0.7616196234410311</td></tr><tr><td>ladder.t3.0.n</td><td class='v'>3384</td></tr><tr><td>ladder.t3.0.n_eff</td><td class='v'>1781</td></tr><tr><td>ladder.t3.0.name</td><td class='v'>T1 target_r=3.0 - net R per trade</td></tr><tr><td>ladder.t3.0.note</td><td class='v'>win rate 0.268; ORB vehicle, stop_range=0.5, risk=$175</td></tr><tr><td>ladder.t3.0.unit</td><td class='v'>R</td></tr><tr><td>ladder.t3.0.verdict</td><td class='v'>precise but immaterial</td></tr><tr><td>ladder.t4.0.ci</td><td class='v'>[-0.09563783861690606, 0.023625276691543632]</td></tr><tr><td>ladder.t4.0.crosses_zero</td><td class='v'>True</td></tr><tr><td>ladder.t4.0.d</td><td class='v'>-0.03717261904761905</td></tr><tr><td>ladder.t4.0.estimate</td><td class='v'>-0.03717261904761905</td></tr><tr><td>ladder.t4.0.floor</td><td class='v'>0.1000020079817115</td></tr><tr><td>ladder.t4.0.floor_multiples</td><td class='v'>-0.37171872643214554</td></tr><tr><td>ladder.t4.0.n</td><td class='v'>3384</td></tr><tr><td>ladder.t4.0.n_eff</td><td class='v'>1781</td></tr><tr><td>ladder.t4.0.name</td><td class='v'>T1 target_r=4.0 - net R per trade</td></tr><tr><td>ladder.t4.0.note</td><td class='v'>win rate 0.242; ORB vehicle, stop_range=0.5, risk=$175</td></tr><tr><td>ladder.t4.0.unit</td><td class='v'>R</td></tr><tr><td>ladder.t4.0.verdict</td><td class='v'>null</td></tr><tr><td>ladder.t6.0.ci</td><td class='v'>[-0.08926305648169772, 0.052316549028921924]</td></tr><tr><td>ladder.t6.0.crosses_zero</td><td class='v'>True</td></tr><tr><td>ladder.t6.0.d</td><td class='v'>-0.021279128672745704</td></tr><tr><td>ladder.t6.0.estimate</td><td class='v'>-0.021279128672745704</td></tr><tr><td>ladder.t6.0.floor</td><td class='v'>0.11361893769086785</td></tr><tr><td>ladder.t6.0.floor_multiples</td><td class='v'>-0.1872850521683413</td></tr><tr><td>ladder.t6.0.n</td><td class='v'>3384</td></tr><tr><td>ladder.t6.0.n_eff</td><td class='v'>1781</td></tr><tr><td>ladder.t6.0.name</td><td class='v'>T1 target_r=6.0 - net R per trade</td></tr><tr><td>ladder.t6.0.note</td><td class='v'>win rate 0.223; ORB vehicle, stop_range=0.5, risk=$175</td></tr><tr><td>ladder.t6.0.unit</td><td class='v'>R</td></tr><tr><td>ladder.t6.0.verdict</td><td class='v'>null</td></tr><tr><td>monotone_increasing</td><td class='v'>True</td></tr><tr><td>n</td><td class='v'>20304</td></tr><tr><td>n_eff</td><td class='v'>10686</td></tr><tr><td>span_R</td><td class='v'>0.08156999324552514</td></tr></tbody></table>
+  <h5>Provenance <span class="thin">the frozen script and
+    its output, archived before the run</span></h5>
+    <table class="metrics"><tbody><tr><td><code>calcs.json</code></td><td class='v'>1,795 B</td><td class='sha'><code>57c889e46d7fa5d5&hellip;</code></td></tr><tr><td><code>exp_t1_target_ladder.py</code></td><td class='v'>5,091 B</td><td class='sha'><code>6f77d67f1658b3c1&hellip;</code></td></tr><tr><td><code>output.txt</code></td><td class='v'>3,268 B</td><td class='sha'><code>20812ecd5f04f558&hellip;</code></td></tr></tbody></table>
+  <h5>Config</h5><pre>{
+ &quot;cluster_size&quot;: 2,
+ &quot;instruments&quot;: [
+  &quot;MES&quot;,
+  &quot;MNQ&quot;
+ ],
+ &quot;intra_cluster_r&quot;: 0.9,
+ &quot;ladder&quot;: [
+  1.0,
+  1.5,
+  2.0,
+  3.0,
+  4.0,
+  6.0
+ ],
+ &quot;range_minutes&quot;: 15,
+ &quot;risk_usd&quot;: 175.0,
+ &quot;seed&quot;: 20260830,
+ &quot;stop_range&quot;: 0.5,
+ &quot;supersedes_run&quot;: &quot;2026-08-30-ladder (refused by the power gate: no top-level n emitted)&quot;,
+ &quot;vehicle&quot;: &quot;ORB (closed family)&quot;
+}</pre>
+  <h5>Note</h5><pre>T1. Target ladder at a fixed stop -- the axis the sealed grid recorded as &quot;Fixed, not searched&quot;.
+
+SCRIPT: experiments/T1-TARGET-LADDER/2026-08-30-ladder-v2/exp_t1_target_ladder.py
+OUTPUT: experiments/T1-TARGET-LADDER/2026-08-30-ladder-v2/output.txt
+CALCS: experiments/T1-TARGET-LADDER/2026-08-30-ladder-v2/calcs.json</pre>
+</div>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-T2-COST-CONDITIONED">T2-COST-CONDITIONED</span><span class="badge resolved">null</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned; no new data)</dd></div><div><dt>search space</dt><dd>4</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>null</dd></div><div><dt>effect</dt><dd>+0.0230</dd></div><div><dt>interval</dt><dd>[-0.0361, +0.0840]</dd></div></dl>
+<h4>Statement</h4><p>Selecting trades by their COST IN R improves net expectancy on the retained subset. PRIMARY: mean net R per trade on trades whose cost-in-R falls below a threshold exceeds the unconditioned mean by more than the detectable floor, across the declared threshold ladder {no filter, 0.10, 0.07, 0.05}.</p>
+<h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Computed today, not assumed. Cost in R = (fixed per-contract cost) / (per-contract risk), and per-contract risk = (stop_dist + slippage) * multiplier + 2 * commission. The contract count cancels, so cost in R is INVARIANT to risk per trade -- but it varies 15x with stop distance on MES (0.273 at a 2-point stop to 0.018 at 40 points), because a fixed cost is amortised over a larger per-contract risk.
+
+Stop distance is set by the opening-range height, which is known BEFORE the trade is taken. So cost in R is an ex-ante observable, and filtering on it removes the most cost-burdened trades without touching the target, the stop multiple, or the signal.
+
+This is the one way to raise net expectancy that does NOT buy it with variance. T1 established that pushing the target outward raises the mean (+0.0816R across the ladder) while raising the standard deviation from 0.79 to 1.71, so the detectable floor grew 0.053 -&gt; 0.114 and the test lost power exactly where the answer became interesting. Filtering on cost changes the mean through the cost term while leaving the per-trade return distribution&#x27;s shape alone.
+
+BOTH DIRECTIONS, INTERPRETED IN ADVANCE. A monotone improvement across the ladder means cost burden is a selectable property and the geometry axis has a second lever. A flat or falling curve means the trades with low cost-in-R are also the trades with worse gross outcomes -- large ranges being harder to trade -- and the two effects cancel, which closes cost-conditioning and is a stronger negative than the programme holds today.</pre>
+<h4>Power plan</h4><pre>{
+ &quot;alpha&quot;: 0.05,
+ &quot;cannot_detect&quot;: &quot;the 0.024R gap to EV break-even&quot;,
+ &quot;cluster_size&quot;: 2,
+ &quot;effect&quot;: 0.1,
+ &quot;intra_cluster_r&quot;: 0.9,
+ &quot;power&quot;: 0.8,
+ &quot;search_space_size&quot;: 4,
+ &quot;test&quot;: &quot;mean_shift&quot;
+}</pre>
+<div class="resolution k-scored">
+  <h4>Resolved
+    <span class="badge v-null">
+      null</span>
+    <span class="badge prov">measured</span></h4>
+  <p class="gloss">read from a scored result in an archived run</p>
+  <dl class="meta"><div><dt>from run</dt><dd><code>2026-08-30-cost-ladder</code> <span class="thin">ladder.c0.05</span></dd></div><div><dt>effect</dt><dd><span class="v">+0.02296</span></dd></div><div><dt>95% CI</dt><dd><span class="v">[-0.0361, +0.0840]</span></dd></div><div><dt>floor</dt><dd><span class="v">0.11543800752505227</span></dd></div><div><dt>resolved</dt><dd><code>2026-08-31T12:17:32+00:00</code></dd></div></dl>
+  
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>MONOTONE, POSITIVE AT THE TOP, AND NOT ESTABLISHED. The registered primary was that filtering beats the unconditioned mean by more than the detectable floor. It does not: the improvement is +0.1081R against a floor of 0.1154R -- 94% of the way, and short. The registered answer is therefore NO.
+
+What the ladder shows is nonetheless the strongest thing this programme has produced. Net R rises monotonically as the cost filter tightens: -0.0851 (detectable loss, no filter) -&gt; -0.0321 -&gt; -0.0115 -&gt; +0.0230 at cost_R &lt;= 0.05, keeping 36% of trades. That top rung is the FIRST POSITIVE NET EXPECTANCY the programme has recorded, and it sits above the +0.003R break-even on the best-ranked contract.
+
+IT IS NOT A FINDING AND MUST NOT BE READ AS ONE. The interval is [-0.0361, +0.0840] and crosses zero: verdict null. A positive point estimate whose interval spans zero is exactly the shape that produced three false results in this lab already, and the difference here is only that the sign is pleasing.
+
+WHAT WOULD RESOLVE IT, computed rather than hoped. The floor scales as 1/sqrt(n_eff). Adding MGC and MCL multiplies effective sample by 1.85x -- metals and energy correlate far less with equity index than MES and MNQ do with each other -- dropping the floor from 0.1154 to 0.0848, BELOW the measured +0.1081 improvement. For $19.16, already inside the data cap, this becomes resolvable. That is the first time in this programme that a purchase has been justified by a measured result rather than a hunch.</p>
+  <p class="mono thin">source pinned at fabbe0cd5667221c&hellip;</p>
+</div>
+<div class="run">
+  <h4>2026-08-30-cost-ladder <span class="badge pass">controls passed</span></h4>
+  <dl class="meta">
+    <div><dt>recorded</dt><dd><code>2026-08-31T12:16:44+00:00</code></dd></div>
+    <div><dt>engine_sha</dt><dd><code>2863c7020bc8be0b06e14cfdcd29468f9152ec83-dirty</code></dd></div>
+    <div><dt>spend</dt><dd>$0.00</dd></div>
+  </dl>
+  <table class="metrics"><thead><tr><th>metric</th><th>value</th></tr></thead>
+  <tbody><tr><td>best_threshold</td><td class='v'>c0.05</td></tr><tr><td>exceeds_floor</td><td class='v'>False</td></tr><tr><td>improvement_over_nofilter</td><td class='v'>0.10807532003869774</td></tr><tr><td>ladder.c0.05.ci</td><td class='v'>[-0.03611102992428878, 0.08402355326712602]</td></tr><tr><td>ladder.c0.05.crosses_zero</td><td class='v'>True</td></tr><tr><td>ladder.c0.05.d</td><td class='v'>0.02296492659053833</td></tr><tr><td>ladder.c0.05.estimate</td><td class='v'>0.02296492659053833</td></tr><tr><td>ladder.c0.05.floor</td><td class='v'>0.11543800752505227</td></tr><tr><td>ladder.c0.05.floor_multiples</td><td class='v'>0.1989373091488477</td></tr><tr><td>ladder.c0.05.n</td><td class='v'>1226</td></tr><tr><td>ladder.c0.05.n_eff</td><td class='v'>645</td></tr><tr><td>ladder.c0.05.name</td><td class='v'>T2 cost_R&lt;=0.05 - net R per trade</td></tr><tr><td>ladder.c0.05.note</td><td class='v'>kept 36.2% of trades</td></tr><tr><td>ladder.c0.05.unit</td><td class='v'>R</td></tr><tr><td>ladder.c0.05.verdict</td><td class='v'>null</td></tr><tr><td>ladder.c0.07.ci</td><td class='v'>[-0.06391831850416482, 0.0406088726423246]</td></tr><tr><td>ladder.c0.07.crosses_zero</td><td class='v'>True</td></tr><tr><td>ladder.c0.07.d</td><td class='v'>-0.011516884531590416</td></tr><tr><td>ladder.c0.07.estimate</td><td class='v'>-0.011516884531590416</td></tr><tr><td>ladder.c0.07.floor</td><td class='v'>0.09657798063502403</td></tr><tr><td>ladder.c0.07.floor_multiples</td><td class='v'>-0.11924958935633218</td></tr><tr><td>ladder.c0.07.n</td><td class='v'>1836</td></tr><tr><td>ladder.c0.07.n_eff</td><td class='v'>966</td></tr><tr><td>ladder.c0.07.name</td><td class='v'>T2 cost_R&lt;=0.07 - net R per trade</td></tr><tr><td>ladder.c0.07.note</td><td class='v'>kept 54.3% of trades</td></tr><tr><td>ladder.c0.07.unit</td><td class='v'>R</td></tr><tr><td>ladder.c0.07.verdict</td><td class='v'>null</td></tr><tr><td>ladder.c0.1.ci</td><td class='v'>[-0.08037502328603563, 0.017911689229394644]</td></tr><tr><td>ladder.c0.1.crosses_zero</td><td class='v'>True</td></tr><tr><td>ladder.c0.1.d</td><td class='v'>-0.0321101027705992</td></tr><tr><td>ladder.c0.1.estimate</td><td class='v'>-0.0321101027705992</td></tr><tr><td>ladder.c0.1.floor</td><td class='v'>0.086290625752713</td></tr><tr><td>ladder.c0.1.floor_multiples</td><td class='v'>-0.37211577144681496</td></tr><tr><td>ladder.c0.1.n</td><td class='v'>2377</td></tr><tr><td>ladder.c0.1.n_eff</td><td class='v'>1251</td></tr><tr><td>ladder.c0.1.name</td><td class='v'>T2 cost_R&lt;=0.1 - net R per trade</td></tr><tr><td>ladder.c0.1.note</td><td class='v'>kept 70.2% of trades</td></tr><tr><td>ladder.c0.1.unit</td><td class='v'>R</td></tr><tr><td>ladder.c0.1.verdict</td><td class='v'>null</td></tr><tr><td>ladder.nofilter.ci</td><td class='v'>[-0.12810560011677785, -0.0397759305814457]</td></tr><tr><td>ladder.nofilter.crosses_zero</td><td class='v'>False</td></tr><tr><td>ladder.nofilter.d</td><td class='v'>-0.08511039344815942</td></tr><tr><td>ladder.nofilter.estimate</td><td class='v'>-0.08511039344815942</td></tr><tr><td>ladder.nofilter.floor</td><td class='v'>0.07297645225758571</td></tr><tr><td>ladder.nofilter.floor_multiples</td><td class='v'>-1.1662720071365542</td></tr><tr><td>ladder.nofilter.n</td><td class='v'>3384</td></tr><tr><td>ladder.nofilter.n_eff</td><td class='v'>1781</td></tr><tr><td>ladder.nofilter.name</td><td class='v'>T2 cost_R&lt;=None - net R per trade</td></tr><tr><td>ladder.nofilter.note</td><td class='v'>kept 100.0% of trades</td></tr><tr><td>ladder.nofilter.unit</td><td class='v'>R</td></tr><tr><td>ladder.nofilter.verdict</td><td class='v'>detectable</td></tr><tr><td>n</td><td class='v'>3384</td></tr><tr><td>n_eff</td><td class='v'>1781</td></tr></tbody></table>
+  <h5>Provenance <span class="thin">the frozen script and
+    its output, archived before the run</span></h5>
+    <table class="metrics"><tbody><tr><td><code>calcs.json</code></td><td class='v'>1,359 B</td><td class='sha'><code>b278820795741e7a&hellip;</code></td></tr><tr><td><code>exp_t2_cost_conditioned.py</code></td><td class='v'>5,983 B</td><td class='sha'><code>bbfedf9d202867c5&hellip;</code></td></tr><tr><td><code>output.txt</code></td><td class='v'>2,292 B</td><td class='sha'><code>f5b548d42ba4fa94&hellip;</code></td></tr></tbody></table>
+  <h5>Config</h5><pre>{
+ &quot;cannot_detect&quot;: &quot;the 0.024R gap to EV break-even; smallest available floor is 0.0526R&quot;,
+ &quot;cluster_size&quot;: 2,
+ &quot;instruments&quot;: [
+  &quot;MES&quot;,
+  &quot;MNQ&quot;
+ ],
+ &quot;intra_cluster_r&quot;: 0.9,
+ &quot;ladder&quot;: [
+  &quot;nofilter&quot;,
+  0.1,
+  0.07,
+  0.05
+ ],
+ &quot;range_minutes&quot;: 15,
+ &quot;risk_usd&quot;: 175.0,
+ &quot;seed&quot;: 20260830,
+ &quot;stop_range&quot;: 0.5,
+ &quot;target_r&quot;: 2.0,
+ &quot;vehicle&quot;: &quot;ORB (closed family)&quot;
+}</pre>
+  <h5>Note</h5><pre>T2. Cost-in-R is an ex-ante observable (it follows from the opening-range height), so filtering on it raises the mean through the cost term without touching target, stop multiple or signal -- the one lever found so far that does not buy the mean with variance. Registered with its power limit stated: this cannot resolve +EV and does not claim to.
+
+SCRIPT: experiments/T2-COST-CONDITIONED/2026-08-30-cost-ladder/exp_t2_cost_conditioned.py
+OUTPUT: experiments/T2-COST-CONDITIONED/2026-08-30-cost-ladder/output.txt
+CALCS: experiments/T2-COST-CONDITIONED/2026-08-30-cost-ladder/calcs.json</pre>
+</div>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-T3-COST-FILTER-REPLICATION">T3-COST-FILTER-REPLICATION</span><span class="badge resolved">NOT RUN - programme closed before the data was bought</span><span class="runs">0 runs</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars) on metals and energy -- NEW instruments, not owned</dd></div><div><dt>search space</dt><dd>1</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>NOT RUN - programme closed before the data was bought</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+<h4>Statement</h4><p>The cost-in-R filter that improved net expectancy on index futures also improves it on metals and energy. PRIMARY, single pre-specified test with NO freedom: on MGC and MCL alone, mean net R per trade at cost_R &lt;= 0.05 exceeds the unfiltered mean on the same instruments by more than the detectable floor. The threshold 0.05, the vehicle (ORB, stop_range=0.5, target_r=2.0), the risk ($175) and the range window (15 min) are all FIXED at T2&#x27;s values and may not be re-searched. SECONDARY: the pooled four-instrument estimate, reported only if the validity gates below pass.</p>
+<h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>T2 established the direction on MES and MNQ: net R rose monotonically as the cost filter tightened (-0.0851 unfiltered -&gt; +0.0230 at cost_R &lt;= 0.05, keeping 36% of trades), an improvement of +0.1081R against a floor of 0.1154R -- 94% of the way and SHORT, with an interval crossing zero.
+
+The mechanism is arithmetic rather than a story about participants: cost in R = fixed per-contract cost / per-contract risk, so it falls as the stop widens, and the stop follows the opening-range height which is known before the trade. Nothing in that reasoning is specific to equity index futures, so it should hold on metals and energy -- and if it does not, the mechanism was never what produced T2&#x27;s number.
+
+BOTH DIRECTIONS, INTERPRETED IN ADVANCE. Replication means the effect is a property of trade geometry rather than of two correlated index contracts, and the pooled sample then resolves what T2 could not. Failure means the effect is either instrument-specific or was noise dressed as a monotone trend -- and a monotone ladder of four rungs is exactly what noise looks like often enough to matter. EITHER ANSWER IS WORTH $19.16; the failure is the more informative one, because it would retire the only positive number this programme has produced.</pre>
+<h4>Power plan</h4><pre>{
+ &quot;alpha&quot;: 0.05,
+ &quot;cluster_size&quot;: 2,
+ &quot;effect&quot;: 0.1081,
+ &quot;intra_cluster_r&quot;: 0.9,
+ &quot;power&quot;: 0.8,
+ &quot;precondition&quot;: &quot;measure cross-asset rho before scoring&quot;,
+ &quot;search_space_size&quot;: 1,
+ &quot;test&quot;: &quot;mean_shift&quot;
+}</pre>
+<div class="resolution k-documented">
+  <h4>Resolved
+    <span class="badge v-null">
+      NOT RUN - programme closed before the data was bought</span>
+    <span class="badge prov">documented</span></h4>
+  <p class="gloss">stated in prose, never computed into the register</p>
+  <dl class="meta"><div><dt>stated in</dt><dd><code>docs/RESULTS.md</code></dd></div><div><dt>resolved</dt><dd><code>2026-08-31T14:32:16+00:00</code></dd></div></dl>
+  <p class="prov-warn">No effect size, interval or floor is shown because none was ever computed into the register. The source document’s numbers are authoritative; this record is not.</p>
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>CLOSED WITHOUT RUNNING, and the reason is the finding rather than an abandonment. T3 was registered before any purchase precisely so that buying data could not also buy the freedom to design the test around it. That discipline held: the hypothesis is on the record, unrun, with its four validity gates intact.
+
+It is closed because the ROUTE is closed. Base rates from a major provider&#x27;s own performance disclosure put ~5.6% of evaluation attempts at a paid trader and evaluation fees at 70-95% of provider revenue -- a fee business. Buying $19.16 of metals and energy bars to resolve one open question inside a route being abandoned would be spending real money on tidiness.
+
+WHAT IT WOULD HAVE ANSWERED, recorded so it is not lost. T2 and T4 share the same 3,384 trades: the cost filter selects by setup, so changing the target changed the outcome definition and not the sample. No further re-analysis of owned data can distinguish &#x27;a property of trade geometry&#x27; from &#x27;a property of these two instruments&#x27;. Only new instruments could, and that is what T3 was for. The question is therefore OPEN, not answered -- and if the cost-filter mechanism is ever carried to another venue, this is the test that has to run first.
+
+Gate 1 also never passed: `occams/instruments.py` carries MGC and MCL as RECORDED-NOT-VERIFIED behind a refusal, because the exchange&#x27;s published specs were unreachable and slippage cannot be known without a trades tape the $19.16 quote does not cover.</p>
+  <p class="mono thin">source pinned at 49951ec62612c283&hellip;</p>
+</div>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-T4-COST-FILTER-AT-LOW-TARGET">T4-COST-FILTER-AT-LOW-TARGET</span><span class="badge resolved">null</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned; no new data)</dd></div><div><dt>search space</dt><dd>4</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>null</dd></div><div><dt>effect</dt><dd>-0.0218</dd></div><div><dt>interval</dt><dd>[-0.0635, +0.0195]</dd></div></dl>
+<h4>Statement</h4><p>The cost-in-R filter improves net expectancy at target_r=1.0 as it did at 2.0. PRIMARY: across the same declared threshold ladder {no filter, 0.10, 0.07, 0.05}, mean net R per trade is monotone non-decreasing as the threshold tightens, and the improvement from unfiltered to the tightest rung exceeds the detectable floor.</p>
+<h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>A ROBUSTNESS CHECK, not a search for a better number, and it is registered that way so it cannot be reported as the latter.
+
+cost_R = fixed per-contract cost / per-contract risk, and both terms come from the opening-range height. It is therefore a property of the SETUP and independent of the target: the filter selects the SAME TRADES at any target_r. Only the outcome distribution differs. So if cost filtering is a real mechanism it must improve expectancy at 1.0 as it did at 2.0, and if it works only at the target it was found on, it is an interaction or it is noise.
+
+There is a second, statistical reason to prefer 1.0. T1 measured the standard deviation of net R per trade at each target: 0.79 at 1.0 rising to 1.71 at 6.0. The detectable floor scales with sd, so the same filter at 1.0 is measured against a floor roughly 25% lower than T2&#x27;s -- attacking the floor through VARIANCE rather than through sample size, which is the only lever left that costs nothing.
+
+BOTH DIRECTIONS, INTERPRETED IN ADVANCE. Monotone and clearing its floor CORROBORATES T2 on an independent target and makes the mechanism claim substantially harder to dismiss. Flat, non-monotone, or failing its floor UNDERMINES T2: a four-rung monotone ladder that does not reproduce one target step away is what noise looks like, and this programme has already published three results that looked real and were not.</pre>
+<h4>Power plan</h4><pre>{
+ &quot;alpha&quot;: 0.05,
+ &quot;cluster_size&quot;: 2,
+ &quot;effect&quot;: 0.1,
+ &quot;intra_cluster_r&quot;: 0.3818,
+ &quot;power&quot;: 0.8,
+ &quot;search_space_size&quot;: 4,
+ &quot;test&quot;: &quot;mean_shift&quot;
+}</pre>
+<div class="resolution k-scored">
+  <h4>Resolved
+    <span class="badge v-null">
+      null</span>
+    <span class="badge prov">measured</span></h4>
+  <p class="gloss">read from a scored result in an archived run</p>
+  <dl class="meta"><div><dt>from run</dt><dd><code>2026-08-30-low-target</code> <span class="thin">ladder.c0.05</span></dd></div><div><dt>effect</dt><dd><span class="v">-0.02179</span></dd></div><div><dt>95% CI</dt><dd><span class="v">[-0.0635, +0.0195]</span></dd></div><div><dt>floor</dt><dd><span class="v">0.06945045557523696</span></dd></div><div><dt>resolved</dt><dd><code>2026-08-31T13:11:48+00:00</code></dd></div></dl>
+  
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>REGISTERED PRIMARY SATISFIED -- the first time in this programme. The ladder is monotone (-0.1028 -&gt; -0.0494 -&gt; -0.0386 -&gt; -0.0218) and the improvement from unfiltered to tightest is +0.0811R against a floor of 0.0695R. It CLEARS, where T2&#x27;s +0.1081 against 0.1154 did not.
+
+The variance lever worked as predicted from T1&#x27;s measurements: the top-rung floor is 0.0695 here against T2&#x27;s 0.0984 under the same measured rho -- 29% lower, close to the ~25% predicted from sd falling 1.05 to 0.79. Attacking the floor through variance rather than sample size cost nothing and was the difference between clearing and not.
+
+THE STRATEGY STILL LOSES. The best rung is -0.0218R with an interval [-0.0635, +0.0195] crossing zero: verdict null. What is established is that FILTERING IMPROVES EXPECTANCY, not that the filtered strategy is profitable. Those remain different claims and only the first has cleared a bar.
+
+THIS IS NOT A REPLICATION, AND MUST NOT BE COUNTED AS ONE. cost_R is a property of the setup, so the filter selects the SAME 3,384 trades here as in T2 -- only the outcome definition changed. T2 and T4 are one filter evaluated against two targets, not two independent tests. The corroboration is real but weaker than it looks: it shows the effect is not an artifact of one target choice, and it cannot show the effect is not an artifact of these two instruments.
+
+That is precisely what T3 and the MGC/MCL purchase are for, and this result strengthens the case for it rather than removing it.</p>
+  <p class="mono thin">source pinned at 7d18955e7df100d9&hellip;</p>
+</div>
+<div class="run">
+  <h4>2026-08-30-low-target <span class="badge pass">controls passed</span></h4>
+  <dl class="meta">
+    <div><dt>recorded</dt><dd><code>2026-08-31T13:11:03+00:00</code></dd></div>
+    <div><dt>engine_sha</dt><dd><code>4efa7c3a79cbfcd50e564dc712eadea996dfcdd7-dirty</code></dd></div>
+    <div><dt>spend</dt><dd>$0.00</dd></div>
+  </dl>
+  <table class="metrics"><thead><tr><th>metric</th><th>value</th></tr></thead>
+  <tbody><tr><td>best_threshold</td><td class='v'>c0.05</td></tr><tr><td>exceeds_floor</td><td class='v'>True</td></tr><tr><td>improvement_over_nofilter</td><td class='v'>0.08105991194390588</td></tr><tr><td>ladder.c0.05.ci</td><td class='v'>[-0.06345782047920316, 0.0194966425222209]</td></tr><tr><td>ladder.c0.05.crosses_zero</td><td class='v'>True</td></tr><tr><td>ladder.c0.05.d</td><td class='v'>-0.02178920997436495</td></tr><tr><td>ladder.c0.05.estimate</td><td class='v'>-0.02178920997436495</td></tr><tr><td>ladder.c0.05.floor</td><td class='v'>0.06945045557523696</td></tr><tr><td>ladder.c0.05.floor_multiples</td><td class='v'>-0.3137374664268443</td></tr><tr><td>ladder.c0.05.n</td><td class='v'>1226</td></tr><tr><td>ladder.c0.05.n_eff</td><td class='v'>887</td></tr><tr><td>ladder.c0.05.name</td><td class='v'>T4 cost_R&lt;=0.05 - net R per trade</td></tr><tr><td>ladder.c0.05.note</td><td class='v'>kept 36.2% of trades</td></tr><tr><td>ladder.c0.05.unit</td><td class='v'>R</td></tr><tr><td>ladder.c0.05.verdict</td><td class='v'>null</td></tr><tr><td>ladder.c0.07.ci</td><td class='v'>[-0.07581366029693601, -0.001317963327001998]</td></tr><tr><td>ladder.c0.07.crosses_zero</td><td class='v'>False</td></tr><tr><td>ladder.c0.07.d</td><td class='v'>-0.0386484593837535</td></tr><tr><td>ladder.c0.07.estimate</td><td class='v'>-0.0386484593837535</td></tr><tr><td>ladder.c0.07.floor</td><td class='v'>0.05859399141997629</td></tr><tr><td>ladder.c0.07.floor_multiples</td><td class='v'>-0.6595976557858658</td></tr><tr><td>ladder.c0.07.n</td><td class='v'>1836</td></tr><tr><td>ladder.c0.07.n_eff</td><td class='v'>1328</td></tr><tr><td>ladder.c0.07.name</td><td class='v'>T4 cost_R&lt;=0.07 - net R per trade</td></tr><tr><td>ladder.c0.07.note</td><td class='v'>kept 54.3% of trades</td></tr><tr><td>ladder.c0.07.unit</td><td class='v'>R</td></tr><tr><td>ladder.c0.07.verdict</td><td class='v'>precise but immaterial</td></tr><tr><td>ladder.c0.1.ci</td><td class='v'>[-0.08474646162629965, -0.013315194486885654]</td></tr><tr><td>ladder.c0.1.crosses_zero</td><td class='v'>False</td></tr><tr><td>ladder.c0.1.d</td><td class='v'>-0.04939419436264199</td></tr><tr><td>ladder.c0.1.estimate</td><td class='v'>-0.04939419436264199</td></tr><tr><td>ladder.c0.1.floor</td><td class='v'>0.052568626722908414</td></tr><tr><td>ladder.c0.1.floor_multiples</td><td class='v'>-0.9396135573980465</td></tr><tr><td>ladder.c0.1.n</td><td class='v'>2377</td></tr><tr><td>ladder.c0.1.n_eff</td><td class='v'>1720</td></tr><tr><td>ladder.c0.1.name</td><td class='v'>T4 cost_R&lt;=0.1 - net R per trade</td></tr><tr><td>ladder.c0.1.note</td><td class='v'>kept 70.2% of trades</td></tr><tr><td>ladder.c0.1.unit</td><td class='v'>R</td></tr><tr><td>ladder.c0.1.verdict</td><td class='v'>precise but immaterial</td></tr><tr><td>ladder.nofilter.ci</td><td class='v'>[-0.1323610022746174, -0.07047785662557962]</td></tr><tr><td>ladder.nofilter.crosses_zero</td><td class='v'>False</td></tr><tr><td>ladder.nofilter.d</td><td class='v'>-0.10284912191827084</td></tr><tr><td>ladder.nofilter.estimate</td><td class='v'>-0.10284912191827084</td></tr><tr><td>ladder.nofilter.floor</td><td class='v'>0.04488494774988622</td></tr><tr><td>ladder.nofilter.floor_multiples</td><td class='v'>-2.291394489114261</td></tr><tr><td>ladder.nofilter.n</td><td class='v'>3384</td></tr><tr><td>ladder.nofilter.n_eff</td><td class='v'>2448</td></tr><tr><td>ladder.nofilter.name</td><td class='v'>T4 cost_R&lt;=None - net R per trade</td></tr><tr><td>ladder.nofilter.note</td><td class='v'>kept 100.0% of trades</td></tr><tr><td>ladder.nofilter.unit</td><td class='v'>R</td></tr><tr><td>ladder.nofilter.verdict</td><td class='v'>detectable</td></tr><tr><td>n</td><td class='v'>3384</td></tr><tr><td>n_eff</td><td class='v'>2448</td></tr></tbody></table>
+  <h5>Provenance <span class="thin">the frozen script and
+    its output, archived before the run</span></h5>
+    <table class="metrics"><tbody><tr><td><code>calcs.json</code></td><td class='v'>1,359 B</td><td class='sha'><code>0926b4d0024be879&hellip;</code></td></tr><tr><td><code>exp_t4_cost_low_target.py</code></td><td class='v'>6,579 B</td><td class='sha'><code>38e08469b8e24509&hellip;</code></td></tr><tr><td><code>output.txt</code></td><td class='v'>2,353 B</td><td class='sha'><code>99e28a84a969b4a0&hellip;</code></td></tr></tbody></table>
+  <h5>Config</h5><pre>{
+ &quot;cluster_size&quot;: 2,
+ &quot;corroborates_or_undermines&quot;: &quot;T2-COST-CONDITIONED at target_r=2.0&quot;,
+ &quot;instruments&quot;: [
+  &quot;MES&quot;,
+  &quot;MNQ&quot;
+ ],
+ &quot;intra_cluster_r&quot;: 0.3818,
+ &quot;ladder&quot;: [
+  &quot;nofilter&quot;,
+  0.1,
+  0.07,
+  0.05
+ ],
+ &quot;range_minutes&quot;: 15,
+ &quot;rho_note&quot;: &quot;MEASURED on 1,637 paired days, not the asserted 0.9&quot;,
+ &quot;risk_usd&quot;: 175.0,
+ &quot;seed&quot;: 20260830,
+ &quot;stop_range&quot;: 0.5,
+ &quot;target_r&quot;: 1.0,
+ &quot;vehicle&quot;: &quot;ORB (closed family)&quot;
+}</pre>
+  <h5>Note</h5><pre>T4. Robustness check on T2, registered as one. cost_R is a property of the SETUP (it follows from the opening-range height), so the filter selects the same trades at any target -- if the mechanism is real it must work here too. Also attacks the floor through variance rather than sample size: T1 measured sd 0.79 at target_r=1.0 against 1.05 at 2.0.
+
+SCRIPT: experiments/T4-COST-FILTER-AT-LOW-TARGET/2026-08-30-low-target/exp_t4_cost_low_target.py
+OUTPUT: experiments/T4-COST-FILTER-AT-LOW-TARGET/2026-08-30-low-target/output.txt
+CALCS: experiments/T4-COST-FILTER-AT-LOW-TARGET/2026-08-30-low-target/calcs.json</pre>
+</div>
 </details><details class="hyp resolved"><summary><span class="hid" id="h-X1-COMPRESSION">X1-COMPRESSION</span><span class="badge resolved">detectable</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>price (1-minute bars, owned)</dd></div><div><dt>search space</dt><dd>2</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>detectable</dd></div><div><dt>effect</dt><dd>-0.0890</dd></div><div><dt>interval</dt><dd>[-0.1345, -0.0431]</dd></div></dl>
 <h4>Statement</h4><p>Volatility compression predicts subsequent expansion. PRIMARY: the count of consecutive contracting RTH sessions ending at day N-1 is POSITIVELY rank-correlated with day N&#x27;s realised RTH range divided by its trailing ATR. SECONDARY: day N&#x27;s opening-range height over its trailing 20-day median is NEGATIVELY rank-correlated with the post-range expansion of the same day.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Volatility clusters and mean-reverts. Low-volatility states are followed by higher-volatility ones more often than chance. This is the strongest prior available to this programme because it is a DOCUMENTED STATISTICAL PROPERTY of financial time series rather than a story about what participants are thinking -- every other family in the catalogue rests on the latter.
@@ -9652,7 +10395,7 @@ SCRIPT: experiments/X2-OVERNIGHT-GAP/r1/exp_x2_gap.py
 OUTPUT: experiments/X2-OVERNIGHT-GAP/r1/output.txt
 CALCS: experiments/X2-OVERNIGHT-GAP/r1/calcs.json</pre>
 </div>
-</details><details class="hyp open"><summary><span class="hid" id="h-X3-PRINT-SIZE">X3-PRINT-SIZE</span><span class="badge open">open</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow (trades tape, 525 sessions x2, owned)</dd></div><div><dt>search space</dt><dd>2</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>&mdash;</dd></div><div><dt>effect</dt><dd>&mdash;</dd></div><div><dt>interval</dt><dd>&mdash;</dd></div></dl>
+</details><details class="hyp resolved"><summary><span class="hid" id="h-X3-PRINT-SIZE">X3-PRINT-SIZE</span><span class="badge resolved">null</span><span class="runs">1 run</span></summary><dl class="meta"><div><dt>axis</dt><dd>order flow (trades tape, 525 sessions x2, owned)</dd></div><div><dt>search space</dt><dd>2</dd></div><div><dt>alpha</dt><dd>0.05</dd></div><div><dt>outcome</dt><dd>null</dd></div><div><dt>effect</dt><dd>+0.0260</dd></div><div><dt>interval</dt><dd>[-0.0610, +0.1125]</dd></div></dl>
 <h4>Statement</h4><p>The SIZE DISTRIBUTION of aggressive prints carries directional information. PRIMARY: the share of 09:45-10:00 volume transacted in prints at or above that window&#x27;s 90th-percentile print size is POSITIVELY rank-correlated with the window-direction-signed forward return over the following hour, measured from the 10:00 bar close.</p>
 <h4>Mechanism <span class="thin">written before the number existed</span></h4><pre>Aggressor IDENTITY is invisible in the tape. Aggressor SIZE is not. A move carried by a few large prints is a different event from one carried by many small ones: the first is consistent with a participant who has a reason and more to do, the second with retail flow and market-making churn. If size carries any signal about who is behind a move, a move dominated by large prints should extend further.
 
@@ -9680,6 +10423,24 @@ PRIOR: the most uncertain of the queue, which is why it was kept. H5&#x27;s firs
  &quot;power&quot;: 0.8,
  &quot;test&quot;: &quot;correlation&quot;
 }</pre>
+<div class="resolution k-scored">
+  <h4>Resolved
+    <span class="badge v-null">
+      null</span>
+    <span class="badge prov">measured</span></h4>
+  <p class="gloss">read from a scored result in an archived run</p>
+  <dl class="meta"><div><dt>from run</dt><dd><code>r1</code> <span class="thin">primary</span></dd></div><div><dt>effect</dt><dd><span class="v">+0.02596</span></dd></div><div><dt>95% CI</dt><dd><span class="v">[-0.0610, +0.1125]</span></dd></div><div><dt>floor</dt><dd><span class="v">0.13</span></dd></div><div><dt>resolved</dt><dd><code>2026-08-31T14:31:11+00:00</code></dd></div></dl>
+  
+  <h5>Decision <span class="thin">the part no run can produce</span></h5>
+  <p>UNDERPOWERED NULL, CLOSED UNRESOLVED RATHER THAN LEFT OPEN. The 2x2 verdict is null -- estimate +0.026 with an interval [-0.061, +0.113] that crosses zero and sits inside a 0.13 floor (0.111 under the measured rho). But the writeup was right to call the null WEAK: the upper bound admits an effect LARGER THAN ANYTHING SEVEN YEARS OF PRICE DATA PRODUCED, on the one non-public information axis this programme holds.
+
+That is inconclusive, not answered, and the distinction has been load-bearing throughout: an ambiguous null costs the same alpha as a real test and then tempts a second look at a larger sample, which is optional stopping.
+
+WHAT WOULD RESOLVE IT, computed: 3.14x the current effective sample, which is 1,124 additional sessions per instrument at $186-291 against $21.91 of headroom -- requiring the data cap to rise to ~$315-420 with the free credit already exhausted.
+
+IT IS BEING CLOSED WITHOUT THAT, because the programme is ending. The base rates make the funded-account route a fee business (~5.6% of attempts end paid; fees are 70-95% of provider revenue), so buying power to close one open question inside a route being abandoned would be spending real money on tidiness. Recorded as UNRESOLVED-AND-CLOSED so the register never reads as though this was answered.</p>
+  <p class="mono thin">source pinned at 611eece5cb87fbb5&hellip;</p>
+</div>
 <div class="run">
   <h4>r1 <span class="badge pass">controls passed</span></h4>
   <dl class="meta">
@@ -9824,15 +10585,15 @@ OUTPUT: experiments/Z04-ORB-OBTAINABLE/2026-08-01-audit/output.txt</pre>
 </section>
 <footer>
 <p><strong>Provenance.</strong> Rendered from
-20 hypothesis records and
-22 run records held in the append-only archive
-(1,278 objects). Corrections append with a
+24 hypothesis records and
+26 run records held in the append-only archive
+(1,307 objects). Corrections append with a
 <code>supersedes</code> pointer; nothing is edited in place.</p>
 <p><strong>What this page is not.</strong> It is not a trading dashboard and
 carries no equity curve. Every equity curve this lab drew came from an entry
 later proved unobtainable, and the curve looked fine throughout &mdash; so
 colour here encodes trust, not profit.</p>
-<p class="mono">engine_sha c7d20461f9a008dfaf41716189561cc487671d3b-dirty &middot;
-generated 2026-08-30T16:57:42+00:00</p>
+<p class="mono">engine_sha a1afdc7f6aaafd7bfbf0f4e5f00b7bc823090064-dirty &middot;
+generated 2026-08-31T14:32:39+00:00</p>
 </footer>
 </main></body></html>
