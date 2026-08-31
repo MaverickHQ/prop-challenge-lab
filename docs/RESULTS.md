@@ -7,7 +7,7 @@ provider, and no money ever placed at risk in a market.
 This is the results record. The narrative versions are
 [essays](https://harveygill.substack.com/); this is the part that has to be
 checkable, and every number below resolves to a record in
-[the register](https://maverickhq.github.io/occams-trader/report.html).
+[the register](https://maverickhq.github.io/prop-challenge-lab/report.html).
 
 ---
 

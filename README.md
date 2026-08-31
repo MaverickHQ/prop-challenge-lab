@@ -1,4 +1,4 @@
-# occams-trader
+# prop-challenge-lab
 
 **A backtesting harness designed to be hard to fool.**
 
@@ -46,8 +46,8 @@ This repository is a set of gates that do.
 ## Quickstart
 
 ```bash
-git clone https://github.com/MaverickHQ/occams-trader
-cd occams-trader && pip install -e ".[dev]"
+git clone https://github.com/MaverickHQ/prop-challenge-lab
+cd prop-challenge-lab && pip install -e ".[dev]"
 make quickstart
 ```
 
@@ -81,7 +81,7 @@ the four controls, every scored result against its own detectable floor, the
 figures, and each hypothesis with the mechanism written before its number
 existed.
 
-**[View it here](https://maverickhq.github.io/occams-trader/report.html)** —
+**[View it here](https://maverickhq.github.io/prop-challenge-lab/report.html)** —
 published from [`docs/report.html`](docs/report.html), so it is readable
 without credentials or a checkout. To regenerate your own:
 

@@ -1,4 +1,4 @@
-# occams-trader — Project Context (AGENTS.md)
+# prop-challenge-lab — Project Context (AGENTS.md)
 
 A private, **LOCAL-ONLY** build (publication is a gated future step — §0).
 **Charter (re-founded 2026-07-09): an edge-finding instrument.** The original

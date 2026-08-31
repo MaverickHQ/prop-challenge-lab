@@ -11,6 +11,6 @@
 # which matters, because it is a self-contained artifact and anything
 # injected into it would make the published page differ from the one
 # `engine_sha` stamps.
-title: occams-trader
+title: prop-challenge-lab
 description: A backtesting harness designed to be hard to fool.
 theme: jekyll-theme-primer

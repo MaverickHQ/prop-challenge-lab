@@ -901,7 +901,7 @@ generated {esc(generated)}</p>
 _HEAD = """<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>occams-trader research console</title>
+<title>prop-challenge-lab research console</title>
 <style>
 :root{--bg:#FBFAF7;--ink:#16211F;--sub:#6D7F82;--line:#D2DAD8;--card:#fff;
       --brass:#96690F;--verdigris:#2F6C63;--rust:#9C4429;--slate:#6D7F82;

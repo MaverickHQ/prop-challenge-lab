@@ -150,7 +150,7 @@ unobtainable, and the curve looked fine throughout. So: **borrow the
 familiar chassis, replace the familiar content.**
 
 **F1-F4 DONE 2026-08-30 — published at
-<https://maverickhq.github.io/occams-trader/report.html>** (Pages from
+<https://maverickhq.github.io/prop-challenge-lab/report.html>** (Pages from
 `main` `/docs`; the served bytes were verified identical to the committed
 artifact, so Jekyll is passing it through untouched).
 
@@ -303,7 +303,7 @@ decision that has not been taken yet.
   `quantitative-finance` `reproducible-research` `research-methodology`
   `futures` `monte-carlo` `research-integrity`.
 - [x] **D2.6 DONE 2026-08-30 — PUBLISHED.**
-  **https://github.com/MaverickHQ/occams-trader** — public, Apache-2.0,
+  **https://github.com/MaverickHQ/prop-challenge-lab** — public, Apache-2.0,
   `ce85bfd` on remote `main`, 201 files, one squashed root commit.
 
   **The rebuild was necessary and proved itself.** The stale `fc1ee5a` was

@@ -1,4 +1,4 @@
-# Implementation Plan — occams-trader
+# Implementation Plan — prop-challenge-lab
 
 Kiro-style spec-driven task list. **Requirements and design live elsewhere**
 — this file is *what to build, in order*:

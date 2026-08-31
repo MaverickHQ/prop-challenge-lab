@@ -1,4 +1,4 @@
-# occams-trader — Project Context (CLAUDE.md)
+# prop-challenge-lab — Project Context (CLAUDE.md)
 
 A private, **LOCAL-ONLY** build (publication is a gated future step — §0).
 **Charter (re-founded 2026-07-09): an edge-finding instrument.** The original
@@ -585,7 +585,7 @@ and is not the author's own voice. The series still needs a real name.
 | repo | state |
 |---|---|
 | github.com/MaverickHQ/crucible-autoresearcher | MIT, 69 files, `a13dd0a` |
-| github.com/MaverickHQ/occams-trader | Apache-2.0, `0a77e78` on `main` |
+| github.com/MaverickHQ/prop-challenge-lab | Apache-2.0, `0a77e78` on `main` |
 
 **All five repositories in the series are published**, so papers-with-code
 is now true in fact rather than in premise. Four drafts (A2, L1-L3) are
@@ -642,7 +642,7 @@ regardless of what HEAD says.
 `push.default = nothing` is set locally, so a bare `git push` refuses rather
 than publishing whatever branch you happen to be on.
 
-**Published 2026-08-30: https://github.com/MaverickHQ/occams-trader**
+**Published 2026-08-30: https://github.com/MaverickHQ/prop-challenge-lab**
 (public, Apache-2.0). Everything after the root commit is ordinary history —
 commit and push normally from `public`.
 

@@ -1,5 +1,5 @@
 [project]
-name = "occams-trader"
+name = "prop-challenge-lab"
 version = "0.1.0"
 description = "Deterministic dollar-denominated evaluation harness (private, local-only)"
 requires-python = ">=3.12"
