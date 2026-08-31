@@ -259,6 +259,15 @@ Runtime dependencies are `pandas` and `numpy`. scipy is test-only, used as
 an oracle so the package's own implementations are pinned rather than
 delegated.
 
+**Why the package is `occams` and the repository is not.** Occam's razor is
+the project's governing principle, and the package kept the name when the
+repository took one that says what it is *for*. It also cannot be renamed
+without destroying what the repository is for: **17 frozen experiment
+scripts import it**, each archived byte-for-byte as the artifact that
+produced a registered result, referenced by **64 distinct `engine_sha`
+commits**. Renaming would either edit frozen evidence or break
+`make reproduce` — so the mild inconsistency is the cheaper of two prices.
+
 ---
 
 ## What this is not
