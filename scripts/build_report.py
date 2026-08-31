@@ -406,7 +406,7 @@ def render(reg: dict, controls: dict | None = None) -> str:
 def _header(reg: dict, generated: str) -> str:
     return f"""<body><main>
 <header>
-  <h1>occams-trader <span class="thin">research console</span></h1>
+  <h1>prop-challenge-lab <span class="thin">research console</span></h1>
   <p class="lede">A falsifiable record: what was asked, what was measured,
      and what the instrument was doing when it measured it. Rendered from
      the register at <code>{esc(reg.get("pulled_at"))}</code>.
