@@ -86,6 +86,27 @@ def n_for_proportions(p1: float, p2: float, alpha: float = ALPHA,
     return math.ceil(num / (p1 - p2) ** 2)
 
 
+# The design effect's correlation, MEASURED rather than asserted.
+#
+# E4.2 introduced `intra_r` and every power calculation in this programme
+# used 0.9 -- a stated assumption that was never checked. Measured on 1,637
+# paired trading days, the same-date correlation between MES and MNQ net R
+# per trade is 0.3818, CI [0.3396, 0.4224]: less than half, with the interval
+# excluding 0.9 by a wide margin.
+#
+# It is NOT the default. Changing a default silently re-scores every future
+# result against a different standard than the archived ones, and 0.9 is the
+# conservative direction. Callers opt in, and say which they used.
+#
+# `scripts/backfill_rho.py` re-scored all 20 archived scored blocks under the
+# measured value: floors fell ~15% and NOTHING changed verdict. The
+# correction is real and its consequences for the register are nil -- which
+# could not have been assumed, and is why the backfill ran over everything
+# rather than only where it flattered.
+MEASURED_INTRA_R_MES_MNQ = 0.3818
+ASSUMED_INTRA_R = 0.90
+
+
 def detectable_mean_shift(n: int, alpha: float = ALPHA,
                           power: float = POWER) -> float:
     """Smallest mean shift, in standard deviations, this sample could see.
@@ -135,10 +156,16 @@ def effective_n(n: int, *, cluster_size: int = 1, intra_r: float = 0.0
 
     E4.2, added the same day the original gate passed a run it should have
     questioned. H5 pooled 453 MES setups with 448 MNQ setups and called it
-    n=901, but the two instruments are ~90% correlated intraday: the second
-    observation on a given date carries almost no new information. Effective
-    n was nearer 474, where the detectable effect is roughly double what the
-    plan assumed.
+    n=901, when the second observation on a given date carries much less new
+    information than the first.
+
+    THE 0.9 THAT WAS ORIGINALLY ASSUMED HERE IS WRONG. Measured on 1,637
+    paired days the same-date correlation of net R per trade is 0.3818, CI
+    [0.3396, 0.4224] -- see `MEASURED_INTRA_R_MES_MNQ`. H5's effective n was
+    nearer 650 than the 474 quoted under the assumption. The conclusion it
+    supported does not change (`scripts/backfill_rho.py`: 20 blocks
+    re-scored, none moved verdict), but the number was asserted for months
+    and the docstring asserted it too.
 
         n_eff = n / (1 + (m - 1) * rho)
 

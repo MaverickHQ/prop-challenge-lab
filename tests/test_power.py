@@ -101,3 +101,34 @@ def test_the_refusal_shows_both_the_raw_and_discounted_n():
         experiment._check_power(hyp, {"n": 901})
     except ValueError as e:
         assert "raw n=901" in str(e) and "cluster of 2" in str(e)
+
+
+def test_the_measured_correlation_is_recorded_and_is_not_the_default():
+    """`intra_r=0.9` was asserted by E4.2 and never checked; measured on
+    1,637 paired days it is 0.3818. The measured value is recorded but NOT
+    made the default: changing a default silently re-scores every future
+    result against a different standard than the archived ones, and 0.9 is
+    the conservative direction."""
+    import inspect
+    from occams import power
+    assert power.MEASURED_INTRA_R_MES_MNQ == pytest.approx(0.3818)
+    assert power.ASSUMED_INTRA_R == 0.90
+    sig = inspect.signature(power.effective_n)
+    assert sig.parameters["intra_r"].default == 0.0, (
+        "effective_n must not default to either value -- the caller states "
+        "which correlation the result was scored under")
+
+
+def test_the_measured_correlation_lowers_the_floor_but_not_the_interval():
+    """The correction moves floors DOWN, which is the direction that turns
+    nulls into findings and therefore needs most scrutiny. It cannot change
+    `crosses_zero`, because intervals come from the cluster bootstrap and
+    never touch intra_r -- so any verdict shift is strictly between
+    immaterial/null and detectable/inconclusive."""
+    from occams import power
+    n = 1226
+    lo = power.effective_n(n, cluster_size=2, intra_r=power.ASSUMED_INTRA_R)
+    hi = power.effective_n(n, cluster_size=2,
+                           intra_r=power.MEASURED_INTRA_R_MES_MNQ)
+    assert hi > lo
+    assert power.detectable_mean_shift(hi) < power.detectable_mean_shift(lo)
